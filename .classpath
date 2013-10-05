@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< HEAD
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -23,4 +24,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
+=======
+	<classpathentry kind="lib" path="target/original-quantocusta-1.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="target/quantocusta-1.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="target/test-classes"/>
+>>>>>>> 7b53232808f0d76ec91983198fde63d9a8f05f69
 </classpath>

@@ -1,4 +1,4 @@
-package sb.quantocusta;
+package org.quantocusta;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
