@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.007" errors="0" skipped="0" tests="1" name="org.quantocusta.api.AppTest">
+<testsuite failures="0" time="0.006" errors="0" skipped="0" tests="1" name="org.quantocusta.api.AppTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries"/>
@@ -22,7 +22,7 @@
     <property name="basedir" value="/Users/giuliano.griffante/workspace/quantocusta/quantocusta-api"/>
     <property name="java.endorsed.dirs" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed"/>
     <property name="os.arch" value="x86_64"/>
-    <property name="surefire.real.class.path" value="/Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefirebooter2440857906432856060.jar"/>
+    <property name="surefire.real.class.path" value="/Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefirebooter4905870565066637038.jar"/>
     <property name="java.io.tmpdir" value="/var/folders/c0/jl10bj3913dc9gqgvvcg0h0xh26c41/T/"/>
     <property name="line.separator" value="
 "/>
@@ -46,7 +46,7 @@
     <property name="java.vm.specification.version" value="1.0"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"/>
-    <property name="sun.java.command" value="/Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefirebooter2440857906432856060.jar /Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefire7417765122586521166tmp /Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefire2713584625717087428tmp"/>
+    <property name="sun.java.command" value="/Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefirebooter4905870565066637038.jar /Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefire3659852893298963683tmp /Users/giuliano.griffante/workspace/quantocusta/quantocusta-api/target/surefire/surefire2902108349449889611tmp"/>
     <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
     <property name="user.language" value="pt"/>
     <property name="awt.toolkit" value="apple.awt.CToolkit"/>

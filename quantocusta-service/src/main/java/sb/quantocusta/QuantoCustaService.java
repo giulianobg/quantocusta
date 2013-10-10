@@ -30,7 +30,11 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 	public void initialize(Bootstrap<QuantoCustaConfiguration> bootstrap) {
 		bootstrap.setName("quantocusta-app");
 		bootstrap.addBundle(new ViewBundle());
-		bootstrap.addBundle(new AssetsBundle("/assets"));
+		
+        bootstrap.addBundle(new AssetsBundle());
+		
+//		bootstrap.addBundle(new AssetsBundle("/assets"));
+//		bootstrap.addBundle(new AssetsBundle("/views"));
 		
 		System.out.println("QuantoCustaService.initialize()");
 	}
@@ -53,8 +57,6 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 				.expireAfterWrite(10, TimeUnit.MINUTES)
 				.build();
 	}
-	
-	
 	
 	public static void main(String[] args) throws Exception {
 		new QuantoCustaService().run(args);

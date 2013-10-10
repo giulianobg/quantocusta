@@ -14,7 +14,7 @@ public class MongoHealthCheck extends HealthCheck {
 
 	@Override
 	protected Result check() throws Exception {
-		mongo.getDatabaseNames();
+//		mongo.getDatabaseNames();
 		return Result.healthy();
 	}
 
