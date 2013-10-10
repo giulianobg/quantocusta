@@ -25,7 +25,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>sb.quantocusta.HelloWorldService</mainClass>
+                  <mainClass>sb.quantocusta.QuantoCustaService</mainClass>
                 </transformer>
               </transformers>
             </configuration>

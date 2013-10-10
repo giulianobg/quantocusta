@@ -1,6 +1,8 @@
-template: Hello, %s!
-defaultName: Stranger
-
+mongo:
+  host: 68.169.54.122
+  port: 27017
+  db: quantocusta-dev
+  
 database:
   driverClass: org.h2.Driver
   user: quantocusta

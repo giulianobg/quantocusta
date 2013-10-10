@@ -14,7 +14,7 @@ import sb.quantocusta.views.HomeView;
 import com.google.common.base.Optional;
 import com.yammer.metrics.annotation.Timed;
 
-@Path("/local/{city}/{id}")
+@Path("/{city}/{id}")
 @Produces(value={MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
 public class VenueResource {
 	private final AtomicLong counter;
