@@ -3,6 +3,11 @@ package sb.quantocusta;
 import com.mongodb.Mongo;
 import com.yammer.dropwizard.lifecycle.Managed;
 
+/**
+ * 
+ * @author Giuliano Griffante
+ *
+ */
 public class MongoManaged implements Managed {
 
 	private Mongo m;

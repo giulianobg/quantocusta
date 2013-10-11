@@ -1,9 +1,12 @@
 package sb.quantocusta;
 
+import javax.validation.constraints.NotNull;
+
 import com.yammer.dropwizard.config.Configuration;
 
 public class QuantoCustaConfiguration extends Configuration {
 	
+	@NotNull
 	private MongoConfiguration mongo;
 	
 	public MongoConfiguration getMongo() {

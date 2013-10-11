@@ -1,31 +1,57 @@
 package sb.quantocusta.resources;
 
-import java.util.concurrent.atomic.AtomicLong;
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import sb.quantocusta.core.Saying;
-import sb.quantocusta.views.HomeView;
-
-import com.google.common.base.Optional;
+import com.mongodb.DB;
 import com.yammer.metrics.annotation.Timed;
 
-@Path("/{city}/{id}")
-@Produces(value={MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+@Path("/venue")
+@Produces(MediaType.APPLICATION_JSON)
 public class VenueResource {
-	private final AtomicLong counter;
+	
+	private DB db; 
 
-	public VenueResource() {
-		this.counter = new AtomicLong();
+	public VenueResource(DB db) {
+		this.db = db;
+	}
+	
+	@GET
+	public Object index() {
+//		return jetty
+		return "test";
+	}
+	
+	@Timed
+	@Path("search")
+	public Object search() {
+		return "searchhhh";
+	}
+	
+	@POST
+	@Path("create")
+	@Consumes
+	public Object create() {
+		return "c";
+	}
+	
+	@PUT
+	@Path("update")
+	@Consumes
+	public String update() {
+		return "update";
+	}
+	
+	@DELETE
+	@Path("delete")
+	public Object delete() {
+		return "del";
 	}
 
-//	@GET
-//	@Timed
-//	public HomeView index(@QueryParam("name") Optional<String> name) {
-//		return new HomeView();
-//	}
 }
