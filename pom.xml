@@ -7,7 +7,6 @@
 	<version>1.0.0-SNAPSHOT</version>
 
 	<name>quantocusta</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,11 +31,6 @@
 			<groupId>com.yammer.dropwizard</groupId>
 			<artifactId>dropwizard-views</artifactId>
 			<version>0.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>sb</groupId>
-			<artifactId>quantocusta-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		
 		<!-- DB and Drivers -->

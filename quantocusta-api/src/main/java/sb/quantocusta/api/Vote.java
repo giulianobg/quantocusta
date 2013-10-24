@@ -1,5 +1,7 @@
 package sb.quantocusta.api;
 
-public class Vote {
+import net.vz.mongodb.jackson.MongoCollection;
+
+@MongoCollection(name="votes") public class Vote {
 
 }

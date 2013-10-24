@@ -1,75 +1,58 @@
 package sb.quantocusta.api;
-//package org.quantocusta.api;
-//
-//import java.io.Serializable;
-//import java.text.DecimalFormat;
-//import java.text.DecimalFormatSymbols;
-//import java.util.Date;
-//import java.util.List;
-//import java.util.Locale;
-//
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.FetchType;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.JoinColumn;
-//import javax.persistence.JoinTable;
-//import javax.persistence.ManyToMany;
-//import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
-//import javax.persistence.PostLoad;
-//import javax.persistence.PrePersist;
-//import javax.persistence.PreUpdate;
-//import javax.persistence.SequenceGenerator;
-//import javax.persistence.Temporal;
-//import javax.persistence.TemporalType;
-//import javax.persistence.Transient;
-//
-//
-///**
-// * The persistent class for the venue database table.
-// * 
-// */
-//@Entity
-//public class Venue implements Serializable {
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.PrePersist;
+import javax.persistence.Transient;
+
+import net.vz.mongodb.jackson.Id;
+import net.vz.mongodb.jackson.MongoCollection;
+import net.vz.mongodb.jackson.ObjectId;
+
+import org.apache.log4j.Category;
+
+import com.mongodb.BasicDBObject;
+
+/**
+ * The persistent class for the venue database table.
+ * 
+ */
+@MongoCollection(name="venues") public class Venue extends BasicDBObject implements Serializable {
 //	
 //	private static final long serialVersionUID = 1L;
 //	
 //	@Id
 //	@SequenceGenerator(name="VENUE_ID_GENERATOR", sequenceName="SQ_ID_VENUE", allocationSize=1)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="VENUE_ID_GENERATOR")
-//	private Long id;
+	@Id @ObjectId
+	private Long id;
 //	
 //	@ManyToOne
 //	@JoinColumn(name="id_category")
-//	private Category category;
-//
-//	private String address;
-//
-//	@ManyToOne
-//	@JoinColumn(name="id_city")
-//	private City city;
-//
-//	@Column(name="id_foursquare", updatable=false)
-//	private String idFoursquare;
-//
-//	private String name;
-//	
-//	private String pic;
-//
-//	private Integer state;
-//
-//	private String status;
+	private Category category;
+
+	private String address;
+
+	private City city;
+
+	private String idFoursquare;
+
+	private String name;
+
+	private String pic;
+
+	private Integer state;
+
+	private String status;
 //
 //	@Temporal(TemporalType.TIMESTAMP)
 //	@Column(name="created_at", updatable=false)
-//	private Date createdAt;
+	private Date createdAt;
 //	
 //	@Temporal(TemporalType.TIMESTAMP)
 //	@Column(name="updated_at")
-//	private Date updatedAt;
+	private Date updatedAt;
 //
 //	@OneToMany(mappedBy="venue", fetch=FetchType.EAGER)
 //	private List<Experience> experiences;
@@ -91,106 +74,106 @@ package sb.quantocusta.api;
 //	private List<Person> people;
 //	
 //	/* transients attributes */
-//	@Transient
-//	private Double averagePrice;
+	@Transient
+	private Double averagePrice;
 //	
 //	@Transient
 //	private String topWhyYes;
 //	
 //	@Transient
 //	private String topWhyNo;
-//
-//	public Venue() {
-//	}
-//
-//	public Long getId() {
-//		return this.id;
-//	}
-//
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
-//	
-//	public Category getCategory() {
-//		return category;
-//	}
-//	
-//	public void setCategory(Category category) {
-//		this.category = category;
-//	}
-//	
-//	public String getAddress() {
-//		return this.address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
-//
-//	public City getCity() {
-//		return city;
-//	}
-//	
-//	public void setCity(City city) {
-//		this.city = city;
-//	}
-//
-//	public String getIdFoursquare() {
-//		return this.idFoursquare;
-//	}
-//
-//	public void setIdFoursquare(String idFoursquare) {
-//		this.idFoursquare = idFoursquare;
-//	}
-//
-//	public String getName() {
-//		return this.name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//	
-//	public String getPic() {
-//		return pic;
-//	}
-//	
-//	public void setPic(String pic) {
-//		this.pic = pic;
-//	}
-//
-//	public Integer getState() {
-//		return this.state;
-//	}
-//
-//	public void setState(Integer state) {
-//		this.state = state;
-//	}
-//
-//	public String getStatus() {
-//		return this.status;
-//	}
-//
-//	public void setStatus(String status) {
-//		this.status = status;
-//	}
-//	
-//	public Date getCreatedAt() {
-//		return createdAt;
-//	}
-//	
-//	public void setCreatedAt(Date createdAt) {
-//		this.createdAt = createdAt;
-//	}
-//
-//	public Date getUpdatedAt() {
-//		return updatedAt;
-//	}
-//
-//	public void setUpdatedAt(Date updatedAt) {
-//		this.updatedAt = updatedAt;
-//	}
-//
+
+	public Venue() {
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+	
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public City getCity() {
+		return city;
+	}
+	
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public String getIdFoursquare() {
+		return this.idFoursquare;
+	}
+
+	public void setIdFoursquare(String idFoursquare) {
+		this.idFoursquare = idFoursquare;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getPic() {
+		return pic;
+	}
+	
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	public Integer getState() {
+		return this.state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 //	public List<Experience> getExperiences() {
 //		return experiences;
 //	}
@@ -198,7 +181,7 @@ package sb.quantocusta.api;
 //	public void setExperiences(List<Experience> experiences) {
 //		this.experiences = experiences;
 //	}
-//	
+	
 //	public List<model.List> getList() {
 //		return list;
 //	}
@@ -206,7 +189,7 @@ package sb.quantocusta.api;
 //	public void setList(List<model.List> list) {
 //		this.list = list;
 //	}
-//	
+	
 //	public List<Person> getPeople() {
 //		return people;
 //	}
@@ -214,27 +197,27 @@ package sb.quantocusta.api;
 //	public void setPeople(List<Person> people) {
 //		this.people = people;
 //	}
-//	
-//	public Double getAveragePrice() {
-//		return averagePrice;
-//	}
-//	
-//	public void setAveragePrice(Double averagePrice) {
-//		this.averagePrice = averagePrice;
-//	}
-//	
+	
+	public Double getAveragePrice() {
+		return averagePrice;
+	}
+	
+	public void setAveragePrice(Double averagePrice) {
+		this.averagePrice = averagePrice;
+	}
+	
 //	public String getFormattedAveragePrice() {
 //		DecimalFormatSymbols custom = new DecimalFormatSymbols(Locale.getDefault());
 //		custom.setDecimalSeparator(',');
 //		DecimalFormat df = new DecimalFormat("0.00##", custom);
 //		return df.format(getAveragePrice());
 //	}
-//	
-//	@PrePersist
-//	protected void onPersist() {
-//		setCreatedAt(new Date());
-//		setUpdatedAt(getCreatedAt());
-//	}
+	
+	@PrePersist
+	protected void onPersist() {
+		setCreatedAt(new Date());
+		setUpdatedAt(getCreatedAt());
+	}
 //
 //	@PreUpdate 
 //	protected void onUpdate() {
@@ -254,5 +237,5 @@ package sb.quantocusta.api;
 //		
 //		setAveragePrice(new Double(Math.round(amount / amountPeople)));
 //	}
-//
-//}
+
+}

@@ -24,6 +24,7 @@ public class VenueResource {
 	
 	@GET
 	public Object index() {
+//		db.getCollection("venues").
 //		return jetty
 		return "test";
 	}

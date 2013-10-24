@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import net.vz.mongodb.jackson.Id;
+import net.vz.mongodb.jackson.MongoCollection;
 import net.vz.mongodb.jackson.ObjectId;
 
 /**
  * The persistent class for the city database table.
  */
-public class City implements Serializable {
+@MongoCollection(name="cities") public class City implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 

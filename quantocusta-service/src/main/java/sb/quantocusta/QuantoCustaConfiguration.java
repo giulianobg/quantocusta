@@ -4,6 +4,11 @@ import javax.validation.constraints.NotNull;
 
 import com.yammer.dropwizard.config.Configuration;
 
+/**
+ * 
+ * @author giuliano.griffante
+ *
+ */
 public class QuantoCustaConfiguration extends Configuration {
 	
 	@NotNull

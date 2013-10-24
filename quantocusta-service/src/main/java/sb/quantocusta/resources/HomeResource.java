@@ -13,35 +13,13 @@ public class HomeResource {
 
 	public HomeResource() {
 	}
-
+	
 	@GET
-	@Path("page")
-	@Produces("text/html;charset=UTF-8")
+	@Produces("text/html; charset=UTF-8")
 	public HomeView index() {
-		return new HomeView();
+		return new HomeView("/assets/home.ftl");
 	}
-	
-	@GET
-	@Path("page2")
-	@Produces("text/html;charset=UTF-8")
-	public HomeView index2() {
-		return new HomeView("home.ftl");
-	}
-	
-	@GET
-	@Path("page3")
-	@Produces("text/html;charset=UTF-8")
-	public HomeView index3() {
-		return new HomeView("resources/assets/home.ftl");
-	}
-	
-	@GET
-	@Path("page4")
-	@Produces("text/html;charset=UTF-8")
-	public HomeView index4() {
-		return new HomeView("/src/main/resources/assets/home.ftl");
-	}
-	
+
 //	@GET
 //	@Path("json")
 //	public Object json() {
