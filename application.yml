@@ -1,4 +1,0 @@
-mongo:
-  host: 68.169.54.122
-  port: 27017
-  db: quantocusta-dev
