@@ -3,9 +3,9 @@ package sb.quantocusta;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yammer.dropwizard.config.Configuration;
 
 public class MongoConfiguration extends Configuration {

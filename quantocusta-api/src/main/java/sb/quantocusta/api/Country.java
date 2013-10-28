@@ -1,7 +1,6 @@
 package sb.quantocusta.api;
-//package org.quantocusta.api;
-//
-//import java.io.Serializable;
+
+import java.io.Serializable;
 //import java.util.Date;
 //
 //import javax.persistence.Column;
@@ -21,7 +20,7 @@ package sb.quantocusta.api;
 // * 
 // */
 //@Entity
-//public class Country implements Serializable {
+public class Country implements Serializable {
 //	
 //	private static final long serialVersionUID = 1L;
 //
@@ -86,4 +85,4 @@ package sb.quantocusta.api;
 //		setUpdatedAt(new Date());
 //	}
 //
-//}
+}

@@ -4,16 +4,17 @@ import java.net.UnknownHostException;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.mongojack.JacksonDBCollection;
+
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.health.MongoHealthCheck;
 import sb.quantocusta.resources.HomeResource;
-import sb.quantocusta.resources.SearchResource;
 import sb.quantocusta.resources.VenueResource;
+import sb.quantocusta.resources.VoteResource;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.mongodb.DB;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.assets.AssetsBundle;
@@ -61,33 +62,23 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 				.build();
 
 		/* MongoDB */
+		JacksonDBCollection<Venue, String> venuesColl = null;
+		
 		DB db = null;
 		try {
 			MongoClient client = new MongoClient(configuration.getMongo().getHost(), configuration.getMongo().getPort());
 			db = client.getDB(configuration.getMongo().getDb());
 			
-//			JacksonDBCollection<venu, String> venues =
-//					JacksonDBCollection.wrap(db.getCollection("products"), Product.class, String.class);
-
 			MongoManaged mongoManaged = new MongoManaged(client);
 			environment.manage(mongoManaged);
-			
-//			db.createCollection("venue", new Venue());
-			
-			Set<String> collections = db.getCollectionNames();
-			System.out.println(collections.size());
-			for (String c : collections) {
-				System.out.println(c);
-			}
-			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 		
 		/* Resources */
 		environment.addResource(new HomeResource());
-		environment.addResource(new SearchResource());
 		environment.addResource(new VenueResource(db));
+		environment.addResource(new VoteResource(db));
 	}
 
 	public static void main(String[] args) throws Exception {

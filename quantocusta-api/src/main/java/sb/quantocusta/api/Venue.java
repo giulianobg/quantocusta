@@ -6,26 +6,24 @@ import java.util.Date;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
-import net.vz.mongodb.jackson.Id;
-import net.vz.mongodb.jackson.MongoCollection;
-import net.vz.mongodb.jackson.ObjectId;
-
 import org.apache.log4j.Category;
+import org.mongojack.ObjectId;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.yammer.dropwizard.json.JsonSnakeCase;
 
-/**
- * The persistent class for the venue database table.
- * 
- */
-@MongoCollection(name="venues") public class Venue extends BasicDBObject implements Serializable {
+@JsonSnakeCase
+public class Venue implements Serializable {
 //	
 //	private static final long serialVersionUID = 1L;
 //	
 //	@Id
 //	@SequenceGenerator(name="VENUE_ID_GENERATOR", sequenceName="SQ_ID_VENUE", allocationSize=1)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="VENUE_ID_GENERATOR")
-	@Id @ObjectId
+	@ObjectId
+	@JsonProperty("_id")
 	private Long id;
 //	
 //	@ManyToOne
@@ -73,7 +71,7 @@ import com.mongodb.BasicDBObject;
 //		)
 //	private List<Person> people;
 //	
-//	/* transients attributes */
+	/* transients attributes */
 	@Transient
 	private Double averagePrice;
 //	
@@ -218,7 +216,21 @@ import com.mongodb.BasicDBObject;
 		setCreatedAt(new Date());
 		setUpdatedAt(getCreatedAt());
 	}
-//
+	
+	public DBObject toDBObject() {
+		BasicDBObject o = new BasicDBObject("id", id);
+		
+		o.append("id_foursquare", idFoursquare);
+		o.append("name", name);
+		o.append("address", address);
+		o.append("pic", pic);
+//		o.append("state", state);
+		o.append("status", status);
+		
+		return o;
+	}
+	
+
 //	@PreUpdate 
 //	protected void onUpdate() {
 //		setUpdatedAt(new Date());

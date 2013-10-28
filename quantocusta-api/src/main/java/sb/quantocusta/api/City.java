@@ -3,14 +3,15 @@ package sb.quantocusta.api;
 import java.io.Serializable;
 import java.util.Date;
 
-import net.vz.mongodb.jackson.Id;
-import net.vz.mongodb.jackson.MongoCollection;
-import net.vz.mongodb.jackson.ObjectId;
+import javax.persistence.PrePersist;
+
+import org.mongojack.Id;
+import org.mongojack.ObjectId;
 
 /**
  * The persistent class for the city database table.
  */
-@MongoCollection(name="cities") public class City implements Serializable {
+public class City implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +19,7 @@ import net.vz.mongodb.jackson.ObjectId;
 	private Long id;
 
 //	@Valid
-//	private Country country;
+	private Country country;
 
 	private String name;
 
@@ -43,13 +44,13 @@ import net.vz.mongodb.jackson.ObjectId;
 		this.id = id;
 	}
 
-//	public Country getCountry() {
-//		return country;
-//	}
-//	
-//	public void setCountry(Country country) {
-//		this.country = country;
-//	}
+	public Country getCountry() {
+		return country;
+	}
+	
+	public void setCountry(Country country) {
+		this.country = country;
+	}
 
 	public String getName() {
 		return this.name;
@@ -99,11 +100,12 @@ import net.vz.mongodb.jackson.ObjectId;
 		this.updatedAt = updatedAt;
 	}
 	
-//	@PrePersist
-//	protected void onCreate() {
+	@PrePersist
+	protected void onCreate() {
+		System.out.println("City.onCreate()");
 //		setCreatedAt(new Date());
 //		setUpdatedAt(getCreatedAt());
-//	}
+	}
 //
 //	@PreUpdate
 //	protected void onUpdate() {

@@ -17,9 +17,13 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 400; 
 }
 
-.img-home-portfolio,
-.img-customer,
-.portfolio-item {
+.container {
+	width: 320px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+
+.img {
 	margin-bottom: 30px;
 }
 
@@ -86,7 +90,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .panel-body {
-	padding: 0px;
+	padding: 10px;
 }
 
 /* Page Sections */
@@ -100,13 +104,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar {
-  margin-top: 40px;
+	margin-top: 40px;
 }
 
 .sidebar ul {
-  border-radius: 5px;
-  padding: 5px;
-  border: 1px solid #cccccc;
+	border-radius: 5px;
+	padding: 5px;
+	border: 1px solid #cccccc;
+}
+
+/* Small features */
+.metric-bar {
+	display: block;
+	width: 90%;
+	height: 6px;
+	border-radius: 2px;
+	margin: 2% 5%;
+	/*padding: 1px 5px 1px 5px;*/
+}
+
+.bar-positive {
+	background-color: green;
+}
+
+.bar-neutral {
+	background-color: gray;
+}
+
+.bar-negative {
+	background-color: red;
+}
+
+.metric-bar .bar-positive:last-child,
+.metric-bar .bar-neutral:last-child,
+.metric-bar .bar-negative:last-child {
+	margin-bottom: 4px;
 }
 
 /* Half Page Height Carousel Customization */
@@ -184,10 +216,12 @@ footer {
 }
 
 /* Responsive Styles */
-@media (max-width: 767px) {
+@media (min-width: 480px) {
 
-.carousel {
-  height: 70%; /* increases the carousel height so it looks good on phones */
+.container {
+	width: 480px;
+	padding-right: 15px;
+	padding-bottom: 15px;
 }
 
 }
