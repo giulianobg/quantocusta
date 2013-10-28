@@ -17,7 +17,7 @@ public class HomeResource {
 	@GET
 	@Produces("text/html; charset=UTF-8")
 	public HomeView index() {
-		return new HomeView("/assets/home.ftl");
+		return new HomeView("/assets/m-home.html");
 	}
 
 //	@GET
