@@ -8,6 +8,7 @@ import org.mongojack.JacksonDBCollection;
 
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.health.MongoHealthCheck;
+import sb.quantocusta.resources.GibaResource;
 import sb.quantocusta.resources.HomeResource;
 import sb.quantocusta.resources.VenueResource;
 import sb.quantocusta.resources.VoteResource;
@@ -79,6 +80,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		environment.addResource(new HomeResource());
 		environment.addResource(new VenueResource(db));
 		environment.addResource(new VoteResource(db));
+		environment.addResource(new GibaResource());
 	}
 
 	public static void main(String[] args) throws Exception {

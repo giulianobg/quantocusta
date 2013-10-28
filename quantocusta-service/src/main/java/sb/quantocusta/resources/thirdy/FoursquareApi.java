@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sb.quantocusta.api.Category;
 import sb.quantocusta.api.Venue;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -49,6 +50,9 @@ public class FoursquareApi {
 					venueNode.get("location").get("address") != null) {
 				venue.setAddress(venueNode.get("location").get("address").asText());
 			}
+			
+			Category category = new Category();
+//			category.setId(id);
 			
 			return venue;
 		} catch (Exception ex) {
@@ -103,7 +107,6 @@ public class FoursquareApi {
 			URL url = new URL(queryString);
 			
 			ObjectMapper mapper = new ObjectMapper();
-//			Map<String,Object> jo = mapper.readValue(url, Map.class);
 			JsonNode node = mapper.readTree(url);
 			
 //			JSONObject jo = JSONObject.fromObject(IOUtils.toString(is, "UTF-8"));

@@ -16,21 +16,27 @@ import javax.ws.rs.core.MediaType;
 import org.mongojack.JacksonDBCollection;
 import org.mongojack.WriteResult;
 
+import sb.quantocusta.UUID;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
 
 import com.mongodb.DB;
 import com.yammer.dropwizard.jersey.params.LongParam;
 
+/**
+ * 
+ * @author Giuliano Griffante
+ *
+ */
 @Path("/venue")
 @Produces(MediaType.APPLICATION_JSON)
 public class VenueResource {
 	
-	private DB db;
+//	private DB db;
 	private JacksonDBCollection<Venue, String> coll;
 
 	public VenueResource(DB db) {
-		this.db = db;
+//		this.db = db;
 		coll = JacksonDBCollection.wrap(db.getCollection("test"), Venue.class, String.class);
 	}
 	
@@ -64,7 +70,6 @@ public class VenueResource {
 		Venue venue = null;
 		try {
 			venue = FoursquareApi.get(id);
-			System.out.println(venue);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,13 +79,22 @@ public class VenueResource {
 	
 	@POST
 	@Path("create")
-	public Object create() {
-		Venue v = (Venue) get("4ce3e507a3c6721eadde12cf");
+	public Object create(@QueryParam("id") String id) {
+		Venue v = (Venue) get(id);
+		
+//		System.out.println(UUID.genRandom32Hex());
+//		
+		v.setId(UUID.genRandom32Hex());
+		
 		
 		WriteResult<Venue, String> result = coll.insert(v);
+		System.out.println(result);
+//		result.get
 //		String id = result.getSavedId();
 //		Venue savedObject = coll.findOneById(id);
 //		System.out.println(savedObject);
+		
+		
 		
 		return v;
 	}

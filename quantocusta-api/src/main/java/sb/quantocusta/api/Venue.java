@@ -6,12 +6,7 @@ import java.util.Date;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
-import org.apache.log4j.Category;
-import org.mongojack.ObjectId;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.yammer.dropwizard.json.JsonSnakeCase;
 
 @JsonSnakeCase
@@ -22,9 +17,11 @@ public class Venue implements Serializable {
 //	@Id
 //	@SequenceGenerator(name="VENUE_ID_GENERATOR", sequenceName="SQ_ID_VENUE", allocationSize=1)
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="VENUE_ID_GENERATOR")
-	@ObjectId
-	@JsonProperty("_id")
-	private Long id;
+//	@ObjectId
+	
+//	@ObjectId
+//	@JsonProperty("_id")
+	private String id;
 //	
 //	@ManyToOne
 //	@JoinColumn(name="id_category")
@@ -34,6 +31,7 @@ public class Venue implements Serializable {
 
 	private City city;
 
+	@JsonProperty("id_foursquare")
 	private String idFoursquare;
 
 	private String name;
@@ -84,11 +82,11 @@ public class Venue implements Serializable {
 	public Venue() {
 	}
 
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -215,19 +213,6 @@ public class Venue implements Serializable {
 	protected void onPersist() {
 		setCreatedAt(new Date());
 		setUpdatedAt(getCreatedAt());
-	}
-	
-	public DBObject toDBObject() {
-		BasicDBObject o = new BasicDBObject("id", id);
-		
-		o.append("id_foursquare", idFoursquare);
-		o.append("name", name);
-		o.append("address", address);
-		o.append("pic", pic);
-//		o.append("state", state);
-		o.append("status", status);
-		
-		return o;
 	}
 	
 
