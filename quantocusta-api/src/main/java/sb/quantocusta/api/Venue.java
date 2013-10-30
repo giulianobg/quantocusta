@@ -6,21 +6,16 @@ import java.util.Date;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
+import org.mongojack.ObjectId;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yammer.dropwizard.json.JsonSnakeCase;
 
-@JsonSnakeCase
+//@JsonSnakeCase
 public class Venue implements Serializable {
-//	
-//	private static final long serialVersionUID = 1L;
-//	
-//	@Id
-//	@SequenceGenerator(name="VENUE_ID_GENERATOR", sequenceName="SQ_ID_VENUE", allocationSize=1)
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="VENUE_ID_GENERATOR")
-//	@ObjectId
 	
-//	@ObjectId
-//	@JsonProperty("_id")
+	@ObjectId
+	@JsonProperty("_id")
 	private String id;
 //	
 //	@ManyToOne

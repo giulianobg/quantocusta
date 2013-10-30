@@ -1,17 +1,17 @@
 package sb.quantocusta;
 
 import java.net.UnknownHostException;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.mongojack.JacksonDBCollection;
 
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.health.MongoHealthCheck;
+import sb.quantocusta.resources.ApiVenueResource;
+import sb.quantocusta.resources.ApiVoteResource;
+import sb.quantocusta.resources.Apis;
 import sb.quantocusta.resources.GibaResource;
-import sb.quantocusta.resources.HomeResource;
-import sb.quantocusta.resources.VenueResource;
-import sb.quantocusta.resources.VoteResource;
+import sb.quantocusta.resources.HtmlResource;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -76,11 +76,19 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 			e.printStackTrace();
 		}
 		
+		Apis.addApi("venue", new ApiVenueResource(db));
+		Apis.addApi("vote", new ApiVoteResource(db));
+		
 		/* Resources */
-		environment.addResource(new HomeResource());
-		environment.addResource(new VenueResource(db));
-		environment.addResource(new VoteResource(db));
+		environment.addResource(Apis.get("venue"));
+		environment.addResource(Apis.get("vote"));
+		
+		environment.addResource(new HtmlResource());
 		environment.addResource(new GibaResource());
+		
+//		environment.addProvider(new OAuthProvider<User>(new ExampleAuthenticator(),
+//                "SUPER SECRET STUFF"));
+		
 	}
 
 	public static void main(String[] args) throws Exception {

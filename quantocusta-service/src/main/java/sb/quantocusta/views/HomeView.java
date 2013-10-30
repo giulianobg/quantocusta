@@ -5,7 +5,7 @@ import com.yammer.dropwizard.views.View;
 public class HomeView extends View {
 	
 	public HomeView() {
-		super("/src/main/resources/home.ftl");
+		super("/assets/tpl/index.ftl");
 	}
 	
 	public HomeView(String path) {
