@@ -5,8 +5,9 @@ import java.util.Date;
 
 import javax.persistence.PrePersist;
 
-import org.mongojack.Id;
 import org.mongojack.ObjectId;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The persistent class for the city database table.
@@ -15,8 +16,9 @@ public class City implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Id @ObjectId
-	private Long id;
+	@ObjectId
+	@JsonProperty("_id")
+	private String id;
 
 //	@Valid
 	private Country country;
@@ -36,11 +38,11 @@ public class City implements Serializable {
 	public City() {
 	}
 
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

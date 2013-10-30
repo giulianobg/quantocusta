@@ -1,4 +1,4 @@
-package sb.quantocusta.resources;
+package sb.quantocusta.resources.api;
 
 import java.util.HashMap;
 import java.util.Map;

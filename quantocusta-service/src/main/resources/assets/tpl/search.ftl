@@ -21,16 +21,17 @@
 	<body>
 		<#include "/assets/tpl/components/header.ftl">
 		
-		
 		<div class="section">
 			<div class="container">
 				<span>Termo de busca</span>
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="list-group">
-							<#list venues as venue>
-								<a href="/thrd/${venue.idFoursquare}" class="list-group-item">${venue.name?html} <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-							</#list>
+							<#if venues??>
+								<#list venues as venue>
+									<a href="/thrd/${venue.idFoursquare}" class="list-group-item">${venue.name?html} <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+								</#list>
+							</#if>
 						</div>
 					</div>
 				</div>
@@ -39,9 +40,6 @@
 		
 		<#include "/assets/tpl/components/footer.ftl">
 
-		<!-- Bootstrap core JavaScript -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="/assets/js/jquery-1.10.2.min.js"></script>
-		<script src="/assets/js/bootstrap.min.js"></script>
+		<#include "/assets/tpl/components/scripts.ftl">
 	</body>
 </html>

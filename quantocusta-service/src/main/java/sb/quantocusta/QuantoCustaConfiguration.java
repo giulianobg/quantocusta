@@ -4,7 +4,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import com.yammer.dropwizard.config.Configuration;
-import com.yammer.dropwizard.config.HttpConfiguration;
 
 /**
  * 
@@ -17,8 +16,8 @@ public class QuantoCustaConfiguration extends Configuration {
 	@NotNull
 	private MongoConfiguration mongo;
 	
-	@Valid
-	private HttpConfiguration http;
+//	@Valid
+//	private HttpConfiguration http;
 	
 	public MongoConfiguration getMongo() {
 		return mongo;
@@ -28,12 +27,12 @@ public class QuantoCustaConfiguration extends Configuration {
 		this.mongo = mongo;
 	}
 	
-	public HttpConfiguration getHttp() {
-		return http;
-	}
-	
-	public void setHttp(HttpConfiguration http) {
-		this.http = http;
-	}
+//	public HttpConfiguration getHttp() {
+//		return http;
+//	}
+//	
+//	public void setHttp(HttpConfiguration http) {
+//		this.http = http;
+//	}
 
 }

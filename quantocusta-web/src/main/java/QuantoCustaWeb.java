@@ -11,8 +11,8 @@ import sb.quantocusta.api.Venue;
 import sb.quantocusta.health.MongoHealthCheck;
 import sb.quantocusta.resources.GibaResource;
 import sb.quantocusta.resources.HomeResource;
-import sb.quantocusta.resources.ApiVenueResource;
-import sb.quantocusta.resources.ApiVoteResource;
+import sb.quantocusta.resources.api.ApiVenueResource;
+import sb.quantocusta.resources.api.ApiVoteResource;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

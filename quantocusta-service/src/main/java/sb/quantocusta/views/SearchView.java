@@ -7,6 +7,11 @@ import sb.quantocusta.api.Venue;
 
 import com.yammer.dropwizard.views.View;
 
+/**
+ * 
+ * @author Giuliano Griffante
+ *
+ */
 public class SearchView extends View {
 	
 	private List<Venue> venues;

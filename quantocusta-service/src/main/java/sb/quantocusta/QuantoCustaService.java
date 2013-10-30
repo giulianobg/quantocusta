@@ -1,20 +1,19 @@
 package sb.quantocusta;
 
 import java.net.UnknownHostException;
-import java.util.concurrent.TimeUnit;
 
-import org.mongojack.JacksonDBCollection;
-
-import sb.quantocusta.api.Venue;
+import sb.quantocusta.dao.CategoryDao;
+import sb.quantocusta.dao.CityDao;
+import sb.quantocusta.dao.Daos;
+import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.health.MongoHealthCheck;
-import sb.quantocusta.resources.ApiVenueResource;
-import sb.quantocusta.resources.ApiVoteResource;
-import sb.quantocusta.resources.Apis;
 import sb.quantocusta.resources.GibaResource;
 import sb.quantocusta.resources.HtmlResource;
+import sb.quantocusta.resources.api.ApiCategoryResource;
+import sb.quantocusta.resources.api.ApiVenueResource;
+import sb.quantocusta.resources.api.ApiVoteResource;
+import sb.quantocusta.resources.api.Apis;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.yammer.dropwizard.Service;
@@ -41,7 +40,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		bootstrap.addBundle(new ViewBundle());
 
 		bootstrap.addBundle(new AssetsBundle());
-
+		
 		//		bootstrap.addBundle(new AssetsBundle("/assets"));
 		//		bootstrap.addBundle(new AssetsBundle("/views"));
 	}
@@ -49,21 +48,14 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 	public void run(QuantoCustaConfiguration configuration, Environment environment) {
 		this.configuration = configuration;
 
-		System.out.println(configuration);
-		System.out.println(configuration.getMongo());
-		System.out.println(configuration.getMongo().getDb());
-
-		/* Health checkers */
-		environment.addHealthCheck(new MongoHealthCheck(null));
-
 		/* Cache */
-		Cache<String, Object> venues = CacheBuilder.newBuilder()
-				.maximumSize(1000)
-				.expireAfterWrite(10, TimeUnit.MINUTES)
-				.build();
+//		Cache<String, Object> venues = CacheBuilder.newBuilder()
+//				.maximumSize(1000)
+//				.expireAfterWrite(10, TimeUnit.MINUTES)
+//				.build();
 
 		/* MongoDB */
-		JacksonDBCollection<Venue, String> venuesColl = null;
+//		JacksonDBCollection<Venue, String> venuesColl = null;
 		
 		DB db = null;
 		try {
@@ -76,24 +68,38 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 			e.printStackTrace();
 		}
 		
+		/* DAOs */
+		Daos.addDao(new CategoryDao(db));
+		Daos.addDao(new CityDao(db));
+		Daos.addDao(new VenueDao(db));
+		
+		/* APIs */
+		Apis.addApi("category", new ApiCategoryResource(db));
 		Apis.addApi("venue", new ApiVenueResource(db));
 		Apis.addApi("vote", new ApiVoteResource(db));
 		
 		/* Resources */
+		environment.addResource(Apis.get("category"));
 		environment.addResource(Apis.get("venue"));
 		environment.addResource(Apis.get("vote"));
 		
 		environment.addResource(new HtmlResource());
-		environment.addResource(new GibaResource());
+		environment.addResource(new GibaResource()); // :)
 		
 //		environment.addProvider(new OAuthProvider<User>(new ExampleAuthenticator(),
 //                "SUPER SECRET STUFF"));
 		
+		/* Health checkers */
+		environment.addHealthCheck(new MongoHealthCheck(null));
+		
+	}
+	
+	public QuantoCustaConfiguration getConfiguration() {
+		return configuration;
 	}
 
 	public static void main(String[] args) throws Exception {
 		new QuantoCustaService().run(args);
-		//		new QuantoCustaService().run(null, new String[]{"server", "src/main/resources/config.yaml"});
 	}
 
 }

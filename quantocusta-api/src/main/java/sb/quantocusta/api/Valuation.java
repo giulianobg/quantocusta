@@ -1,0 +1,73 @@
+package sb.quantocusta.api;
+
+/**
+ * 
+ * @author Giuliano Griffante
+ */
+public class Valuation {
+
+//	private String kind;
+	private Integer totalCount;
+	private Integer smileCount;
+	private Integer poutCount;
+	private Double smileAverage;
+	private Double poutAverage;
+	
+	public Valuation() {
+//		this.kind = kind;
+		totalCount = 0;
+		smileCount = 0;
+		poutCount = 0;
+		smileAverage = 0.;
+		poutAverage = 0.;
+	}
+	
+//	public String getKind() {
+//		return kind;
+//	}
+//	
+//	public void setKind(String kind) {
+//		this.kind = kind;
+//	}
+	
+	public Integer getPoutCount() {
+		return poutCount;
+	}
+	
+	public void setPoutCount(Integer poutCount) {
+		this.poutCount = poutCount;
+	}
+	
+	public Integer getSmileCount() {
+		return smileCount;
+	}
+	
+	public void setSmileCount(Integer smileCount) {
+		this.smileCount = smileCount;
+	}
+	
+	public Integer getTotalCount() {
+		return totalCount;
+	}
+	
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+	}
+	
+	public Double getPoutAverage() {
+		return poutAverage;
+	}
+	
+	public void setPoutAverage(Double poutAverage) {
+		this.poutAverage = poutAverage;
+	}
+	
+	public Double getSmileAverage() {
+		return smileAverage;
+	}
+	
+	public void setSmileAverage(Double smileAverage) {
+		this.smileAverage = smileAverage;
+	}
+	
+}

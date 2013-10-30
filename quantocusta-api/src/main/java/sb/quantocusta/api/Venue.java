@@ -2,25 +2,35 @@ package sb.quantocusta.api;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
 import org.mongojack.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.yammer.dropwizard.json.JsonSnakeCase;
 
-//@JsonSnakeCase
+/**
+ * 
+ * @author Giuliano Griffante
+ *
+ */
 public class Venue implements Serializable {
+	
+	public static final String ENVIRONMENT = "environment";
+	public static final String FOOD = "food";
+	public static final String TREATMENT = "treatment";
 	
 	@ObjectId
 	@JsonProperty("_id")
 	private String id;
 //	
-//	@ManyToOne
-//	@JoinColumn(name="id_category")
 	private Category category;
+	
+	private Double lat;
+	
+	private Double lng;
 
 	private String address;
 
@@ -36,9 +46,9 @@ public class Venue implements Serializable {
 	private Integer state;
 
 	private String status;
-//
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(name="created_at", updatable=false)
+	
+	private Map<String, Valuation> valuation;
+
 	private Date createdAt;
 //	
 //	@Temporal(TemporalType.TIMESTAMP)
@@ -75,6 +85,10 @@ public class Venue implements Serializable {
 //	private String topWhyNo;
 
 	public Venue() {
+		valuation = new HashMap<String, Valuation>();
+		valuation.put(ENVIRONMENT, new Valuation());
+		valuation.put(FOOD, new Valuation());
+		valuation.put(TREATMENT, new Valuation());
 	}
 
 	public String getId() {
@@ -91,6 +105,22 @@ public class Venue implements Serializable {
 	
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+	public Double getLat() {
+		return lat;
+	}
+	
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+	
+	public Double getLng() {
+		return lng;
+	}
+	
+	public void setLng(Double lng) {
+		this.lng = lng;
 	}
 	
 	public String getAddress() {
@@ -197,18 +227,26 @@ public class Venue implements Serializable {
 		this.averagePrice = averagePrice;
 	}
 	
+	public Map<String, Valuation> getValuation() {
+		return valuation;
+	}
+	
+	public void setValuation(Map<String, Valuation> valuation) {
+		this.valuation = valuation;
+	}
+	
 //	public String getFormattedAveragePrice() {
 //		DecimalFormatSymbols custom = new DecimalFormatSymbols(Locale.getDefault());
 //		custom.setDecimalSeparator(',');
 //		DecimalFormat df = new DecimalFormat("0.00##", custom);
 //		return df.format(getAveragePrice());
+////	}
+//	
+//	@PrePersist
+//	protected void onPersist() {
+//		setCreatedAt(new Date());
+//		setUpdatedAt(getCreatedAt());
 //	}
-	
-	@PrePersist
-	protected void onPersist() {
-		setCreatedAt(new Date());
-		setUpdatedAt(getCreatedAt());
-	}
 	
 
 //	@PreUpdate 
@@ -229,5 +267,14 @@ public class Venue implements Serializable {
 //		
 //		setAveragePrice(new Double(Math.round(amount / amountPeople)));
 //	}
+	
+	@Override
+	public String toString() {
+		if (getId() != null) {
+			return getId();
+		}
+
+		return super.toString();
+	}
 
 }

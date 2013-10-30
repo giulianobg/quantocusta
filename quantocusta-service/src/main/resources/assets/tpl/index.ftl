@@ -34,7 +34,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-lg-12">
-									<input type="search" class="form-control input-lg" name="q">
+									<input type="search" class="form-control input-lg" name="q" placeholder="Restaurantes, bares, delicatessen">
 								</div>
 							</div>
 							<div class="form-group">
@@ -50,9 +50,6 @@
 
 		<#include "/assets/tpl/components/footer.ftl">
 
-		<!-- Bootstrap core JavaScript -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="/assets/js/jquery-1.10.2.min.js"></script>
-		<script src="/assets/js/bootstrap.min.js"></script>
+		<#include "/assets/tpl/components/scripts.ftl">
 	</body>
 </html>

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.mongojack.ObjectId;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author Giuliano Griffante
@@ -16,7 +18,11 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ObjectId
-	private Long id;
+	@JsonProperty("_id")
+	private String id;
+	
+	@JsonProperty("id_foursquare")
+	private String idFoursquare;
 
 	private String name;
 	
@@ -31,12 +37,20 @@ public class Category implements Serializable {
 	public Category() {
 	}
 
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getIdFoursquare() {
+		return idFoursquare;
+	}
+	
+	public void setIdFoursquare(String idFoursquare) {
+		this.idFoursquare = idFoursquare;
 	}
 
 	public String getName() {
@@ -78,16 +92,5 @@ public class Category implements Serializable {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-//	
-//	@PrePersist
-//	protected void onCreate() {
-//		setCreatedAt(new Date());
-//		setUpdatedAt(getCreatedAt());
-//	}
-//
-//	@PreUpdate
-//	protected void onUpdate() {
-//		setUpdatedAt(new Date());
-//	}
 
 }

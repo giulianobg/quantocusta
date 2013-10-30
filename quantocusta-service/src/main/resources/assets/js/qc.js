@@ -1,30 +1,32 @@
 var qc = {
-	ithink: function(where, thinks) {
+	vote: function(where, kind, v) {
+		var params = new Object();
+		params.id = where;
+		params.kind = kind;
+		params.v = v;
+		
 		$.ajax({
-			url: ctx+"/api/ithink",
+			url: "/api/vote",
 			type: "POST",
+			contentType: "application/json; charset=utf-8",
 			cache: false,
-			data: {
-				"ap.venue.id": where,
-				"ap.think": thinks
-			},
+			data: JSON.stringify(params),
 			success: function(data) {
 				alert(data);
 			}
 		});
 	}
 };
-
+/*
 function think(where, thinks) {
-	alert("ok");
-	return false;
+	//return false;
 	$.ajax({
-		url: ctx+"/api/ithink",
+		url: "/api/vote",
 		type: "POST",
 		cache: false,
 		data: {
-			"ap.id.idVenue": where,
-			"ap.think": thinks
+			"id": where,
+			"vote": thinks
 		},
 		success: function(data) {
 			if (data.status == "ok") {
@@ -51,4 +53,5 @@ function think(where, thinks) {
 		}
 	});
 }
+*/
 
