@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.resources.api.ApiVenueResource;
@@ -57,7 +58,9 @@ public class HtmlResource {
 	public View get(@PathParam("id") String id) {
 		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
 		
-		Venue venue = (Venue) resource.findBy3rdId(id);
+		Venue venue = (Venue) resource.findBy3rdId(id, null);
+		
+//		Response.status(301).build()
 		
 		return new VenueView(venue);
 	}

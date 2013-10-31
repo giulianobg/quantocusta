@@ -36,12 +36,8 @@ public abstract class Dao<T> {
 	}
 	
 	public T update(T obj) {
-		LOG.debug("Saving object '" + obj + "' ...");
-		String savedId = coll.save(obj).getSavedId();
-		if (savedId != null) {
-			LOG.debug("Object '" + obj + "' was saved/updated.");
-		}
-		return findById(savedId);
+//		LOG.debug("Saving object '" + obj + "' ...");
+		return coll.save(obj).getSavedObject();
 	}
 
 }

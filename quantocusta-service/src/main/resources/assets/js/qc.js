@@ -14,12 +14,21 @@ var qc = {
 				'v': v
 			},
 			success: function(data) {
-				$('.ctn-food-pout').html(data.result.valuation.food.poutCount);
-				$('.ctn-food-smile').html(data.result.valuation.food.smileCount);
-				$('.ctn-treatment-pout').html(data.result.valuation.treatment.poutCount);
-				$('.ctn-treatment-smile').html(data.result.valuation.treatment.smileCount);
-				$('.ctn-environment-pout').html(data.result.valuation.environment.poutCount);
-				$('.ctn-environment-smile').html(data.result.valuation.environment.smileCount);
+				$(".food").html(Math.round(data.result.valuation.food.smileAverage) + '%');
+				$('.treatment').html(Math.round(data.result.valuation.treatment.smileAverage) + '%');
+				$('.environment').html(Math.round(data.result.valuation.environment.smileAverage) + '%');
+			}
+		});
+	},
+	submitPrice: function(where, price) {
+		$.ajax({
+			url: "/api/vote/price",
+			data: {
+				'id': where,
+				'price': price.replace(/,/g, '.')
+			},
+			success: function(data) {
+				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
 			}
 		});
 	}

@@ -135,9 +135,9 @@ public class ApiVenueResource {
 				}
 
 				venue = Daos.get(VenueDao.class).insert(venue);
-				if (!fat.or("false").equals("true")) {
-					venue.getReviews().getReviews().clear();
-				}
+//				if (!fat.or("false").equals("true")) {
+//					venue.getReviews().getReviews().clear();
+//				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

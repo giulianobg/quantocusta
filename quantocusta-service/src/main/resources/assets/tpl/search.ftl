@@ -21,6 +21,8 @@
 	<body>
 		<#include "/assets/tpl/components/header.ftl">
 		
+		<div class="breathe"></div>
+		
 		<div class="section">
 			<div class="container">
 				<span>Termo de busca</span>

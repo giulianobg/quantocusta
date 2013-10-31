@@ -21,29 +21,34 @@
 	<body>
 		<#include "/assets/tpl/components/header.ftl">
 		
-		<div class="section">
-			<div class="container">
-			
-				<div class="row">
-					<div class="col-xs-12">
-						<form action="/buscar" role="form" class="form-horizontal" method="get">
-							<div class="form-group">
-								<div class="col-lg-12">
-									Buscar por
-								</div>
+		<div class="breathe"></div>
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<form action="/buscar" role="form" class="form-horizontal" method="get">
+						<div class="form-group">
+							<div class="col-lg-12">
+								Buscar por
 							</div>
-							<div class="form-group">
-								<div class="col-lg-12">
-									<input type="search" class="form-control input-lg" name="q" placeholder="Restaurantes, bares, delicatessen">
-								</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<input type="search" class="form-control input-lg" name="q" placeholder="Restaurantes, bares, delicatessen">
 							</div>
-							<div class="form-group">
-								<div class="col-lg-12">
-									<button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button><br>
-								</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button><br>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
+					
+					
+					
+					<a class="btn btn-block btn-default" href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code">
+						Conectar-se com o Facebook
+					</a>
 				</div>
 			</div>
 		</div>

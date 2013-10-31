@@ -1,14 +1,15 @@
 package sb.quantocusta.resources.api;
 
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response.Status;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.Response;
+import sb.quantocusta.api.Review;
 import sb.quantocusta.api.Valuation;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.api.Vote;
@@ -27,7 +28,7 @@ import com.yammer.dropwizard.jersey.params.IntParam;
 @Produces("application/json; charset=utf-8")
 public class ApiVoteResource {
 	
-//	private DB db;
+	static Logger LOG = LoggerFactory.getLogger(ApiVoteResource.class);
 
 	public ApiVoteResource(DB db) {
 	}
@@ -40,7 +41,6 @@ public class ApiVoteResource {
 		// usuário já votou nesse mesmo local?
 		// Sim, update Vote e Venue
 		// Não, insert Vote e update Venue
-		
 		
 		Response r = new Response();
 		try {
@@ -62,9 +62,10 @@ public class ApiVoteResource {
 			}
 			valuation.setTotalCount(Optional.fromNullable(valuation.getTotalCount()).or(0) + 1);
 			
+			valuation.setPoutAverage((valuation.getPoutCount() / (double) valuation.getTotalCount()) * 100);
+			valuation.setSmileAverage((valuation.getSmileCount() / (double) valuation.getTotalCount()) * 100);
+			
 			venue.getValuation().put(kind, valuation);
-			
-			
 			
 			/* User ... */
 			Vote vote = new Vote();
@@ -77,7 +78,7 @@ public class ApiVoteResource {
 			
 			
 			
-			dao.update(venue);
+			venue = dao.update(venue);
 			
 	//		Vote vote = new Vote();
 	//		vote.setKind(kind);
@@ -88,26 +89,45 @@ public class ApiVoteResource {
 			r.setStatus(200);
 			r.setResult(venue);
 		} catch (Exception ex) {
+			LOG.error(ex.getMessage(), ex);
 			r.setStatus(500);
 		}
 		
 		return r;
 	}
 
-	@GET
+	@POST
 	@Path("price")
-	public Object submitPrice(@QueryParam("id") String id,
-			@QueryParam("user") String user,
-			@QueryParam("price") Double price) {
-		Response r = new Response();
-
+	public Object submitPrice(@FormParam("id") String id,
+//			@@FormParam("user") String user,
+			@FormParam("price") Double price) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		Venue venue = dao.findById(id);
 		
-//		venue.setAveragePrice(averagePrice);
+		if (venue == null) {
+			return Response.build(404);
+		} else {
+			
+			// insere valoração desse usuário
+			// TODO ... // talvez não precise
+			
+			Review review = new Review();
+			review.setCreatedAt(System.currentTimeMillis());
+			review.setPrice(price);
+//			review.setIdUser(idUser);
+			
+			venue.getReviews().getReviews().add(review);
+			
+			double nemAvPrice = venue.getReviews().getAveragePrice() * venue.getReviews().getUsersCount() + price;
+			nemAvPrice = nemAvPrice / (venue.getReviews().getUsersCount() + 1);
+			
+			venue.getReviews().setAveragePrice(nemAvPrice);
+			venue.getReviews().setUsersCount(venue.getReviews().getUsersCount() + 1);
+		}
 		
+		venue = dao.update(venue);
 		
-		return javax.ws.rs.core.Response.status(Status.NO_CONTENT).build();
+		return Response.build(200, venue);
 	}
 
 }

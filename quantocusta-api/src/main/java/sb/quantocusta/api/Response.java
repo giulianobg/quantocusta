@@ -54,4 +54,10 @@ public class Response {
 		return r;
 	}
 	
+	public static Response build(int code, Object result) {
+		Response r = build(code);
+		r.setResult(result);
+		return r;
+	}
+	
 }
