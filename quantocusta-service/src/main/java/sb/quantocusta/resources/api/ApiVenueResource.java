@@ -13,13 +13,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.mongojack.DBQuery;
 import org.mongojack.JacksonDBCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.Category;
 import sb.quantocusta.api.City;
+import sb.quantocusta.api.Response;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
@@ -28,6 +28,7 @@ import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Optional;
 import com.mongodb.DB;
 
 /**
@@ -66,16 +67,19 @@ public class ApiVenueResource {
 	
 	@GET
 	@Path("{id}")
-	public Object findById(@PathParam("id") String id) {
-//		List<Venue> venues = FoursquareApi.search("Porto+Alegre", q);
-//		db.getCollection("venues").getName()
+	public Response findById(@PathParam("id") String id) {
+		Venue venue = Daos.get(VenueDao.class).findById(id);
+
+		Response r = new Response();
+		r.setStatus(200);
+		r.setResult(venue);
 		
-		return "venueX";
+		return r;
 	}
 	
 	@GET
 	@Path("thrd/{id}")
-	public Object findBy3rdId(@PathParam("id") String id) {
+	public Object findBy3rdId(@PathParam("id") String id, @QueryParam("fat") Optional<String> fat) {
 		Venue venue = Daos.get(VenueDao.class).findBy3rdId(id);
 		
 		if (venue == null) {
@@ -91,6 +95,11 @@ public class ApiVenueResource {
 						venue.setAddress(node.get("location").get("address").asText());
 						venue.setLat(node.get("location").get("lat").asDouble());
 						venue.setLng(node.get("location").get("lng").asDouble());
+						
+						if (node.get("contact") != null &&
+								node.get("contact").get("formattedPhone") != null) {
+							venue.setPhone(node.get("contact").get("formattedPhone").asText());
+						}
 						
 						if (node.get("location").get("city") != null) {
 							CityDao dao = Daos.get(CityDao.class);
@@ -123,11 +132,12 @@ public class ApiVenueResource {
 							venue.setCategory(category);
 						}
 					}
-					
-	//				Apis.
 				}
 
 				venue = Daos.get(VenueDao.class).insert(venue);
+				if (!fat.or("false").equals("true")) {
+					venue.getReviews().getReviews().clear();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

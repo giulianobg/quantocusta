@@ -7,6 +7,13 @@ package sb.quantocusta.api;
  */
 public class Response {
 	
+	public static final int SUCCESS = 200;
+	
+	public static final int FORBIDDEN = 403;
+	public static final int NOT_FOUND = 404;
+	
+	public static final int INTERNAL_ERROR = 500;
+	
 	private Integer status;
 	
 	private Long timestamp;
@@ -39,6 +46,12 @@ public class Response {
 	
 	public void setResult(Object result) {
 		this.result = result;
+	}
+	
+	public static Response build(int code) {
+		Response r = new Response();
+		r.setStatus(code);
+		return r;
 	}
 	
 }

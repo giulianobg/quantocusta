@@ -1,18 +1,25 @@
+$.ajaxSetup({
+	type: "POST",
+	contentType: "application/x-www-form-urlencoded;charset=utf-8",
+	timeout: 800
+});
+
 var qc = {
 	vote: function(where, kind, v) {
-		var params = new Object();
-		params.id = where;
-		params.kind = kind;
-		params.v = v;
-		
 		$.ajax({
 			url: "/api/vote",
-			type: "POST",
-			contentType: "application/json; charset=utf-8",
-			cache: false,
-			data: JSON.stringify(params),
+			data: {
+				'id': where,
+				'kind': kind,
+				'v': v
+			},
 			success: function(data) {
-				alert(data);
+				$('.ctn-food-pout').html(data.result.valuation.food.poutCount);
+				$('.ctn-food-smile').html(data.result.valuation.food.smileCount);
+				$('.ctn-treatment-pout').html(data.result.valuation.treatment.poutCount);
+				$('.ctn-treatment-smile').html(data.result.valuation.treatment.smileCount);
+				$('.ctn-environment-pout').html(data.result.valuation.environment.poutCount);
+				$('.ctn-environment-smile').html(data.result.valuation.environment.smileCount);
 			}
 		});
 	}

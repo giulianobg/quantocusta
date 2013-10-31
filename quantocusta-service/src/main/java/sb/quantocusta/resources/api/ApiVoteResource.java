@@ -1,15 +1,17 @@
 package sb.quantocusta.resources.api;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response.Status;
 
 import sb.quantocusta.api.Response;
 import sb.quantocusta.api.Valuation;
 import sb.quantocusta.api.Venue;
+import sb.quantocusta.api.Vote;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.VenueDao;
 
@@ -23,7 +25,6 @@ import com.yammer.dropwizard.jersey.params.IntParam;
  */
 @Path("/api/vote")
 @Produces("application/json; charset=utf-8")
-@Consumes("application/json; charset=utf-8")
 public class ApiVoteResource {
 	
 //	private DB db;
@@ -32,16 +33,20 @@ public class ApiVoteResource {
 	}
 	
 	@POST
-	public Response vote(@QueryParam("id") String id,
-			@QueryParam("kind") String kind,
-			@QueryParam("v") IntParam v) {
+	public Response vote(@FormParam("id") String id,
+			@FormParam("kind") String kind,
+			@FormParam("v") IntParam v) {
+		
+		// usuário já votou nesse mesmo local?
+		// Sim, update Vote e Venue
+		// Não, insert Vote e update Venue
+		
+		
 		Response r = new Response();
 		try {
 			VenueDao dao = Daos.get(VenueDao.class);
 			
 			Venue venue = dao.findById(id);
-			
-			System.out.println(venue);
 			 
 			Valuation valuation = venue.getValuation().get(kind);
 			if (valuation == null) {
@@ -58,6 +63,19 @@ public class ApiVoteResource {
 			valuation.setTotalCount(Optional.fromNullable(valuation.getTotalCount()).or(0) + 1);
 			
 			venue.getValuation().put(kind, valuation);
+			
+			
+			
+			/* User ... */
+			Vote vote = new Vote();
+			vote.setKind(kind);
+//			vote.setUser(user);
+			vote.setVenue(venue);
+			
+//			Daos.get(VoteDao.class).insert(vote);
+			
+			
+			
 			
 			dao.update(venue);
 			
@@ -76,12 +94,20 @@ public class ApiVoteResource {
 		return r;
 	}
 
-	@POST
+	@GET
 	@Path("price")
-	public Response submitPrice(@QueryParam("id") String id,
-			@QueryParam("type") String type,
-			@QueryParam("v") String v) {
-		return null;
+	public Object submitPrice(@QueryParam("id") String id,
+			@QueryParam("user") String user,
+			@QueryParam("price") Double price) {
+		Response r = new Response();
+
+		VenueDao dao = Daos.get(VenueDao.class);
+		Venue venue = dao.findById(id);
+		
+//		venue.setAveragePrice(averagePrice);
+		
+		
+		return javax.ws.rs.core.Response.status(Status.NO_CONTENT).build();
 	}
 
 }

@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sb.quantocusta.api.Category;
 import sb.quantocusta.api.Venue;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +31,8 @@ public class FoursquareApi {
 	
 	private static final String FOOD_CATEGORY = "4d4b7105d754a06374d81259";
 	
-	private static final String SEARCH_VENUE = HOST + "/venues/search?near=${near}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&v=" + VERSION; 
+	private static final String SEARCH_VENUE = HOST + "/venues/search?near=${near}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&v=" + VERSION;
+	private static final String SEARCH_VENUE_V2 = HOST + "/venues/search?ll=${lat},${lng}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&v=" + VERSION;
 	private static final String GET_VENUE = HOST + "/venues/${id}?oauth_token=" + TOKEN + "&v=" + VERSION;
 	
 	public static JsonNode get(String id) throws Exception {
@@ -91,6 +91,36 @@ public class FoursquareApi {
 			}
 			venue.setName(v.get("name").asText());
 //			venue.set
+			
+			venues.add(venue);
+		}
+		
+		return venues;
+	}
+	
+	public static List<Venue> searchv2(Double lat, Double lng, String q) {
+		String queryString = StringUtils.replaceOnce(SEARCH_VENUE_V2, "${lat}", String.valueOf(lat));
+		queryString = StringUtils.replaceOnce(SEARCH_VENUE_V2, "${lng}", String.valueOf(lng));
+		queryString = StringUtils.replaceOnce(queryString, "${q}", q);
+		
+		List<Venue> venues = new ArrayList<Venue>();
+		
+		// 4sq JSON
+		JsonNode node = parse(queryString);
+		JsonNode arr = node.get("response").get("venues");
+		
+		for (int i = 0; i < arr.size(); i++) {
+			JsonNode v = arr.get(i);
+			
+			Venue venue = new Venue();
+			
+			venue.setIdFoursquare(v.get("id").asText());
+			
+			if (v.get("location") != null && 
+					v.get("location").get("address") != null) {
+				venue.setAddress(v.get("location").get("address").asText());
+			}
+			venue.setName(v.get("name").asText());
 			
 			venues.add(venue);
 		}

@@ -5,10 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Transient;
-
 import org.mongojack.ObjectId;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -16,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Giuliano Griffante
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Venue implements Serializable {
 	
 	public static final String ENVIRONMENT = "environment";
@@ -31,10 +31,12 @@ public class Venue implements Serializable {
 	private Double lat;
 	
 	private Double lng;
-
+	
 	private String address;
 
 	private City city;
+	
+	private String phone;
 
 	@JsonProperty("id_foursquare")
 	private String idFoursquare;
@@ -50,18 +52,11 @@ public class Venue implements Serializable {
 	private Map<String, Valuation> valuation;
 
 	private Date createdAt;
-//	
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(name="updated_at")
+
 	private Date updatedAt;
-//
-//	@OneToMany(mappedBy="venue", fetch=FetchType.EAGER)
-//	private List<Experience> experiences;
-//	
-//	@ManyToMany(fetch=FetchType.LAZY, mappedBy="venues")
-//	private List<model.List> list;
-//	
-//	//bi-directional many-to-many association to Person
+	
+	private VenueReviews reviews;
+
 //	@ManyToMany(fetch=FetchType.LAZY)
 //	@JoinTable(
 //		name="favorite",
@@ -75,20 +70,16 @@ public class Venue implements Serializable {
 //	private List<Person> people;
 //	
 	/* transients attributes */
-	@Transient
-	private Double averagePrice;
-//	
 //	@Transient
-//	private String topWhyYes;
-//	
-//	@Transient
-//	private String topWhyNo;
+//	private Double averagePrice;
 
 	public Venue() {
 		valuation = new HashMap<String, Valuation>();
 		valuation.put(ENVIRONMENT, new Valuation());
 		valuation.put(FOOD, new Valuation());
 		valuation.put(TREATMENT, new Valuation());
+		
+		reviews = new VenueReviews();
 	}
 
 	public String getId() {
@@ -179,6 +170,14 @@ public class Venue implements Serializable {
 		this.status = status;
 	}
 	
+	public String getPhone() {
+		return phone;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -219,13 +218,13 @@ public class Venue implements Serializable {
 //		this.people = people;
 //	}
 	
-	public Double getAveragePrice() {
-		return averagePrice;
-	}
-	
-	public void setAveragePrice(Double averagePrice) {
-		this.averagePrice = averagePrice;
-	}
+//	public Double getAveragePrice() {
+//		return averagePrice;
+//	}
+//	
+//	public void setAveragePrice(Double averagePrice) {
+//		this.averagePrice = averagePrice;
+//	}
 	
 	public Map<String, Valuation> getValuation() {
 		return valuation;
@@ -233,6 +232,14 @@ public class Venue implements Serializable {
 	
 	public void setValuation(Map<String, Valuation> valuation) {
 		this.valuation = valuation;
+	}
+	
+	public VenueReviews getReviews() {
+		return reviews;
+	}
+	
+	public void setReviews(VenueReviews reviews) {
+		this.reviews = reviews;
 	}
 	
 //	public String getFormattedAveragePrice() {

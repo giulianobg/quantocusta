@@ -26,7 +26,7 @@ public class Main {
 			
 			Venue v = new Venue();
 			v.setAddress("Pça XV, s/n");
-			v.setAveragePrice(12.0);
+//			v.setAveragePrice(12.0);
 			v.setName("Café do Mercado");
 			
 			
