@@ -7,7 +7,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.resources.api.ApiVenueResource;
@@ -31,6 +30,18 @@ public class HtmlResource {
 	@GET
 	@Path("buscar")
 	public View search(@QueryParam("q") String q) {
+		
+//		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("search").queryParam("q", q).build();
+//		System.out.println(Response.created(uri).toString());
+//		Response r1 = Response.created(uri).entity(List.class).build();
+		
+//		Response r = r1.ok().build();
+		
+//		Response r = Response.created(uri).build();
+//		List<Venue> venues = (List<Venue>) Response.created(uri).build().ok();
+		
+//		System.out.println(venues);
+		
 //		List<Venue> venues = null;
 		
 //		ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +57,6 @@ public class HtmlResource {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
-		
 		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
 		List<Venue> venues = (List<Venue>) resource.search(q);
 

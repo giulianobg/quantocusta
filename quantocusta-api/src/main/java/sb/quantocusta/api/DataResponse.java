@@ -5,7 +5,7 @@ package sb.quantocusta.api;
  * @author Giuliano Griffante
  *
  */
-public class Response {
+public class DataResponse {
 	
 	public static final int SUCCESS = 200;
 	
@@ -20,7 +20,7 @@ public class Response {
 	
 	private Object result;
 	
-	public Response() {
+	public DataResponse() {
 		timestamp = System.currentTimeMillis();
 	}
 	
@@ -48,14 +48,14 @@ public class Response {
 		this.result = result;
 	}
 	
-	public static Response build(int code) {
-		Response r = new Response();
+	public static DataResponse build(int code) {
+		DataResponse r = new DataResponse();
 		r.setStatus(code);
 		return r;
 	}
 	
-	public static Response build(int code, Object result) {
-		Response r = build(code);
+	public static DataResponse build(int code, Object result) {
+		DataResponse r = build(code);
 		r.setResult(result);
 		return r;
 	}

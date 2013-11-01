@@ -2,6 +2,7 @@ package sb.quantocusta.resources.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,7 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import org.mongojack.JacksonDBCollection;
 import org.slf4j.Logger;
@@ -19,11 +24,14 @@ import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.Category;
 import sb.quantocusta.api.City;
-import sb.quantocusta.api.Response;
+import sb.quantocusta.api.DataResponse;
+import sb.quantocusta.api.Review;
+import sb.quantocusta.api.User;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.Daos;
+import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
 
@@ -67,14 +75,24 @@ public class ApiVenueResource {
 	
 	@GET
 	@Path("{id}")
-	public Response findById(@PathParam("id") String id) {
+	public Response findById(@PathParam("id") String id, @Context HttpServletRequest request) {
 		Venue venue = Daos.get(VenueDao.class).findById(id);
-
-		Response r = new Response();
-		r.setStatus(200);
-		r.setResult(venue);
 		
-		return r;
+		if (venue == null) {
+			return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND.getStatusCode())).build();
+		} else {
+		
+			User user = (User) request.getSession().getAttribute("user");
+			if (user != null) {
+				Review r = Daos.get(ReviewDao.class).find(id, user.getId());
+				if (r != null) {
+					venue.getReviews().setMe(r);
+				}
+			}
+	
+			return Response.status(Status.OK).entity(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
+		}
+		
 	}
 	
 	@GET
@@ -135,6 +153,8 @@ public class ApiVenueResource {
 				}
 
 				venue = Daos.get(VenueDao.class).insert(venue);
+				
+				
 //				if (!fat.or("false").equals("true")) {
 //					venue.getReviews().getReviews().clear();
 //				}
@@ -145,6 +165,9 @@ public class ApiVenueResource {
 			LOG.debug("Skipped Foursquare's retriving data from venue " + id);
 		}
 		
+		
+		
+//		return Response.temporaryRedirect(UriBuilder.fromResource(ApiCategoryResource.class).path("{id}"))findById(venue.getId(), request);
 		return venue;
 	}
 	

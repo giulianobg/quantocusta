@@ -9,11 +9,11 @@ public class User {
 	@ObjectId
 	@JsonProperty("_id")
 	private String id;
-	
+	private String thirdyId;
 	private String name;
+	private String email;
 	
 	public User() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getId() {
@@ -24,12 +24,28 @@ public class User {
 		this.id = id;
 	}
 	
+	public String getThirdyId() {
+		return thirdyId;
+	}
+	
+	public void setThirdyId(String thirdyId) {
+		this.thirdyId = thirdyId;
+	}
+	
 	public String getName() {
 		return name;
 	}
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

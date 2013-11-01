@@ -57,22 +57,6 @@ public class Venue implements Serializable {
 	
 	private VenueReviews reviews;
 
-//	@ManyToMany(fetch=FetchType.LAZY)
-//	@JoinTable(
-//		name="favorite",
-//		joinColumns={
-//			@JoinColumn(name="id_venue")
-//			},
-//		inverseJoinColumns={
-//			@JoinColumn(name="id_person")
-//			}
-//		)
-//	private List<Person> people;
-//	
-	/* transients attributes */
-//	@Transient
-//	private Double averagePrice;
-
 	public Venue() {
 		valuation = new HashMap<String, Valuation>();
 		valuation.put(ENVIRONMENT, new Valuation());

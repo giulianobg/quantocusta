@@ -1,16 +1,21 @@
 package sb.quantocusta.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * 
+ * @author Giuliano Griffante
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VenueReviews {
 	
 	private Double averagePrice;
 	private Integer usersCount;
-	private List<Review> reviews;
+	
+	private Review me;
 	
 	public VenueReviews() {
-		reviews = new ArrayList<Review>();
+//		reviews = new ArrayList<Review>();
 		usersCount = 0;
 		averagePrice = 0.0;
 	}
@@ -23,13 +28,21 @@ public class VenueReviews {
 		this.averagePrice = averagePrice;
 	}
 	
-	public List<Review> getReviews() {
-		return reviews;
+	public Review getMe() {
+		return me;
 	}
 	
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
+	public void setMe(Review me) {
+		this.me = me;
 	}
+	
+//	public List<Review> getReviews() {
+//		return reviews;
+//	}
+//	
+//	public void setReviews(List<Review> reviews) {
+//		this.reviews = reviews;
+//	}
 	
 	public Integer getUsersCount() {
 		return usersCount;

@@ -1,19 +1,27 @@
 package sb.quantocusta.resources.api;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sb.quantocusta.api.Response;
+import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Review;
+import sb.quantocusta.api.User;
 import sb.quantocusta.api.Valuation;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.api.Vote;
 import sb.quantocusta.dao.Daos;
+import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.VenueDao;
 
 import com.google.common.base.Optional;
@@ -34,15 +42,19 @@ public class ApiVoteResource {
 	}
 	
 	@POST
-	public Response vote(@FormParam("id") String id,
+	public DataResponse vote(@FormParam("id") String id,
 			@FormParam("kind") String kind,
-			@FormParam("v") IntParam v) {
+			@FormParam("v") IntParam v,
+			@Context HttpServletRequest request) {
 		
 		// usuário já votou nesse mesmo local?
 		// Sim, update Vote e Venue
+		// TODO: 
+		
 		// Não, insert Vote e update Venue
 		
-		Response r = new Response();
+		
+		DataResponse r = new DataResponse();
 		try {
 			VenueDao dao = Daos.get(VenueDao.class);
 			
@@ -98,36 +110,57 @@ public class ApiVoteResource {
 
 	@POST
 	@Path("price")
-	public Object submitPrice(@FormParam("id") String id,
-//			@@FormParam("user") String user,
-			@FormParam("price") Double price) {
-		VenueDao dao = Daos.get(VenueDao.class);
-		Venue venue = dao.findById(id);
+	public Response submitPrice(@FormParam("id") String id,
+			@FormParam("price") Double price,
+			@Context HttpServletRequest request) {
 		
-		if (venue == null) {
-			return Response.build(404);
-		} else {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user != null) {
 			
-			// insere valoração desse usuário
-			// TODO ... // talvez não precise
+			VenueDao dao = Daos.get(VenueDao.class);
+			Venue venue = dao.findById(id);
 			
-			Review review = new Review();
-			review.setCreatedAt(System.currentTimeMillis());
-			review.setPrice(price);
-//			review.setIdUser(idUser);
+			Review review = null;
 			
-			venue.getReviews().getReviews().add(review);
+			if (venue == null) {
+				Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND.getStatusCode())).build();
+			} else {
+				
+				// verifica se usuário já avaliou esse local
+				review = Daos.get(ReviewDao.class).find(id, user.getId());
+				if (review != null) { 
+					// update valoração desse usuário
+					review.setPrice(price);
+					
+					Daos.get(ReviewDao.class).update(review);
+				} else {
+					// insere valoração desse usuário
+					review = new Review();
+					review.setIdUser(user.getId());
+					review.setIdVenue(id);
+					review.setPrice(price);
+					review.setCreatedAt(new Date());
+					
+					Daos.get(ReviewDao.class).insert(review);
+				}
+				
+				// salvar review
+	//			venue.getReviews().getReviews().add(review);
+				
+				double nemAvPrice = venue.getReviews().getAveragePrice() * venue.getReviews().getUsersCount() + price;
+				nemAvPrice = nemAvPrice / (venue.getReviews().getUsersCount() + 1);
+				
+				venue.getReviews().setAveragePrice(nemAvPrice);
+				venue.getReviews().setUsersCount(venue.getReviews().getUsersCount() + 1);
+			}
 			
-			double nemAvPrice = venue.getReviews().getAveragePrice() * venue.getReviews().getUsersCount() + price;
-			nemAvPrice = nemAvPrice / (venue.getReviews().getUsersCount() + 1);
+			venue = dao.update(venue);
+			venue.getReviews().setMe(review);
 			
-			venue.getReviews().setAveragePrice(nemAvPrice);
-			venue.getReviews().setUsersCount(venue.getReviews().getUsersCount() + 1);
+			return Response.status(Status.OK).entity(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
 		}
 		
-		venue = dao.update(venue);
-		
-		return Response.build(200, venue);
+		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
 	}
 
 }

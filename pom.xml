@@ -29,6 +29,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.yammer.dropwizard</groupId>
+			<artifactId>dropwizard-auth</artifactId>
+			<version>0.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yammer.dropwizard</groupId>
 			<artifactId>dropwizard-views</artifactId>
 			<version>0.6.2</version>
 		</dependency>
@@ -51,11 +56,25 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client</artifactId>
+			<version>1.17.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scribe</groupId>
+			<artifactId>scribe</artifactId>
+			<version>1.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client-appengine</artifactId>
+			<version>1.17.0-rc</version>
 		</dependency>
 		
 	</dependencies>

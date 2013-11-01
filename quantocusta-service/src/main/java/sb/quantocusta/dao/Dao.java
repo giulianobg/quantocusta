@@ -28,16 +28,20 @@ public abstract class Dao<T> {
 	
 	public T insert(T obj) {
 		LOG.debug("Inserting object '" + obj + "' ...");
-		String savedId = coll.insert(obj).getSavedId();
-		if (savedId != null) {
+		T saved = coll.insert(obj).getSavedObject();
+		if (saved != null) {
 			LOG.debug("Object '" + obj + "' was inserted.");
 		}
-		return findById(savedId);
+		return saved;
 	}
 	
 	public T update(T obj) {
-//		LOG.debug("Saving object '" + obj + "' ...");
-		return coll.save(obj).getSavedObject();
+		LOG.debug("Saving object '" + obj + "' ...");
+		T saved = coll.save(obj).getSavedObject();
+		if (saved != null) {
+			LOG.debug("Object '" + obj + "' was inserted.");
+		}
+		return saved;
 	}
 
 }

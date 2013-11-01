@@ -11,6 +11,7 @@ logging:
   # Logger-specific levels.
   loggers:
     "sb.quantocusta": DEBUG
+    "com.yammer.dropwizard.auth": DEBUG
 
 
 # HTTP-specific options.
@@ -26,4 +27,4 @@ http:
 
   # Configuration parameters for GZIP encoding of response entities.
   gzip:
-    enabled: true
+    enabled: false
