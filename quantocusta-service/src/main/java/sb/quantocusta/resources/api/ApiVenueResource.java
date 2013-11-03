@@ -2,7 +2,6 @@ package sb.quantocusta.resources.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,11 +11,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 
 import org.mongojack.JacksonDBCollection;
 import org.slf4j.Logger;
@@ -33,6 +30,8 @@ import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.VenueDao;
+import sb.quantocusta.dao.VoteDao;
+import sb.quantocusta.resources.BaseResouce;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -47,7 +46,7 @@ import com.mongodb.DB;
 @Path("/api/venue")
 @Produces("application/json; charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON)
-public class ApiVenueResource {
+public class ApiVenueResource extends BaseResouce {
 	
 	static Logger LOG = LoggerFactory.getLogger(ApiVenueResource.class);
 	
@@ -67,15 +66,15 @@ public class ApiVenueResource {
 
 	@GET
 	@Path("search")
-	public Object search(@QueryParam("q") String q) {
+	public Response search(@QueryParam("q") String q) {
 		List<Venue> venues = FoursquareApi.search("Porto+Alegre", q);
 		
-		return venues;
+		return Response.ok(DataResponse.build(venues)).build();
 	}
 	
 	@GET
 	@Path("{id}")
-	public Response findById(@PathParam("id") String id, @Context HttpServletRequest request) {
+	public Response findById(@PathParam("id") String id) {
 		Venue venue = Daos.get(VenueDao.class).findById(id);
 		
 		if (venue == null) {
@@ -88,6 +87,11 @@ public class ApiVenueResource {
 				if (r != null) {
 					venue.getReviews().setMe(r);
 				}
+				
+				// valuations
+				venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
+				venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
+				venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
 			}
 	
 			return Response.status(Status.OK).entity(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
@@ -97,7 +101,7 @@ public class ApiVenueResource {
 	
 	@GET
 	@Path("thrd/{id}")
-	public Object findBy3rdId(@PathParam("id") String id, @QueryParam("fat") Optional<String> fat) {
+	public Response findBy3rdId(@PathParam("id") String id, @QueryParam("fat") Optional<String> fat) {
 		Venue venue = Daos.get(VenueDao.class).findBy3rdId(id);
 		
 		if (venue == null) {
@@ -165,10 +169,11 @@ public class ApiVenueResource {
 			LOG.debug("Skipped Foursquare's retriving data from venue " + id);
 		}
 		
+		if (venue != null) {
+			return findById(venue.getId());
+		}
 		
-		
-//		return Response.temporaryRedirect(UriBuilder.fromResource(ApiCategoryResource.class).path("{id}"))findById(venue.getId(), request);
-		return venue;
+		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 	}
 	
 	@POST

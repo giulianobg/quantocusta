@@ -1,6 +1,11 @@
 package sb.quantocusta.api;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.mongojack.ObjectId;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
@@ -9,28 +14,40 @@ import java.io.Serializable;
  */
 public class Vote implements Serializable {
 	
-	private User user;
-	private Venue venue;
+	@ObjectId
+	@JsonProperty("_id")
+	private String id;
+	private String idUser;
+	private String idVenue;
 	private String kind;
-//	private Integer counter;
+	private Integer val;
+	private Date createdAt;
 	
 	public Vote() {
 	}
 	
-	public User getUser() {
-		return user;
+	public String getId() {
+		return id;
 	}
 	
-	public void setUser(User user) {
-		this.user = user;
+	public void setId(String id) {
+		this.id = id;
 	}
 	
-	public Venue getVenue() {
-		return venue;
+	public String getIdUser() {
+		return idUser;
 	}
 	
-	public void setVenue(Venue venue) {
-		this.venue = venue;
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+	
+	public String getIdVenue() {
+		return idVenue;
+	}
+	
+	public void setIdVenue(String idVenue) {
+		this.idVenue = idVenue;
 	}
 	
 	public String getKind() {
@@ -39,6 +56,22 @@ public class Vote implements Serializable {
 	
 	public void setKind(String kind) {
 		this.kind = kind;
+	}
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public Integer getVal() {
+		return val;
+	}
+	
+	public void setVal(Integer val) {
+		this.val = val;
 	}
 	
 //	public Integer getCounter() {

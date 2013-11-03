@@ -1,5 +1,7 @@
 package sb.quantocusta.api;
 
+import javax.ws.rs.core.Response.Status;
+
 /**
  * 
  * @author Giuliano Griffante
@@ -48,10 +50,18 @@ public class DataResponse {
 		this.result = result;
 	}
 	
+	public static DataResponse build(Status status) {
+		return build(status.getStatusCode());
+	}
+	
 	public static DataResponse build(int code) {
 		DataResponse r = new DataResponse();
 		r.setStatus(code);
 		return r;
+	}
+	
+	public static DataResponse build(Object result) {
+		return build(Status.OK.getStatusCode(), result);
 	}
 	
 	public static DataResponse build(int code, Object result) {

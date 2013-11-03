@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.mongojack.ObjectId;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,8 +18,8 @@ public class Review {
 	@ObjectId
 	@JsonProperty("_id")
 	private String id;
-	@JsonIgnore private String idUser;
-	@JsonIgnore private String idVenue;
+	private String idUser;
+	private String idVenue;
 	private Double price;
 	private Date createdAt;
 	

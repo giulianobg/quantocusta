@@ -92,24 +92,24 @@
 						<div class="list-group-item">
 							<i class="icon-soup fa-2x"></i> <span>Comida</span>
 							<div class="btn-group pull-right">
-								<button type="button" class="btn btn-info" onclick="qc.vote('${venue.id}', 'food', 1);"><i class="fa fa-smile-o fa-2x"></i></button>
-								<button type="button" class="btn btn-info" onclick="qc.vote('${venue.id}', 'food', -1);"><i class="fa fa-frown-o fa-2x"></i></button>
+								<button type="button" class="btn btn-info btn-food-s" onclick="qc.vote('${venue.id}', 'food', 1);"><i class="fa fa-smile-o fa-2x"></i></button>
+								<button type="button" class="btn btn-info btn-food-p" onclick="qc.vote('${venue.id}', 'food', -1);"><i class="fa fa-frown-o fa-2x"></i></button>
 							</div>
 							<div class="clearfix"></div>
 						</div>
 						<div class="list-group-item">
 							<i class="icon-foodtray fa-2x"></i> <span>Atendimento</span>
 							<div class="btn-group pull-right">
-								<button type="button" class="btn btn-info" onclick="qc.vote('${venue.id}', 'treatment', 1);"><i class="fa fa-smile-o fa-2x"></i></button>
-								<button type="button" class="btn btn-info" onclick="qc.vote('${venue.id}', 'treatment', -1);"><i class="fa fa-frown-o fa-2x"></i></button>
+								<button type="button" class="btn btn-info btn-treatment-s" onclick="qc.vote('${venue.id}', 'treatment', 1);"><i class="fa fa-smile-o fa-2x"></i></button>
+								<button type="button" class="btn btn-info btn-treatment-p" onclick="qc.vote('${venue.id}', 'treatment', -1);"><i class="fa fa-frown-o fa-2x"></i></button>
 							</div>
 							<div class="clearfix"></div>
 						</div>
 						<div class="list-group-item">
 							<i class="icon-store fa-2x"></i> <span>Ambiente</span>
 							<div class="btn-group pull-right">
-								<button type="button" class="btn btn-info" onclick="qc.vote('${venue.id}', 'environment', 1);"><i class="fa fa-smile-o fa-2x"></i></button>
-								<button type="button" class="btn btn-info" onclick="qc.vote('${venue.id}', 'environment', -1);"><i class="fa fa-frown-o fa-2x"></i></button>
+								<button type="button" class="btn btn-info btn-environment-s" onclick="qc.vote('${venue.id}', 'environment', 1);"><i class="fa fa-smile-o fa-2x"></i></button>
+								<button type="button" class="btn btn-info btn-environment-p" onclick="qc.vote('${venue.id}', 'environment', -1);"><i class="fa fa-frown-o fa-2x"></i></button>
 							</div>
 							<div class="clearfix"></div>
 						</div>

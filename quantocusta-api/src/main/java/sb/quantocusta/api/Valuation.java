@@ -13,6 +13,8 @@ public class Valuation {
 	private Double smileAverage;
 	private Double poutAverage;
 	
+	private Vote me;
+	
 	public Valuation() {
 //		this.kind = kind;
 		totalCount = 0;
@@ -68,6 +70,14 @@ public class Valuation {
 	
 	public void setSmileAverage(Double smileAverage) {
 		this.smileAverage = smileAverage;
+	}
+	
+	public Vote getMe() {
+		return me;
+	}
+	
+	public void setMe(Vote me) {
+		this.me = me;
 	}
 	
 }

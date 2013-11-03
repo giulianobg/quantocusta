@@ -8,7 +8,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Venue;
+import sb.quantocusta.dao.Daos;
+import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.resources.api.ApiVenueResource;
 import sb.quantocusta.resources.api.Apis;
 import sb.quantocusta.views.SearchView;
@@ -20,7 +23,7 @@ import com.yammer.dropwizard.views.View;
 @Path("/")
 //@Produces("text/html; charset=utf-8")
 @Produces("text/html; charset=iso-8859-1")
-public class HtmlResource {
+public class HtmlResource extends BaseResouce {
 	
 	@GET
 	public SimplePageView home() {
@@ -58,19 +61,29 @@ public class HtmlResource {
 //			e.printStackTrace();
 //		}
 		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
-		List<Venue> venues = (List<Venue>) resource.search(q);
+		List<Venue> venues = (List<Venue>) ((DataResponse) resource.search(q).getEntity()).getResult();
 
 		return new SearchView(venues);
 	}
 	
 	@GET
-	@Path("thrd/{id}")
+	@Path("{id}")
 	public View get(@PathParam("id") String id) {
+		return new VenueView(Daos.get(VenueDao.class).findById(id));
+	}
+	
+	@GET
+	@Path("thrd/{id}")
+	public View getThirdy(@PathParam("id") String id) {
+//		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("thrd/{id}").build(id);
+		
 		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
+		Venue venue = (Venue) ((DataResponse) resource.findBy3rdId(id, null).getEntity()).getResult();
 		
-		Venue venue = (Venue) resource.findBy3rdId(id, null);
-		
-//		Response.status(301).build()
+//		if (venue != null) {
+//			URI location = UriBuilder.fromResource(HtmlResource.class).path("{id}").build(id);
+//			return Response.temporaryRedirect(location);
+//		}
 		
 		return new VenueView(venue);
 	}

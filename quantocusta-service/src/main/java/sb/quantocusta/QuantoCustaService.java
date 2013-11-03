@@ -12,6 +12,7 @@ import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.UserDao;
 import sb.quantocusta.dao.VenueDao;
+import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.health.MongoHealthCheck;
 import sb.quantocusta.resources.AuthResource;
 import sb.quantocusta.resources.HtmlResource;
@@ -76,6 +77,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		Daos.addDao(new ReviewDao(db));
 		Daos.addDao(new UserDao(db));
 		Daos.addDao(new VenueDao(db));
+		Daos.addDao(new VoteDao(db));
 		
 		/* OAuth2 */
 		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "The secret code"));
