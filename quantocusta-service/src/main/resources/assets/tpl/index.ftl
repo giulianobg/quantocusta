@@ -19,36 +19,25 @@
 	</head>
 
 	<body>
-		<#include "/assets/tpl/components/header.ftl">
-		
-		<div class="breathe"></div>
-		
 		<div class="container">
-			<div class="row">
-				<div class="col-xs-12">
-					<form action="/buscar" role="form" class="form-horizontal" method="get">
-						<div class="form-group">
-							<div class="col-lg-12">
-								Buscar por
-							</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="container-bg">
+						<img class="img img-responsive bg" src="/assets/images/logo.png">
+						
+						<div class="overlay">
+							<h1 style="text-indent: -9999px;">Quanto Custa</h1>
+							<span>Quer ir em um restaurante e saber quanto ir&aacute; pagar?</span>
+							<form class="form-search" action="/buscar">
+								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+								<button type="submit"><i class="icon-search"></i></button>
+								<div class="clearfix"></div>
+							</form>
 						</div>
-						<div class="form-group">
-							<div class="col-lg-12">
-								<input type="search" class="form-control input-lg" name="q" placeholder="Restaurantes, bares, delicatessen">
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-lg-12">
-								<button type="submit" class="btn btn-primary btn-lg btn-block">Buscar</button><br>
-							</div>
-						</div>
-					</form>
+					</div>
 					
-					
-					
-					<a class="btn btn-block btn-default" href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code">
-						Conectar-se com o Facebook
-					</a>
+					<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-link"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 mongo:
-  host: localhost
+  host: 68.169.54.122
   port: 27017
-  db: quantocusta
+  db: quantocusta-dsv
 
 
 # Logging settings.
@@ -10,7 +10,8 @@ logging:
   
   # Logger-specific levels.
   loggers:
-    "sb.quantocusta": INFO
+    "sb.quantocusta": DEBUG
+    "com.yammer.dropwizard.auth": DEBUG
 
 
 # HTTP-specific options.
@@ -19,11 +20,6 @@ http:
   port: 8090
   adminPort: 8090
   
-  # The number of threads dedicated to accepting connections.
-  acceptorThreads: 2
-  
-  acceptQueueSize: 1024
-
   # Configuration parameters for GZIP encoding of response entities.
   gzip:
-    enabled: false
+    enabled: true

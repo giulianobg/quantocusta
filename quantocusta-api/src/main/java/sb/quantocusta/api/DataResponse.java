@@ -16,30 +16,40 @@ public class DataResponse {
 	
 	public static final int INTERNAL_ERROR = 500;
 	
-	private Integer status;
+	private Integer code;
+	private String type;
+	private String message;
 	
-	private Long timestamp;
+//	private Long timestamp;
 	
 	private Object result;
 	
 	public DataResponse() {
-		timestamp = System.currentTimeMillis();
+//		timestamp = System.currentTimeMillis();
 	}
 	
-	public Integer getStatus() {
-		return status;
+	public Integer getCode() {
+		return code;
 	}
 	
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setCode(Integer code) {
+		this.code = code;
 	}
 	
-	public Long getTimestamp() {
-		return timestamp;
+	public String getMessage() {
+		return message;
 	}
 	
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public Object getResult() {
@@ -56,7 +66,7 @@ public class DataResponse {
 	
 	public static DataResponse build(int code) {
 		DataResponse r = new DataResponse();
-		r.setStatus(code);
+		r.setCode(code);
 		return r;
 	}
 	

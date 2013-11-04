@@ -370,26 +370,24 @@ public class AuthResource extends BaseResouce {
 
 				String reqUrl = "https://graph.facebook.com/me?id,email,name&" + accessToken;
 				JsonNode node = new ObjectMapper().readTree(new URL(reqUrl));
-
-				LOG.debug(node.toString());
-				LOG.debug("\n\n");
-				LOG.debug(node.get("id").asText());
-				LOG.debug("\n\n");
-
-				//				User user = new User();
-
-
-				LOG.debug(request.toString());
-				System.out.println(request.getSession());
-				request.getSession().setAttribute("user", "Giuliano");
-				System.out.println(request.getSession());
-
-
-
-				//				String fb = jsonFb.getString("id");
-				//				String email = jsonFb.getString("email");
-				//				String name = jsonFb.getString("name");
-
+				
+				String id = node.get("id").asText();
+				
+				UserDao dao = Daos.get(UserDao.class);
+				User user = dao.findBy3rdId(id);
+				if (user == null) {
+					// Primeiro acesso
+					user = new User();
+					user.setEmail(node.get("email").asText());
+					user.setName(node.get("name").asText());
+					user.setThirdyId(id);
+					
+					user = dao.insert(user);
+				}
+				
+				System.out.println(accessToken);
+				
+				request.getSession().setAttribute("user", user);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

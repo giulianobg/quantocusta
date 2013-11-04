@@ -1,22 +1,24 @@
 package sb.quantocusta.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * 
  * @author Giuliano Griffante
  */
 public class Valuation {
 
-//	private String kind;
 	private Integer totalCount;
 	private Integer smileCount;
 	private Integer poutCount;
 	private Double smileAverage;
 	private Double poutAverage;
 	
+	@JsonInclude(Include.NON_NULL)
 	private Vote me;
 	
 	public Valuation() {
-//		this.kind = kind;
 		totalCount = 0;
 		smileCount = 0;
 		poutCount = 0;

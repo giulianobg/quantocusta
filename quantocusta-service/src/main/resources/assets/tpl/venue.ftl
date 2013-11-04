@@ -24,7 +24,7 @@
 	
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<!-- img class="img img-responsive" src="http://placehold.it/480x320" -->
+					<img class="img img-responsive" src="/assets/images/no-image.png">
 					<h1>${venue.name}</h1>
 					<strong><#if venue.category??>${venue.category.name!""}</#if></strong>
 					<address>
@@ -131,9 +131,9 @@
 				
 				// Get some values from elements on the page:
 				var $form = $(this),
-					where = $form.find( "input[name='where']" ).val(),
-					price = $form.find( "input[name='price']" ).val(),
-					url = $form.attr( "action" );
+					where = $form.find("input[name='where']").val(),
+					price = $form.find("input[name='price']").val(),
+					url = $form.attr("action");
 			 
 				// Send the data using post
 				qc.submitPrice(where, price);

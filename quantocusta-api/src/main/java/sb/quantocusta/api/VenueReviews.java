@@ -1,6 +1,8 @@
 package sb.quantocusta.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * 
@@ -12,6 +14,7 @@ public class VenueReviews {
 	private Double averagePrice;
 	private Integer usersCount;
 	
+	@JsonInclude(Include.NON_NULL)
 	private Review me;
 	
 	public VenueReviews() {

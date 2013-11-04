@@ -40,6 +40,22 @@ strong {
 	padding-bottom: 10px;
 }
 
+.container-bg {
+	position:relative;
+    width: 100%;
+}
+
+.container-bg .overlay {
+	width: 100%;
+    z-index: 100;
+    position: absolute;    
+    color: white;
+    padding: 10px;
+    top: 100px;
+    left: 0px;
+    text-align: center;
+}
+
 /*
 .img {
 	margin-bottom: 30px;
@@ -50,8 +66,8 @@ strong {
  */
 .st-nav {
 	text-shadow: 0 -1px 0 rgba(0,0,0,.15);
-	background-color: #505A7A;
-	border-color: #1F263C;
+	background-color: #E44E67;
+	border-color: #E44E67;
 	box-shadow: 0 1px 0 rgba(255,255,255,.1);
 }
 
@@ -88,6 +104,12 @@ strong {
 	background-color: #505A7A;
 	color: #FFFFFF;
 	border: 1px solid #1F263C
+}
+
+a.list-group-item:hover,
+a.list-group-item:focus {
+	text-decoration: none;
+	background-color: #909AB6;
 }
 
 .list-group .list-group-item span {
@@ -217,18 +239,112 @@ strong {
 	font-size: 60px;
 }
 
-.section-colored {
+.section-featured {
 	padding: 0;
-	background-color: green;
+	background-color: #22A8AA;
 }
 
-.form-price {
-	
+.facebook {
+	background-color: blue;
+}
+
+.primary {
+	background-color: #E44E67;
 }
 
 .form-price span {
 	text-size: 18px;
 }
+
+/*
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+ 
+.cf:after{
+    clear:both;
+}
+ 
+.cf{
+    zoom:1;
+}*/ 
+
+/* Form wrapper styling */
+
+.form-search {
+	text-align: center;
+    padding: 15px;
+    /* margin: 20px 25px 20px 5px; */
+    margin: 20px;
+}
+
+.navbar-header {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.navbar-header > .form-search {
+	padding: 0;
+	margin: 0;
+}
+ 
+.form-search input {
+    width: 85%;
+    height: 30px;
+	padding: 10px 5px;
+	float: left;
+    border: 0;
+    border-radius: 3px 0 0 3px;      
+}
+
+.form-search button {
+    overflow: visible;
+    float: left;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 30px;
+    width: 15%;
+    color: #fff;
+    background: #1F263C;
+    border-radius: 0 3px 3px 0;      
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}   
+   
+.form-wrapper button:hover {     
+    background: #e54040;
+}   
+   
+.form-wrapper button:active,
+.form-wrapper button:focus{   
+    background: #c42f2f;
+    outline: 0;   
+}
+ 
+.form-wrapper button:before { /* left arrow */
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #d83c3c transparent;
+    top: 12px;
+    left: -6px;
+}
+ 
+.form-wrapper button:hover:before{
+    border-right-color: #e54040;
+}
+ 
+.form-wrapper button:focus:before,
+.form-wrapper button:active:before{
+        border-right-color: #c42f2f;
+}      
+ 
+.form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}    
 
 .sidebar {
 	margin-top: 40px;
@@ -297,11 +413,12 @@ strong {
 }
 
 .facebook-link a:hover {
-  color: #3b5998;
+	background-color: #3b5998;
+	color: #fff;
 }
 
 .linkedin-link a:hover {
-  color: #007fb1;
+	color: #007fb1;
 }
 
 .twitter-link a:hover {
