@@ -14,7 +14,7 @@ body {
 }
 
 .breathe {
-	padding: 50px;
+	padding: 30px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,7 +37,7 @@ strong {
 .container {
 	width: 320px;
 	padding-right: 10px;
-	padding-bottom: 10px;
+	/*padding-bottom: 10px;*/
 }
 
 .container-bg {
@@ -198,6 +198,15 @@ a.list-group-item:focus {
 	background-color: #FAB059;
 }
 
+.markup-vertical {
+	position: relative;
+	float: left;
+	left: 0;
+	top: 0;
+	width: 4px !important;
+	height: 20px; !important;
+}
+
 /* Page Sections */
 /*
 .section,
@@ -280,17 +289,34 @@ a.list-group-item:focus {
 }
 
 .navbar-header {
+	width: 100%;
 	margin-top: 10px;
 	margin-bottom: 0;
 }
 
+.navbar-header > a {
+	width: 18%;
+}
+
+.navbar-header > a > i {
+	color: #fff;
+	font-size: 1.8em;
+	padding: 3px 0 0 15px;
+}
+
+.navbar-header > a:hover > i,
+.navbar-header > a:active > i {
+	color: #efefef;
+}
+
 .navbar-header > .form-search {
+	width: 80%;
 	padding: 0;
 	margin: 0;
 }
  
 .form-search input {
-    width: 85%;
+    width: 82%;
     height: 30px;
 	padding: 10px 5px;
 	float: left;
@@ -450,7 +476,7 @@ a.list-group-item:focus {
 }
 
 .price-month {
-  font-size: 35%;
+  font-size: 1.3em; /* 35% */
   font-style: italic;
 }
 
@@ -461,27 +487,12 @@ footer {
 
 /* Responsive Styles */
 @media (min-width: 320px) {
-	.visible-xs {
-		display: block !important;
-	}
-	
-	.hidden-xs {
-		display: none !important;
-	}
 }
 
 @media (min-width: 480px) {
-	.visible-xs {
-		display: block !important;
-	}
-	
-	.visible-sm {
-		display: block !important;
-	}
-	
 	.container {
 		width: 480px;
 		padding-right: 15px;
-		padding-bottom: 15px;
+		/* padding-bottom: 15px; */
 	}
 }

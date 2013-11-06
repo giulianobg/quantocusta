@@ -52,41 +52,9 @@ public class AuthResource extends BaseResouce {
 
 	static Logger LOG = LoggerFactory.getLogger(AuthResource.class);
 
-	public static final String BASIC_REALM = "Basic realm=\"OAuth2 Secure\"";
-	public static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-
 	private static final String FB_APP_ID = "479032988828474"; 
 	private static final String FB_APP_SECRET = "174f93c3a563214dd805d19a9bfbd89c";
 
-	//	@GET
-	//	@Path("token")
-	//	public Object token(@Context HttpServletRequest request) {
-	//		String xxx = "OAuth realm=\"The secret code\"," +
-	//				"oauth_consumer_key=\"9djdj82h48djs9d2\"," +
-	//				"oauth_token=\"kkk9d7dh3k39sjv7\"," +
-	//				"oauth_signature_method=\"HMAC-SHA1\"," + 
-	//				"oauth_timestamp=\"137131201\"," + 
-	//				"oauth_nonce=\"7d8f3e4a\"," +
-	//				"oauth_signature=\"bYT5CMsGcbgUdFHObYMEfcx6bsw%3D\"";
-	//
-	//
-	//		return Response.status(200).entity("teste").
-	//				header("Authorization", xxx).
-	//				build();
-	//
-	//		//			OAuth realm="Example"
-	//
-	//		//		FacebookApi.class
-	//		//		
-	//		//		try {
-	//		//	         //dynamically recognize an OAuth profile based on request characteristic (params,
-	//		//	         // method, content type etc.), perform validation
-	//		//	         OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
-	//		//	 
-	//		//	         validateRedirectionURI(oauthRequest)
-	//		//	 
-	//		//	         //build OAuth response
-	//		//	         OAuthResponse resp = OAuthASResponse
 	//		//	             .authorizationResponse(HttpServletResponse.SC_FOUND)
 	//		//	             .setCode(oauthIssuerImpl.authorizationCode())
 	//		//	             .location(ex.getRedirectUri())
@@ -171,9 +139,7 @@ public class AuthResource extends BaseResouce {
 	@GET
 	@Path("authorize2")
 	public Object auth(@QueryParam("redirect_url") String redirectUrl,
-			@QueryParam("client_id") String clientId,
-			@Context HttpServletRequest request, 
-			@Context HttpServletResponse response) throws IOException, OAuthSystemException {
+			@QueryParam("client_id") String clientId) throws IOException, OAuthSystemException {
 		
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
 		
@@ -224,9 +190,7 @@ public class AuthResource extends BaseResouce {
 			@FormParam("client_secret") String clientSecret,
 			@FormParam("redirect_uri") String redirectUri,
 			@FormParam("grant_type") String grant_type,
-			@FormParam("scope") String scope,
-			@Context HttpServletRequest request, 
-			@Context HttpServletResponse response) {
+			@FormParam("scope") String scope) {
 		
 		OAuthTokenRequest oauthRequest = null;
 

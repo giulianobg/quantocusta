@@ -18,10 +18,6 @@ public class VoteDao extends Dao<Vote> {
 		super(JacksonDBCollection.wrap(db.getCollection("votes"), Vote.class, String.class));
 	}
 	
-	public Vote findBy3rdId(String id) {
-		return null;
-	}
-	
 	public Vote find(String idVenue, String idUser, String kind) {
 		return coll.findOne(DBQuery.is("idVenue", idVenue).is("idUser", idUser).is("kind", kind));
 	}

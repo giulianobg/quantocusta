@@ -15,6 +15,6 @@ public class BaseResouce {
 	protected HttpServletRequest request;
 	
 	@Context
-	protected HttpServletResponse respons;
+	protected HttpServletResponse response;
 
 }

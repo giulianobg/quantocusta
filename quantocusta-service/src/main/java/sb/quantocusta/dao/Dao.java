@@ -24,7 +24,7 @@ public abstract class Dao<T> {
 		return coll.findOneById(id);
 	}
 	
-	public abstract T findBy3rdId(String id);
+	public T findBy3rdId(String id) {return null;}
 	
 	public T insert(T obj) {
 		LOG.debug("Inserting object '" + obj + "' ...");

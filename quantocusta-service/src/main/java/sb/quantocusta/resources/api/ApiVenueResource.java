@@ -1,5 +1,6 @@
 package sb.quantocusta.resources.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -58,16 +59,21 @@ public class ApiVenueResource extends BaseResouce {
 	}
 	
 	@GET
-	public Object index() {
-//		db.getCollection("venues").
-//		return jetty
-		return "test";
-	}
-
-	@GET
 	@Path("search")
 	public Response search(@QueryParam("q") String q) {
-		List<Venue> venues = FoursquareApi.search("Porto+Alegre", q);
+		VenueDao dao = Daos.get(VenueDao.class);
+		
+		List<Venue> sqVenues = FoursquareApi.search("Porto+Alegre", q);
+		
+		List<Venue> venues = new ArrayList<Venue>();
+		for (Venue v : sqVenues) {
+			Venue venue = dao.findBy3rdId(v.getIdFoursquare());
+			if (venue != null) {
+				venues.add(venue);
+			} else {
+				venues.add(v);
+			}
+		}
 		
 		return Response.ok(DataResponse.build(venues)).build();
 	}
