@@ -1,7 +1,17 @@
 $.ajaxSetup({
 	type: "POST",
 	contentType: "application/x-www-form-urlencoded;charset=utf-8",
-	timeout: 800
+	timeout: 2000,
+	error: function(xhr, textStatus, err) {
+		var data = JSON.parse(xhr.responseText);
+		$("#error-modal .modal-title").html("Ooops!");
+		if (data.code == 403) {
+			$("#error-modal .modal-body").html("<p>Voc&ecirc; precisa estar loggado para executar essa a&ccedil;&atilde;o :(</p>")
+		} else {
+			$("#error-modal .modal-body").html("<p>Algum erro ocorreu:</p>" + "<p>" + data.message + "</p>" + "<p>:/</p>");
+		}
+		$("#error-modal").modal('show');		
+	}
 });
 
 var qc = {
@@ -17,6 +27,7 @@ var qc = {
 				$(".food").html(Math.round(data.result.valuation.food.smileAverage) + '%');
 				$('.treatment').html(Math.round(data.result.valuation.treatment.smileAverage) + '%');
 				$('.environment').html(Math.round(data.result.valuation.environment.smileAverage) + '%');
+				qc.load(where);
 			}
 		});
 	},
@@ -31,8 +42,46 @@ var qc = {
 				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
 			}
 		});
+	},
+	load: function(where) {
+		$.ajax({
+			url: "/api/venue/" + where,
+			type: "GET",
+			success: function(data) {
+				if (data.result.valuation.food.me) {
+					if (data.result.valuation.food.me.val > 0) {
+						$(".btn-food-s").addClass("active");
+						$(".btn-food-p").removeClass("active");
+					} else {
+						$(".btn-food-p").addClass("active");
+						$(".btn-food-s").removeClass("active");
+					}
+				}
+				
+				if (data.result.valuation.treatment.me) {
+					if (data.result.valuation.treatment.me.val > 0) {
+						$(".btn-treatment-s").addClass("active");
+						$(".btn-treatment-p").removeClass("active");
+					} else {
+						$(".btn-treatment-p").addClass("active");
+						$(".btn-treatment-s").removeClass("active");
+					}
+				}
+				
+				if (data.result.valuation.environment.me) {
+					if (data.result.valuation.environment.me.val > 0) {
+						$(".btn-environment-s").addClass("active");
+						$(".btn-environment-p").removeClass("active");
+					} else {
+						$(".btn-environment-p").addClass("active");
+						$(".btn-environment-s").removeClass("active");
+					}
+				}
+			}
+		});
 	}
-};
+}
+
 /*
 function think(where, thinks) {
 	//return false;

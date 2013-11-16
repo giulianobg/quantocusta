@@ -19,7 +19,19 @@
 	</head>
 
 	<body>
-		<#include "/assets/tpl/components/header.ftl">
+		<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="javascript:window.history.back()" class="pull-left"><i class="fa fa-arrow-circle-o-left"></i></a>
+					<form class="form-search pull-left" action="/buscar">
+						<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+						<button type="submit"><i class="icon-search"></i></button>
+						<div class="clearfix"></div>
+					</form>
+					
+				</div>
+			</div>
+		</nav>
 		
 		<div class="breathe"></div>
 		
@@ -31,7 +43,15 @@
 						<div class="list-group">
 							<#if venues??>
 								<#list venues as venue>
-									<a href="/thrd/${venue.idFoursquare}" class="list-group-item">${venue.name?html} <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+									<a href="/thrd/${venue.idFoursquare}" class="list-group-item">
+										<img class="img img-circle pull-left" src="http://placehold.it/40x40">
+										<span class="pull-left">
+											${venue.name?html}<br>
+											<small><#if venue.category??>${venue.category.name!""}</#if></small>
+										</span>
+										<span class="pull-right"><i class="fa fa-chevron-right"></i></span>
+										<div class="clearfix"></div>
+									</a>
 								</#list>
 							</#if>
 						</div>

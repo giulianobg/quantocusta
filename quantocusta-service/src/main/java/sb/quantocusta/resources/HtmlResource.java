@@ -29,6 +29,12 @@ public class HtmlResource extends BaseResouce {
 	public SimplePageView home() {
 		return new SimplePageView("/assets/tpl/index.ftl");
 	}
+	
+	@GET
+	@Path("me")
+	public View me() {
+		return null;
+	}
 
 	@GET
 	@Path("buscar")

@@ -120,11 +120,17 @@
 			</div>
 		
 		</div>
+		
+		<#include "/assets/tpl/components/modal.ftl">
 
 		<#include "/assets/tpl/components/footer.ftl">
 
 		<#include "/assets/tpl/components/scripts.ftl">
 		<script type="text/javascript">
+			$(document).ready(function() {
+				qc.load($("#submitPrice").find("input[name='where']").val());
+			});
+			
 			$("#submitPrice").submit(function(event) {
 				// Stop form from submitting normally
 				event.preventDefault();

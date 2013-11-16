@@ -25,13 +25,10 @@ import sb.quantocusta.resources.api.ApiVenueResource;
 import sb.quantocusta.resources.api.ApiVoteResource;
 import sb.quantocusta.resources.api.Apis;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.assets.AssetsBundle;
-import com.yammer.dropwizard.auth.oauth.OAuthProvider;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.views.ViewBundle;
@@ -64,39 +61,38 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		environment.setSessionHandler(new SessionHandler());
 
 		/* MongoDB */
-//		DB db = null;
-//		try {
-//			MongoClient client = new MongoClient(configuration.getMongo().getHost(), configuration.getMongo().getPort());
-//			db = client.getDB(configuration.getMongo().getDb());
-//			
-//			MongoManaged mongoManaged = new MongoManaged(client);
-//			environment.manage(mongoManaged);
-//		} catch (UnknownHostException e) {
-//			e.printStackTrace();
-//			LOG.error("Cannot connect with the DB :(", e);
-//			System.exit(1);
-//		}
+		DB db = null;
+		try {
+			MongoClient client = new MongoClient(configuration.getMongo().getHost(), configuration.getMongo().getPort());
+			db = client.getDB(configuration.getMongo().getDb());
+			
+			MongoManaged mongoManaged = new MongoManaged(client);
+			environment.manage(mongoManaged);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			LOG.error("Cannot connect with the DB :(", e);
+			System.exit(1);
+		}
 		
 		/* DAOs */
-//		Daos.addDao(new CategoryDao(db));
-//		Daos.addDao(new CityDao(db));
-//		Daos.addDao(new ReviewDao(db));
-//		Daos.addDao(new UserDao(db));
-//		Daos.addDao(new VenueDao(db));
-//		Daos.addDao(new VoteDao(db));
+		Daos.addDao(new CategoryDao(db));
+		Daos.addDao(new CityDao(db));
+		Daos.addDao(new ReviewDao(db));
+		Daos.addDao(new UserDao(db));
+		Daos.addDao(new VenueDao(db));
+		Daos.addDao(new VoteDao(db));
 		
 		/* OAuth2 */
 //		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "The secret code"));
-		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
+//		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
 		/* APIs */
-//		Apis.addApi("venue", new ApiVenueResource(db));
-//		Apis.addApi("vote", new ApiVoteResource(db));
+		Apis.addApi("venue", new ApiVenueResource(db));
+		Apis.addApi("vote", new ApiVoteResource(db));
 		
 		/* Resources */
-//		environment.addResource(Apis.get("category"));
-//		environment.addResource(Apis.get("venue"));
-//		environment.addResource(Apis.get("vote"));
+		environment.addResource(Apis.get("venue"));
+		environment.addResource(Apis.get("vote"));
 		
 		environment.addResource(new OAuthResource());
 		environment.addResource(new AuthResource());
@@ -110,7 +106,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		environment.addHealthCheck(new MongoHealthCheck(null));
 		
 		/* Cache */
-		Cache<String, String> c1 = CacheBuilder.newBuilder().build();
+//		Cache<String, String> c1 = CacheBuilder.newBuilder().build();
 		
 //		c1.getIfPresent(key)
 //		Cache<String, String> c = new CacheBuilder<String, String>().build() 

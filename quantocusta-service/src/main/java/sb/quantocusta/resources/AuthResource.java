@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,7 +13,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
@@ -269,14 +267,14 @@ public class AuthResource extends BaseResouce {
 
 	@GET
 	@Path("connect2")
-	public Object connect2() {
+	public Object connect2(@QueryParam("code") String code) {
 		OAuthService service = new ServiceBuilder().
 				provider(FacebookApi.class).
 				apiKey(FB_APP_ID).
 				apiSecret(FB_APP_SECRET).
-				callback("http://m.quantocusta.cc/auth/connect").
+				callback("http://m.quantocusta.cc/auth/connect2").
 				build();
-
+		
 		Token requestToken = service.getRequestToken();
 
 		String authUrl = service.getAuthorizationUrl(requestToken);
@@ -319,7 +317,7 @@ public class AuthResource extends BaseResouce {
 
 	@GET
 	@Path("connect")
-	public Object facebookCallback(@QueryParam("code") String code, @Context HttpServletRequest request) {
+	public Object facebookCallback(@QueryParam("code") String code) {
 		if (code != null) {
 			try {
 				String r = "https://graph.facebook.com/oauth/access_token" + 
@@ -336,6 +334,7 @@ public class AuthResource extends BaseResouce {
 				JsonNode node = new ObjectMapper().readTree(new URL(reqUrl));
 				
 				String id = node.get("id").asText();
+				LOG.debug("User's thirdy party ID is " + id);
 				
 				UserDao dao = Daos.get(UserDao.class);
 				User user = dao.findBy3rdId(id);
@@ -353,6 +352,7 @@ public class AuthResource extends BaseResouce {
 				
 				request.getSession().setAttribute("user", user);
 			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
 				e.printStackTrace();
 			}
 		}
@@ -360,4 +360,10 @@ public class AuthResource extends BaseResouce {
 		return null;
 	}
 
+	@GET
+	@Path("logout")
+	public Object logout() {
+		request.getSession().removeAttribute("user");
+		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
+	}
 }
