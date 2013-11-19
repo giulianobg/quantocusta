@@ -98,9 +98,9 @@ public class FoursquareApi {
 		return venues;
 	}
 	
-	public static List<Venue> searchv2(Double lat, Double lng, String q) {
+	public static List<Venue> search(Double lat, Double lng, String q) {
 		String queryString = StringUtils.replaceOnce(SEARCH_VENUE_V2, "${lat}", String.valueOf(lat));
-		queryString = StringUtils.replaceOnce(SEARCH_VENUE_V2, "${lng}", String.valueOf(lng));
+		queryString = StringUtils.replaceOnce(queryString, "${lng}", String.valueOf(lng));
 		queryString = StringUtils.replaceOnce(queryString, "${q}", q);
 		
 		List<Venue> venues = new ArrayList<Venue>();

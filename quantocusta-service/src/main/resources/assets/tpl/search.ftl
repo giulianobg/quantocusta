@@ -28,7 +28,6 @@
 						<button type="submit"><i class="icon-search"></i></button>
 						<div class="clearfix"></div>
 					</form>
-					
 				</div>
 			</div>
 		</nav>
@@ -63,5 +62,9 @@
 		<#include "/assets/tpl/components/footer.ftl">
 
 		<#include "/assets/tpl/components/scripts.ftl">
+		
+		$(document).ready(function() {
+			
+		});
 	</body>
 </html>

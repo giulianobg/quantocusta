@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.mongojack.JacksonDBCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,19 +50,15 @@ public class ApiVenueResource extends BaseResouce {
 	
 	static Logger LOG = LoggerFactory.getLogger(ApiVenueResource.class);
 	
-//	private DB db;
-	private JacksonDBCollection<Venue, String> coll;
-
 	public ApiVenueResource(DB db) {
-		coll = JacksonDBCollection.wrap(db.getCollection("test"), Venue.class, String.class);
 	}
 	
 	@GET
 	@Path("search")
-	public Response search(@QueryParam("q") String q) {
+	public Response search(@QueryParam("q") String q, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		
-		List<Venue> sqVenues = FoursquareApi.search("Porto+Alegre", q);
+		List<Venue> sqVenues = FoursquareApi.search(Double.valueOf(lat), Double.valueOf(lng), q);
 		
 		List<Venue> venues = new ArrayList<Venue>();
 		for (Venue v : sqVenues) {

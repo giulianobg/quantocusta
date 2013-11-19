@@ -38,7 +38,7 @@ public class HtmlResource extends BaseResouce {
 
 	@GET
 	@Path("buscar")
-	public View search(@QueryParam("q") String q) {
+	public View search(@QueryParam("q") String q, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		
 //		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("search").queryParam("q", q).build();
 //		System.out.println(Response.created(uri).toString());
@@ -67,7 +67,7 @@ public class HtmlResource extends BaseResouce {
 //			e.printStackTrace();
 //		}
 		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
-		List<Venue> venues = (List<Venue>) ((DataResponse) resource.search(q).getEntity()).getResult();
+		List<Venue> venues = (List<Venue>) ((DataResponse) resource.search(q, lat, lng).getEntity()).getResult();
 
 		return new SearchView(venues);
 	}

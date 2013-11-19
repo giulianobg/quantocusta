@@ -27,10 +27,12 @@
 						<img class="img img-responsive bg" src="/assets/images/logo.png">
 						
 						<div class="overlay">
-							<h1 style="text-indent: -9999px;">Quanto Custa</h1>
+							<h1 style="text-indent: -9999px;">Quanto Custa?</h1>
 							<span>Quer ir em um restaurante e saber quanto ir&aacute; pagar?</span>
 							<form class="form-search" action="/buscar">
 								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+								<input type="hidden" name="lat">
+								<input type="hidden" name="lng">
 								<button type="submit"><i class="icon-search"></i></button>
 								<div class="clearfix"></div>
 							</form>

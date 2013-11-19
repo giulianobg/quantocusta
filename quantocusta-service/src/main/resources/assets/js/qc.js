@@ -79,6 +79,18 @@ var qc = {
 				}
 			}
 		});
+	},
+	loadCoordinates: function() {
+		//var x=document.getElementById("demo");
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(qc.loadCoordinatesSuccessful);
+		//} else {
+		//	x.innerHTML="Geolocation is not supported by this browser.";}
+		}
+	},
+	loadCoordinatesSuccessful: function(position) {
+		$("input[name='lat']").val(position.coords.latitude);
+		$("input[name='lng']").val(position.coords.longitude);
 	}
 }
 

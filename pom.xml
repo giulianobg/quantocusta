@@ -89,6 +89,5 @@
 		<module>quantocusta-api</module>
 		<module>quantocusta-service</module>
 		<module>quantocusta-client</module>
-    <module>quantocusta-web</module>
-  </modules>
+	</modules>
 </project>
