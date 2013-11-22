@@ -81,54 +81,28 @@ var qc = {
 		});
 	},
 	loadCoordinates: function() {
-		//var x=document.getElementById("demo");
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(qc.loadCoordinatesSuccessful);
-		//} else {
-		//	x.innerHTML="Geolocation is not supported by this browser.";}
+		if (navigator && navigator.geolocation) {
+			//try {
+			//if (!localStorage.getItem('lat') || !localStorage.getItem('lng')) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				// temporary solution
+				$("input[name='lat']").val(position.coords.latitude);
+				$("input[name='lng']").val(position.coords.longitude);
+				
+				// definitive solution
+				$.ajax({
+					url: "/geo/location",
+					type: 'PUT',
+					data: {
+						'lat': position.coords.latitude,
+						'lng': position.coords.longitude
+					}
+				});
+			}, function() {
+			});
+			//}
+			//} catch (e) {
+			//}
 		}
-	},
-	loadCoordinatesSuccessful: function(position) {
-		$("input[name='lat']").val(position.coords.latitude);
-		$("input[name='lng']").val(position.coords.longitude);
 	}
 }
-
-/*
-function think(where, thinks) {
-	//return false;
-	$.ajax({
-		url: "/api/vote",
-		type: "POST",
-		cache: false,
-		data: {
-			"id": where,
-			"vote": thinks
-		},
-		success: function(data) {
-			if (data.status == "ok") {
-				var t = data.venue.social.amount_0 + data.venue.social.amount_1 + data.venue.social.amount_2;
-				$(".bar-danger").css("width", data.venue.social.amount_0 / t * 100 + "%");
-				$(".bar-warning").css("width", data.venue.social.amount_1 / t * 100 + "%");
-				$(".bar-success").css("width", data.venue.social.amount_2 / t * 100 + "%");
-				
-				if (data.venue.me) {
-					$("*[data-toggle='ap']").each(function(index) {
-						if ($(this).attr("data-value") == data.venue.me.think) {
-							$(this).addClass("active");
-						} else {
-							$(this).removeClass("active");
-						}
-					});
-				}
-			} else if (data.status == "error" && data.code == 403) {
-				$("#modal-help").modal('show');
-				$("*[data-toggle='ap']").each(function(index) {
-					$(this).removeClass("active");
-				});
-			}
-		}
-	});
-}
-*/
-

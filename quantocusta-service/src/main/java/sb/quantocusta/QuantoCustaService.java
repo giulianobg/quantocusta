@@ -6,9 +6,6 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sb.quantocusta.api.User;
-import sb.quantocusta.auth.QcAuthProvider;
-import sb.quantocusta.auth.QcAuthenticator;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.Daos;
@@ -20,7 +17,6 @@ import sb.quantocusta.health.MongoHealthCheck;
 import sb.quantocusta.resources.AuthResource;
 import sb.quantocusta.resources.HtmlResource;
 import sb.quantocusta.resources.OAuthResource;
-import sb.quantocusta.resources.TestSessionResource;
 import sb.quantocusta.resources.api.ApiVenueResource;
 import sb.quantocusta.resources.api.ApiVoteResource;
 import sb.quantocusta.resources.api.Apis;
@@ -49,7 +45,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 	}
 
 	public void initialize(Bootstrap<QuantoCustaConfiguration> bootstrap) {
-		bootstrap.setName("quantocusta-app");
+		bootstrap.setName("quantocusta-api-app");
 		bootstrap.addBundle(new ViewBundle());
 
 		bootstrap.addBundle(new AssetsBundle());
@@ -87,8 +83,8 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 //		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
 		/* APIs */
-		Apis.addApi("venue", new ApiVenueResource(db));
-		Apis.addApi("vote", new ApiVoteResource(db));
+		Apis.addApi("venue", new ApiVenueResource());
+		Apis.addApi("vote", new ApiVoteResource());
 		
 		/* Resources */
 		environment.addResource(Apis.get("venue"));
@@ -97,7 +93,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		environment.addResource(new OAuthResource());
 		environment.addResource(new AuthResource());
 		environment.addResource(new HtmlResource());
-		environment.addResource(new TestSessionResource());
+//		environment.addResource(new TestSessionResource());
 //		environment.addResource(new GibaResource()); // :)
 		
 		environment.addProtectedTarget("/assets/tpl/");

@@ -1,4 +1,4 @@
-package sb.quantocusta.views;
+package sb.quantocusta.client.views;
 
 import java.nio.charset.Charset;
 

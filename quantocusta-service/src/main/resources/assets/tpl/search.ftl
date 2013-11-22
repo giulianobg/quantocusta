@@ -62,9 +62,5 @@
 		<#include "/assets/tpl/components/footer.ftl">
 
 		<#include "/assets/tpl/components/scripts.ftl">
-		
-		$(document).ready(function() {
-			
-		});
 	</body>
 </html>

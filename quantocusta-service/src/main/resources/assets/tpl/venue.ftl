@@ -19,7 +19,19 @@
 	</head>
 
 	<body>
-	
+		<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="javascript:window.history.back()" class="pull-left"><i class="fa fa-arrow-circle-o-left"></i></a>
+					<form class="form-search pull-left" action="/buscar">
+						<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+						<button type="submit"><i class="icon-search"></i></button>
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			</div>
+		</nav>
+		
 		<div class="container">
 	
 			<div class="panel panel-default">

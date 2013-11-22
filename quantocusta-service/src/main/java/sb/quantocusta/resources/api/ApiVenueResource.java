@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,6 @@ import sb.quantocusta.resources.thirdy.FoursquareApi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Optional;
-import com.mongodb.DB;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class ApiVenueResource extends BaseResouce {
 	
 	static Logger LOG = LoggerFactory.getLogger(ApiVenueResource.class);
 	
-	public ApiVenueResource(DB db) {
+	public ApiVenueResource() {
 	}
 	
 	@GET
@@ -58,7 +58,11 @@ public class ApiVenueResource extends BaseResouce {
 	public Response search(@QueryParam("q") String q, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		
-		List<Venue> sqVenues = FoursquareApi.search(Double.valueOf(lat), Double.valueOf(lng), q);
+		if (StringUtils.isEmpty(lat) || StringUtils.isEmpty(lng)) {
+			return Response.status(Status.BAD_REQUEST).entity(DataResponse.build(Status.BAD_REQUEST)).build();
+		}
+		
+		List<Venue> sqVenues = FoursquareApi.search(lat, lng, q);
 		
 		List<Venue> venues = new ArrayList<Venue>();
 		for (Venue v : sqVenues) {
@@ -79,7 +83,7 @@ public class ApiVenueResource extends BaseResouce {
 		Venue venue = Daos.get(VenueDao.class).findById(id);
 		
 		if (venue == null) {
-			return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND.getStatusCode())).build();
+			return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 		} else {
 		
 			User user = (User) request.getSession().getAttribute("user");

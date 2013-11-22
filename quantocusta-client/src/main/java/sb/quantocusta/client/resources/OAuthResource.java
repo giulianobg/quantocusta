@@ -1,4 +1,4 @@
-package sb.quantocusta.resources;
+package sb.quantocusta.client.resources;
 
 import java.net.URI;
 
@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+
+import sb.quantocusta.resources.BaseResouce;
 
 @Path("oauth")
 public class OAuthResource extends BaseResouce {

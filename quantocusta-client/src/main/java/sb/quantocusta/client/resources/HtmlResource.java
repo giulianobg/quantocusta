@@ -1,4 +1,4 @@
-package sb.quantocusta.resources;
+package sb.quantocusta.client.resources;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.VenueDao;
+import sb.quantocusta.resources.BaseResouce;
 import sb.quantocusta.resources.api.ApiVenueResource;
 import sb.quantocusta.resources.api.Apis;
 import sb.quantocusta.resources.thirdy.GeoIP2Api;
-import sb.quantocusta.views.ErrorView;
 import sb.quantocusta.views.SearchView;
 import sb.quantocusta.views.SimplePageView;
 import sb.quantocusta.views.VenueView;
@@ -25,8 +25,8 @@ import sb.quantocusta.views.VenueView;
 import com.yammer.dropwizard.views.View;
 
 @Path("/")
-//@Produces("text/html; charset=utf-8")
-@Produces("text/html; charset=iso-8859-1")
+@Produces("text/html; charset=utf-8")
+//@Produces("text/html; charset=iso-8859-1")
 public class HtmlResource extends BaseResouce {
 	
 	@GET
@@ -99,7 +99,7 @@ public class HtmlResource extends BaseResouce {
 				lat = latLng[0];
 				lng = latLng[1];
 			} else {
-				return new ErrorView();
+//				new ErrorView();
 			}
 		}
 		

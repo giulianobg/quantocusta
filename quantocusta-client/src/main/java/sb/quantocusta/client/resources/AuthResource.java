@@ -1,4 +1,4 @@
-package sb.quantocusta.resources;
+package sb.quantocusta.client.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import sb.quantocusta.api.User;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.UserDao;
+import sb.quantocusta.resources.BaseResouce;
 import ch.qos.logback.core.status.Status;
 
 import com.fasterxml.jackson.databind.JsonNode;

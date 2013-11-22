@@ -25,7 +25,6 @@ import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.resources.BaseResouce;
 
 import com.google.common.base.Optional;
-import com.mongodb.DB;
 import com.yammer.dropwizard.jersey.params.IntParam;
 
 /**
@@ -38,7 +37,7 @@ public class ApiVoteResource extends BaseResouce {
 
 	static Logger LOG = LoggerFactory.getLogger(ApiVoteResource.class);
 
-	public ApiVoteResource(DB db) {
+	public ApiVoteResource() {
 	}
 
 	@POST
