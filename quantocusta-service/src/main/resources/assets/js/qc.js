@@ -82,27 +82,31 @@ var qc = {
 	},
 	loadCoordinates: function() {
 		if (navigator && navigator.geolocation) {
-			//try {
-			//if (!localStorage.getItem('lat') || !localStorage.getItem('lng')) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				// temporary solution
-				$("input[name='lat']").val(position.coords.latitude);
-				$("input[name='lng']").val(position.coords.longitude);
+			try {
+				if (!localStorage.getItem('lat') || !localStorage.getItem('lng')) {
+					alert(!localStorage.getItem('lat'));
+					navigator.geolocation.getCurrentPosition(function(position) {
+						// temporary solution
+						$("input[name='lat']").val(position.coords.latitude);
+						$("input[name='lng']").val(position.coords.longitude);
 				
-				// definitive solution
-				$.ajax({
-					url: "/geo/location",
-					type: 'PUT',
-					data: {
-						'lat': position.coords.latitude,
-						'lng': position.coords.longitude
-					}
-				});
-			}, function() {
-			});
-			//}
-			//} catch (e) {
-			//}
+						// definitive solution
+						$.ajax({
+							url: "/geo/location",
+							type: 'PUT',
+							data: {
+								'lat': position.coords.latitude,
+								'lng': position.coords.longitude
+							},
+							success: function(data) {
+								localStorage.setItem('lat') = position.coords.latitude;
+								localStorage.setItem('lng') = position.coords.longitude;
+							}
+						});
+					}, function() {
+					});
+				}
+			} catch (e) {}
 		}
 	}
 }
