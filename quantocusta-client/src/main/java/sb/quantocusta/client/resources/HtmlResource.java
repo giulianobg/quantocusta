@@ -1,5 +1,6 @@
 package sb.quantocusta.client.resources;
 
+import java.net.URL;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -22,6 +23,7 @@ import sb.quantocusta.views.SearchView;
 import sb.quantocusta.views.SimplePageView;
 import sb.quantocusta.views.VenueView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yammer.dropwizard.views.View;
 
 @Path("/")
@@ -113,6 +115,9 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	@Path("{id}")
 	public View get(@PathParam("id") String id) {
+		ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+//		DataResponse response = mapper.readTree(new URL(""));
+		
 		return new VenueView(Daos.get(VenueDao.class).findById(id));
 	}
 	
@@ -121,7 +126,7 @@ public class HtmlResource extends BaseResouce {
 	public View getThirdy(@PathParam("id") String id) {
 //		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("thrd/{id}").build(id);
 		
-		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
+//		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
 		Venue venue = (Venue) ((DataResponse) resource.findBy3rdId(id, null).getEntity()).getResult();
 		
 //		if (venue != null) {

@@ -45,6 +45,11 @@ public class AuthResource extends BaseResouce {
 
 	private static final String FB_APP_ID = "479032988828474"; 
 	private static final String FB_APP_SECRET = "174f93c3a563214dd805d19a9bfbd89c";
+	
+	private static final String GOOGLE_APP_ID = ""; 
+	private static final String GOOGLE_APP_SECRET = "";
+	
+	
 
 	//		//	             .authorizationResponse(HttpServletResponse.SC_FOUND)
 	//		//	             .setCode(oauthIssuerImpl.authorizationCode())
@@ -341,12 +346,51 @@ public class AuthResource extends BaseResouce {
 					user = dao.insert(user);
 				}
 				
-				System.out.println(accessToken);
+				request.getSession().setAttribute("user", user);
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
+			}
+		}
+
+		return null;
+	}
+	
+	@GET
+	@Path("connect_g")
+	public Object googleCallback(@QueryParam("code") String code) {
+		if (code != null) {
+			try {
+				String r = "https://accounts.google.com/o/oauth2" + 
+						"?client_id=" + GOOGLE_APP_ID + 
+						"&redirect_uri=" + URLEncoder.encode("http://m.quantocusta.cc/auth/connect", "UTF-8") + 
+						"&client_secret=" + GOOGLE_APP_SECRET + 
+						"&response_type=" + code;
+
+				InputStream rIs = new URL(r).openStream();
+				String accessToken = IOUtils.toString(rIs);
+				rIs.close();
+
+				String reqUrl = "https://graph.facebook.com/me?id,email,name&" + accessToken;
+				JsonNode node = new ObjectMapper().readTree(new URL(reqUrl));
+				
+				String id = node.get("id").asText();
+				LOG.debug("User's thirdy party ID is " + id);
+				
+				UserDao dao = Daos.get(UserDao.class);
+				User user = dao.findBy3rdId(id);
+				if (user == null) {
+					// Primeiro acesso
+					user = new User();
+					user.setEmail(node.get("email").asText());
+					user.setName(node.get("name").asText());
+					user.setThirdyId(id);
+					
+					user = dao.insert(user);
+				}
 				
 				request.getSession().setAttribute("user", user);
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
-				e.printStackTrace();
 			}
 		}
 

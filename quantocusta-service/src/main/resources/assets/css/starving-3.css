@@ -8,23 +8,11 @@ body {
 	font-family: 'Raleway', sans-serif;
 	font-weight: 300; 
 }
-
-h1, h2, h3, h4, h5, h6 {
-	font-family: 'Raleway', sans-serif;
-	font-weight: 200; 
-}
-
+h1, h2, h3, h4, h5, h6 {font-family: 'Raleway', sans-serif;font-weight: 200;}
 h1 {font-size: 24px; padding: 0;}
 h4 {font-size: 16px;}
-
-address {
-	font-size: 12px;
-}
-
-strong {
-	font-family: 'Raleway', sans-serif;
-	font-weight: 400;
-}
+address {font-size: 12px;}
+strong {font-family: 'Raleway', sans-serif;font-weight: 400;}
 
 .breathe {padding: 30px;}
 .container {width: 320px; padding-right: 10px;}
@@ -412,12 +400,12 @@ a.list-group-item:focus {
 
 /* Social Icons Styles */
 .list-social-icons {
-  margin-bottom: 45px;
+	margin-bottom: 45px;
 }
 
 .tooltip-social a {
-  text-decoration: none;
-  color: inherit;
+	text-decoration: none;
+	color: inherit;
 }
 
 .facebook-link a:hover {
@@ -430,31 +418,31 @@ a.list-group-item:focus {
 }
 
 .twitter-link a:hover {
-  color: #39a9e0;
+	color: #39a9e0;
 }
 
 .google-plus-link a:hover {
-  color: #d14836;
+	color: #d14836;
 }
 
 /* Service Page Styles */
 .service-icon {
-  font-size: 50px;
+	font-size: 50px;
 }
 
 /* 404 Page Styles */
 .error-404 {
-  font-size: 8em;
+	font-size: 8em;
 }
 
 /* Pricing Page Styles */
 .price {
-  font-size: 4em;
+	font-size: 4em;
 }
 
 .price-cents {
-  vertical-align: super;
-  font-size: 50%;
+	vertical-align: super;
+	font-size: 50%;
 }
 
 .price-month {

@@ -2,6 +2,7 @@ package sb.quantocusta.resources;
 
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 /**
  * 
@@ -13,8 +14,9 @@ public class GeoLocationResource extends BaseResouce {
 	
 	@PUT
 	@Path("location")
-	public void setLocation() {
-		System.out.println("GeoLocationResource.setLocation()");
+	public void setLocation(@QueryParam("latlng") String latlng) {
+		request.getSession().setAttribute("latlng", latlng);
+//		System.out.println("GeoLocationResource.setLocation()");
 	}
 
 }
