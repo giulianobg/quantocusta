@@ -11,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import org.apache.commons.lang3.StringUtils;
 
 import sb.quantocusta.api.DataResponse;
+import sb.quantocusta.api.User;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.VenueDao;
@@ -25,13 +26,14 @@ import sb.quantocusta.views.VenueView;
 import com.yammer.dropwizard.views.View;
 
 @Path("/")
-//@Produces("text/html; charset=utf-8")
-@Produces("text/html; charset=iso-8859-1")
+@Produces("text/html; charset=utf-8")
+//@Produces("text/html; charset=iso-8859-1")
 public class HtmlResource extends BaseResouce {
 	
 	@GET
 	public SimplePageView home() {
-		return new SimplePageView("/assets/tpl/index.ftl");
+		User me = (User) request.getSession().getAttribute("user");
+		return new SimplePageView("/assets/tpl/index.ftl", me);
 	}
 	
 	@GET
@@ -42,7 +44,7 @@ public class HtmlResource extends BaseResouce {
 
 	@GET
 	@Path("buscar")
-	public View search(@QueryParam("q") String q, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
+	public View search(@QueryParam("q") String q) {
 		
 //		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("search").queryParam("q", q).build();
 //		System.out.println(Response.created(uri).toString());
@@ -71,7 +73,6 @@ public class HtmlResource extends BaseResouce {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println(request.getRemoteAddr());
 		
 //		String ip = request.getHeader("X-Forwarded-For");  
 //        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
@@ -92,6 +93,11 @@ public class HtmlResource extends BaseResouce {
 //        
 //        System.out.println(ip);
 		
+		String lat = (String) request.getSession().getAttribute("lat");
+		String lng = (String) request.getSession().getAttribute("lng");
+		
+		System.out.println(lat);
+		System.out.println(lng);
 		
 		if (StringUtils.isEmpty(lat) || StringUtils.isEmpty(lng)) {
 			String[] latLng = GeoIP2Api.getInstance().guessLatLng(request.getRemoteAddr());
@@ -103,21 +109,20 @@ public class HtmlResource extends BaseResouce {
 			}
 		}
 		
-		
 		ApiVenueResource resource = Apis.get(ApiVenueResource.class, "venue");
-		List<Venue> venues = (List<Venue>) ((DataResponse) resource.search(q, lat, lng).getEntity()).getResult();
+		List<Venue> venues = (List<Venue>) ((DataResponse) resource.search(q.replace(" ", "+"), lat, lng).getEntity()).getResult();
 
 		return new SearchView(venues);
 	}
 	
 	@GET
-	@Path("{id}")
+	@Path("local/{id}")
 	public View get(@PathParam("id") String id) {
 		return new VenueView(Daos.get(VenueDao.class).findById(id));
 	}
 	
 	@GET
-	@Path("thrd/{id}")
+	@Path("local/thrd/{id}")
 	public View getThirdy(@PathParam("id") String id) {
 //		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("thrd/{id}").build(id);
 		

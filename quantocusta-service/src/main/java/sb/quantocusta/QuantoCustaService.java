@@ -15,6 +15,7 @@ import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.health.MongoHealthCheck;
 import sb.quantocusta.resources.AuthResource;
+import sb.quantocusta.resources.GeoLocationResource;
 import sb.quantocusta.resources.HtmlResource;
 import sb.quantocusta.resources.OAuthResource;
 import sb.quantocusta.resources.api.ApiVenueResource;
@@ -92,6 +93,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		
 		environment.addResource(new OAuthResource());
 		environment.addResource(new AuthResource());
+		environment.addResource(new GeoLocationResource());
 		environment.addResource(new HtmlResource());
 //		environment.addResource(new TestSessionResource());
 //		environment.addResource(new GibaResource()); // :)

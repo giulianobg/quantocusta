@@ -83,13 +83,11 @@ var qc = {
 	loadCoordinates: function() {
 		if (navigator && navigator.geolocation) {
 			try {
-				if (!localStorage.getItem('lat') || !localStorage.getItem('lng')) {
-					alert(!localStorage.getItem('lat'));
+				var now = new Date().getTime();
+				console.log('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
+				if (!sessionStorage.getItem('lat') || !sessionStorage.getItem('lng') || 
+						(now - localStorage.getItem('updatedtime')) > 900000) { // 15 minutos
 					navigator.geolocation.getCurrentPosition(function(position) {
-						// temporary solution
-						$("input[name='lat']").val(position.coords.latitude);
-						$("input[name='lng']").val(position.coords.longitude);
-				
 						// definitive solution
 						$.ajax({
 							url: "/geo/location",
@@ -99,12 +97,15 @@ var qc = {
 								'lng': position.coords.longitude
 							},
 							success: function(data) {
-								localStorage.setItem('lat') = position.coords.latitude;
-								localStorage.setItem('lng') = position.coords.longitude;
+								sessionStorage.setItem('lat', position.coords.latitude);
+								sessionStorage.setItem('lng', position.coords.longitude);
+								localStorage.setItem('updatedtime', now);
 							}
 						});
 					}, function() {
 					});
+				} else {
+					console.log('Location update skipped.');
 				}
 			} catch (e) {}
 		}

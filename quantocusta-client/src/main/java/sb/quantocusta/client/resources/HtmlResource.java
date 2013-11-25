@@ -113,7 +113,7 @@ public class HtmlResource extends BaseResouce {
 	}
 	
 	@GET
-	@Path("{id}")
+	@Path("local/{id}")
 	public View get(@PathParam("id") String id) {
 		ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
 //		DataResponse response = mapper.readTree(new URL(""));
@@ -122,7 +122,7 @@ public class HtmlResource extends BaseResouce {
 	}
 	
 	@GET
-	@Path("thrd/{id}")
+	@Path("local/thrd/{id}")
 	public View getThirdy(@PathParam("id") String id) {
 //		URI uri = UriBuilder.fromResource(ApiVenueResource.class).path("thrd/{id}").build(id);
 		

@@ -42,7 +42,7 @@
 						<div class="list-group">
 							<#if venues??>
 								<#list venues as venue>
-									<a href="/thrd/${venue.idFoursquare}" class="list-group-item">
+									<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
 										<img class="img img-circle pull-left" src="http://placehold.it/40x40">
 										<span class="pull-left">
 											${venue.name?html}<br>
