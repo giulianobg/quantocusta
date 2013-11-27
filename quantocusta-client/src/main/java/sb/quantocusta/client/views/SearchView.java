@@ -1,5 +1,6 @@
 package sb.quantocusta.client.views;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class SearchView extends View {
 	}
 	
 	public SearchView(List<Venue> venues) {
-		super("/assets/tpl/search.ftl");
+		super("/assets/tpl/search.ftl", Charset.forName("UTF-8"));
 		
 		this.venues = venues;
 		
