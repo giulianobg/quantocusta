@@ -84,11 +84,10 @@ var qc = {
 		if (navigator && navigator.geolocation) {
 			try {
 				var now = new Date().getTime();
-				console.log('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
+				console.debug('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
 				
 				if (!sessionStorage.getItem('lat') || !sessionStorage.getItem('lng') || 
 						(now - localStorage.getItem('updatedtime')) > 900000) { // 15 minutos
-					console.log("I am in!");
 					navigator.geolocation.getCurrentPosition(function(position) {
 						// definitive solution
 						$.ajax({
@@ -105,12 +104,14 @@ var qc = {
 								localStorage.setItem('updatedtime', now);
 							}
 						});
-					}, function() {
+					}, function(msg) {
+						// provavelmente o usuário bloqueou a leitura de localicação, tratar isso
+						console.error("Oops! It isn't worked properly :( - " + msg);
 					});
 				} else {
 					console.log('Location update skipped.');
 				}
-			} catch (e) {console.log("hey! ho!"); console.error(e);}
+			} catch (e) {console.error(e);}
 		}
 	}
 }

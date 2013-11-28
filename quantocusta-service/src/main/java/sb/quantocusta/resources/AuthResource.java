@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import sb.quantocusta.api.User;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.UserDao;
-import ch.qos.logback.core.status.Status;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -296,22 +295,22 @@ public class AuthResource extends BaseResouce {
 		return null;
 	}
 
-	@GET
-	@Path("stub")
-	public Object stubConnect(@QueryParam("id") String id) {
-		UserDao dao = Daos.get(UserDao.class);
-
-		User user = dao.findById(id);
-		if (user != null) {
-			request.getSession().setAttribute("user", user);
-			request.getSession().setMaxInactiveInterval(3600); // 1 hora
-		} else {
-			return Response.status(Status.ERROR).build();
-		}
-
-		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
-		//		return true;
-	}
+//	@GET
+//	@Path("stub")
+//	public Object stubConnect(@QueryParam("id") String id) {
+//		UserDao dao = Daos.get(UserDao.class);
+//
+//		User user = dao.findById(id);
+//		if (user != null) {
+//			request.getSession().setAttribute("user", user);
+//			request.getSession().setMaxInactiveInterval(3600); // 1 hora
+//		} else {
+//			return Response.status(Status.ERROR).build();
+//		}
+//
+//		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
+//		//		return true;
+//	}
 
 	@GET
 	@Path("connect")
@@ -397,10 +396,10 @@ public class AuthResource extends BaseResouce {
 		return null;
 	}
 
-	@GET
-	@Path("logout")
-	public Object logout() {
-		request.getSession().removeAttribute("user");
-		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
-	}
+//	@GET
+//	@Path("logout")
+//	public Object logout() {
+//		request.getSession().removeAttribute("user");
+//		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
+//	}
 }

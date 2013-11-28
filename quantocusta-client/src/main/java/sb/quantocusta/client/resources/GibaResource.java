@@ -1,3 +1,4 @@
+package sb.quantocusta.client.resources;
 //package sb.quantocusta.resources;
 //
 //import java.util.Random;
