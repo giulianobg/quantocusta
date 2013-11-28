@@ -1,4 +1,4 @@
-package sb.quantocusta.resources.api;
+package sb.quantocusta.resources;
 
 import java.util.Date;
 
@@ -22,7 +22,6 @@ import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
-import sb.quantocusta.resources.BaseResouce;
 
 import com.google.common.base.Optional;
 import com.yammer.dropwizard.jersey.params.IntParam;
@@ -33,11 +32,11 @@ import com.yammer.dropwizard.jersey.params.IntParam;
  */
 @Path("/api/vote")
 @Produces("application/json; charset=utf-8")
-public class ApiVoteResource extends BaseResouce {
+public class VoteResource extends BaseResouce {
 
-	static Logger LOG = LoggerFactory.getLogger(ApiVoteResource.class);
+	static Logger LOG = LoggerFactory.getLogger(VoteResource.class);
 
-	public ApiVoteResource() {
+	public VoteResource() {
 	}
 
 	@POST

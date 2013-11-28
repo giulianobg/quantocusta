@@ -20,5 +20,5 @@ public class UserDao extends Dao<User> {
 	public User findBy3rdId(String id) {
 		return coll.findOne(DBQuery.is("thirdyId", id));
 	}
-
+	
 }

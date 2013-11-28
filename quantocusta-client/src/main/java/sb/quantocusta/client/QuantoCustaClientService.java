@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.client.health.TemplateHealthCheck;
-import sb.quantocusta.client.resources.FakeAuthResource;
+import sb.quantocusta.client.resources.AuthResource;
 import sb.quantocusta.client.resources.GeoLocationResource;
 import sb.quantocusta.client.resources.HtmlResource;
 
@@ -47,8 +47,7 @@ public class QuantoCustaClientService extends Service<QuantoCustaClientConfigura
 //		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
 		/* Resources */
-//		environment.addResource(new OAuthResource());
-		environment.addResource(new FakeAuthResource());
+		environment.addResource(new AuthResource(configuration));
 		environment.addResource(new GeoLocationResource());
 		environment.addResource(new HtmlResource(configuration));
 //		environment.addResource(new TestSessionResource());

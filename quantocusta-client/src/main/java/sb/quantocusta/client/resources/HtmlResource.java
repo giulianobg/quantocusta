@@ -1,6 +1,7 @@
 package sb.quantocusta.client.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -51,6 +52,13 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	@Path("me")
 	public View me() {
+//		URI uri = UriBuilder.fromUri(configuration.getApi()).
+//				path("/api/venue/search").
+//				queryParam("q", q).
+//				queryParam("lat", request.getSession().getAttribute("lat")).
+//				queryParam("lng", request.getSession().getAttribute("lng")).
+//				build();
+//		return Response.seeOther(location);
 		return null;
 	}
 
@@ -70,7 +78,12 @@ public class HtmlResource extends BaseResouce {
 		        MediaType.APPLICATION_JSON).
 		        get(DataResponse.class);
 
-		List<Venue> venues = mapper.convertValue(response.getResult(), List.class);
+		List list = mapper.convertValue(response.getResult(), List.class);
+		
+		List<Venue> venues = new ArrayList<Venue>();
+		for (int i = 0; i < list.size(); i++) {
+			venues.add(mapper.convertValue(list.get(i), Venue.class));
+		}
 
 		return new SearchView(venues);
 	}

@@ -18,6 +18,8 @@ http:
 
   port: 8090
   adminPort: 8090
+  adminUsername: quantocusta
+  adminPassword: fanipituchasimba
   
   # The number of threads dedicated to accepting connections.
   acceptorThreads: 2

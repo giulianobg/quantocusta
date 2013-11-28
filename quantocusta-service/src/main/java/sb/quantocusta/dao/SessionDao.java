@@ -15,7 +15,7 @@ import com.mongodb.DB;
 public class SessionDao extends Dao<Session> {
 
 	public SessionDao(DB db) {
-		super(JacksonDBCollection.wrap(db.getCollection("clients"), Session.class, String.class));
+		super(JacksonDBCollection.wrap(db.getCollection("session"), Session.class, String.class));
 	}
 	
 	public Session find(String accessToken) {
