@@ -97,7 +97,7 @@ public class AuthResource extends BaseResouce {
 					
 					URI uriUser = UriBuilder.fromUri(configuration.getApi()).
 							path("/api/user/create").
-							queryParam("oauth_token", TokenUtils.tokenFromId(id)).
+							queryParam("access_token", TokenUtils.tokenFromId(id)).
 							build();
 					
 					WebResource target = client.resource(uriUser);
@@ -111,6 +111,7 @@ public class AuthResource extends BaseResouce {
 				// cria sessao persistente
 				// TODO
 
+				request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(user.getId()));
 				request.getSession().setAttribute("user", user);
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
@@ -131,7 +132,7 @@ public class AuthResource extends BaseResouce {
 		
 		URI uri = UriBuilder.fromUri(configuration.getApi()).
 				path("/api/user/create").
-				queryParam("oauth_token", TokenUtils.tokenFromId("000")).
+				queryParam("access_token", TokenUtils.tokenFromId("000")).
 				build();
 		
 		WebResource target = client.resource(uri);
@@ -152,7 +153,7 @@ public class AuthResource extends BaseResouce {
 		// Busca usuário
 		URI uriUser = UriBuilder.fromUri(configuration.getApi()).
 				path("/api/user/{id}").
-				queryParam("oauth_token", TokenUtils.tokenFromId(id)).
+				queryParam("access_token", TokenUtils.tokenFromId(id)).
 				build(id);
 		
 		DataResponse responseUser = client.resource(uriUser).get(DataResponse.class);
@@ -160,18 +161,20 @@ public class AuthResource extends BaseResouce {
 
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(id));
 			request.getSession().setMaxInactiveInterval(7200); // 2 hora
 		} else {
 			return Response.status(Status.ERROR).build();
 		}
 
-		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
+		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).path("me").build()).build();
 	}
 	
 	@GET
 	@Path("logout")
 	public Response logout() {
 		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute("access_token");
 		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
 	}
 

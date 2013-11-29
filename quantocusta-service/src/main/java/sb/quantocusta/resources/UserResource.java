@@ -8,7 +8,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -18,11 +17,11 @@ import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.User;
-import sb.quantocusta.api.temp.Session;
 import sb.quantocusta.dao.Daos;
-import sb.quantocusta.dao.SessionDao;
 import sb.quantocusta.dao.UserDao;
-import sb.quantocusta.util.TokenUtils;
+
+import com.sun.jersey.api.client.WebResource;
+import com.yammer.dropwizard.auth.Auth;
 
 /**
  * 
@@ -41,21 +40,16 @@ public class UserResource extends BaseResouce {
 
 	@GET
 	@Path("me")
-	public Response me(@QueryParam("oauth_token") String token) {
-		Session session = Daos.get(SessionDao.class).find(token);
-		String id = session.getUserId();
-
-		User user = Daos.get(UserDao.class).findById(id);
-
+	public Response me(@Auth User user) {
 		return Response.status(Status.OK).entity(DataResponse.build(Status.OK, user)).build();
 	}
 
 	@GET
 	@Path("{id}")
-	public Response findById(@PathParam("id") String id, @QueryParam("oauth_token") String token) {
-		if (TokenUtils.tokenFromId(id).equals(token)) {
-			UserDao dao = Daos.get(UserDao.class);
-			User user = dao.findById(id);
+	public Response findById(@Auth User user, @PathParam("id") String id) {
+//		if (TokenUtils.tokenFromId(id).equals(token)) {
+//			UserDao dao = Daos.get(UserDao.class);
+//			User user = dao.findById(id);
 			if (user != null) {
 				URI uri = UriBuilder.fromResource(SessionResource.class).
 						path("create").
@@ -63,14 +57,13 @@ public class UserResource extends BaseResouce {
 				
 //				WebResource target = client.resource(uri);
 				
-				
 //				create(user.getId());
 
 				return Response.status(Status.OK).entity(DataResponse.build(user)).build();
 			}
-		} else {
-			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
-		}
+//		} else {
+//			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
+//		}
 
 		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 	}

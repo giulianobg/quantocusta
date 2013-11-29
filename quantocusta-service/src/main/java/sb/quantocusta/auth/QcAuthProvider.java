@@ -61,10 +61,6 @@ public class QcAuthProvider<T> implements InjectableProvider<Auth, Parameter> {
 				Optional<T> result = authenticator.authenticate(accessToken);
 
 				if (result.isPresent()) {
-					System.out.println("Method: " + c.getRequest().getMethod());
-					System.out.println(c.getRequest().getUserPrincipal());
-//					authenticator
-//					System.out.println(c.getUriInfo().g);
 					return result.get();
 				} else {
 					throw new WebApplicationException(Response.status(Status.UNAUTHORIZED).

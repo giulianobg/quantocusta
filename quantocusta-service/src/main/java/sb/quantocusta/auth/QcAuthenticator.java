@@ -22,9 +22,6 @@ import com.yammer.dropwizard.auth.Authenticator;
 public class QcAuthenticator implements Authenticator<String, User> {
 
 	public Optional<User> authenticate(String accessToken) throws AuthenticationException {
-		
-		System.out.println("QcAuthenticator.authenticate()");
-		
 		SessionDao dao = Daos.get(SessionDao.class);
 		Session s = dao.find(accessToken);
 		
@@ -36,8 +33,6 @@ public class QcAuthenticator implements Authenticator<String, User> {
 		} else {
 			UserDao uDao = Daos.get(UserDao.class);
 			User user = uDao.findById(s.getUserId());
-		
-			System.out.println(accessToken);
 			
 			return Optional.<User>fromNullable(user);
 		}

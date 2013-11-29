@@ -116,13 +116,13 @@ public class VenueResource extends BaseResouce {
 					venue.getReviews().setMe(r);
 				}
 				
-				// valuations
+				// Load valuations
 				venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
 				venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
 				venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
 			}
 	
-			return Response.status(Status.OK).entity(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
+			return Response.ok(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
 		}
 		
 	}

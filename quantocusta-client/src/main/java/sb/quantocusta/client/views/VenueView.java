@@ -1,22 +1,18 @@
 package sb.quantocusta.client.views;
 
-import java.nio.charset.Charset;
-
 import sb.quantocusta.api.Venue;
-
-import com.yammer.dropwizard.views.View;
 
 /**
  * 
  * @author Giuliano Griffante
  *
  */
-public class VenueView extends View {
+public class VenueView extends SimplePageView {
 	
 	private Venue venue;
 	
 	public VenueView(Venue venue) {
-		super("/assets/tpl/venue.ftl", Charset.forName("UTF-8"));
+		super("/assets/tpl/venue.ftl");
 		
 		System.out.println(getCharset());
 		

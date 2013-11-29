@@ -42,7 +42,6 @@ import sb.quantocusta.dao.UserDao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yammer.dropwizard.auth.Auth;
 
 @Path("/auth")
 public class AuthResource extends BaseResouce {
@@ -52,8 +51,8 @@ public class AuthResource extends BaseResouce {
 	private static final String FB_APP_ID = "479032988828474"; 
 	private static final String FB_APP_SECRET = "174f93c3a563214dd805d19a9bfbd89c";
 
-	private static final String FSQ_APP_ID = ""; 
-	private static final String FSQ_APP_SECRET = "";
+//	private static final String FSQ_APP_ID = ""; 
+//	private static final String FSQ_APP_SECRET = "";
 
 	private static final String GOOGLE_APP_ID = ""; 
 	private static final String GOOGLE_APP_SECRET = "";
@@ -298,30 +297,6 @@ public class AuthResource extends BaseResouce {
 	//		return null;
 	//	}
 
-	@GET
-	@Path("protected")
-	public Object testOAuth(@Auth User user) {
-		System.out.println("AuthResource.testOAuth()");
-		return null;
-	}
-
-	//	@GET
-	//	@Path("stub")
-	//	public Object stubConnect(@QueryParam("id") String id) {
-	//		UserDao dao = Daos.get(UserDao.class);
-	//
-	//		User user = dao.findById(id);
-	//		if (user != null) {
-	//			request.getSession().setAttribute("user", user);
-	//			request.getSession().setMaxInactiveInterval(3600); // 1 hora
-	//		} else {
-	//			return Response.status(Status.ERROR).build();
-	//		}
-	//
-	//		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
-	//		//		return true;
-	//	}
-	
 //	@POST
 //	@Path("login")
 //	public Response facebookCallback(@FormParam("username") String username,
@@ -406,8 +381,6 @@ public class AuthResource extends BaseResouce {
 		
 		return null;
 	}
-
-
 
 	@GET
 	@Path("connect_g")

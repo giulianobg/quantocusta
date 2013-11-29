@@ -17,6 +17,7 @@ import sb.quantocusta.api.User;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.client.QuantoCustaClientConfiguration;
 import sb.quantocusta.client.views.ErrorView;
+import sb.quantocusta.client.views.HomeView;
 import sb.quantocusta.client.views.SearchView;
 import sb.quantocusta.client.views.SimplePageView;
 import sb.quantocusta.client.views.VenueView;
@@ -52,14 +53,40 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	@Path("me")
 	public View me() {
+		// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
+		String token = (String) request.getSession().getAttribute("access_token");
+		
 //		URI uri = UriBuilder.fromUri(configuration.getApi()).
-//				path("/api/venue/search").
-//				queryParam("q", q).
-//				queryParam("lat", request.getSession().getAttribute("lat")).
-//				queryParam("lng", request.getSession().getAttribute("lng")).
+//				path("/api/user/me").
+//				queryParam("access_token", token).
 //				build();
-//		return Response.seeOther(location);
-		return null;
+//		
+//		WebResource target = client.resource(uri);
+//		
+//		DataResponse response = target.accept(
+//		        MediaType.APPLICATION_JSON).
+//		        get(DataResponse.class);
+//		
+//		User user = mapper.convertValue(response.getResult(), User.class);
+		
+		URI uri = UriBuilder.fromUri(configuration.getApi()).
+				path("/api/venue/me").
+				queryParam("access_token", token).
+				build();
+		
+		WebResource target = client.resource(uri);
+		
+		DataResponse response = target.accept(
+		        MediaType.APPLICATION_JSON).
+		        get(DataResponse.class);
+		
+		User user = mapper.convertValue(response.getResult(), User.class);
+		
+		User user = (User) request.getSession().getAttribute("user");
+		
+		SimplePageView page = new HomeView(user);
+		page.setVenues(venues);
+		return new HomeView(user);
 	}
 
 	@GET
@@ -85,7 +112,9 @@ public class HtmlResource extends BaseResouce {
 			venues.add(mapper.convertValue(list.get(i), Venue.class));
 		}
 
-		return new SearchView(venues);
+		SimplePageView page = new SearchView();
+		page.setVenues(venues);
+		return page;
 	}
 	
 	@GET
