@@ -31,20 +31,15 @@
 							<span>Quer ir em um restaurante e saber quanto ir&aacute; pagar?</span>
 							<form class="form-search" action="/buscar">
 								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+								<input type="hidden" name="lat">
+								<input type="hidden" name="lng">
 								<button type="submit"><i class="icon-search"></i></button>
 								<div class="clearfix"></div>
 							</form>
 						</div>
 					</div>
-					<#if me??>
-					<a href="#">
-						<img class="img-circle" src="https://graph.facebook.com/${me.thirdyId}/picture?type=normal" width="40">
-						Me: ${me}</a>
-					<#else>
+					<a href="#">Logado como ${}</a>
 					<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-link"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
-					</#if>
-					
-					
 				</div>
 			</div>
 		</div>
