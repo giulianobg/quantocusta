@@ -4,12 +4,10 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sb.quantocusta.client.health.TemplateHealthCheck;
 import sb.quantocusta.client.resources.AuthResource;
+import sb.quantocusta.client.resources.GeoLocationResource;
 import sb.quantocusta.client.resources.HtmlResource;
-import sb.quantocusta.client.resources.OAuthResource;
-import sb.quantocusta.resources.api.ApiVenueResource;
-import sb.quantocusta.resources.api.ApiVoteResource;
-import sb.quantocusta.resources.api.Apis;
 
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.assets.AssetsBundle;
@@ -19,7 +17,7 @@ import com.yammer.dropwizard.views.ViewBundle;
 
 /**
  * 
- * @author giuliano.griffante
+ * @author Giuliano Griffante
  *
  */
 public class QuantoCustaClientService extends Service<QuantoCustaClientConfiguration> {
@@ -48,21 +46,17 @@ public class QuantoCustaClientService extends Service<QuantoCustaClientConfigura
 //		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "The secret code"));
 //		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
-		/* APIs */
-		Apis.addApi("venue", new ApiVenueResource());
-		Apis.addApi("vote", new ApiVoteResource());
-		
 		/* Resources */
-		environment.addResource(new OAuthResource());
-		environment.addResource(new AuthResource());
-		environment.addResource(new HtmlResource());
+		environment.addResource(new AuthResource(configuration));
+		environment.addResource(new GeoLocationResource());
+		environment.addResource(new HtmlResource(configuration));
 //		environment.addResource(new TestSessionResource());
 //		environment.addResource(new GibaResource()); // :)
 		
 		environment.addProtectedTarget("/assets/tpl/");
 		
 		/* Health checkers */
-		// ??
+		environment.addHealthCheck(new TemplateHealthCheck(null));
 		
 	}
 	

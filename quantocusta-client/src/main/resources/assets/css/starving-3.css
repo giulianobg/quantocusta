@@ -32,6 +32,113 @@ strong {font-family: 'Raleway', sans-serif;font-weight: 400;}
     text-align: center;
 }
 
+/* Colors */
+.red {color: #e74c3c;}
+.red-bg {background: #e74c3c;}
+.red2 {color: #c0392b;}
+.red2-bg {background: #c0392b;}
+.blue {
+  color: #3498db;}
+.blue-bg {
+  background: #3498db;
+}
+.blue2 {
+  color: #2980b9;
+}
+.blue2-bg {
+  background: #2980b9;
+}
+.green {
+  color: #2ecc71;
+}
+.green-bg {
+  background: #2ecc71;
+}
+.green2 {
+  color: #27ae60;}
+.green2-bg {background: #27ae60;}
+.yellow {color: #f1c40f;}
+.yellow-bg {background: #f1c40f;}
+.yellow2 {color: #f39c12;
+}
+.yellow2-bg {background: #f39c12;}
+.orange {color: #e67e22;}
+.orange-bg {background: #e67e22;}
+.orange2 {
+  color: #d35400;
+}
+.orange2-bg {
+  background: #d35400;
+}
+.teal {
+  color: #1abc9c;
+}
+.teal-bg {
+  background: #1abc9c;
+}
+.teal2 {
+  color: #16a085;
+}
+.teal2-bg {
+  background: #16a085;
+}
+.purple {
+  color: #9b59b6;
+}
+.purple-bg {
+  background: #9b59b6;
+}
+.purple2 {
+  color: #8e44ad;
+}
+.purple2-bg {
+  background: #8e44ad;
+}
+.steel-grey {
+  color: #34495e;
+}
+.steel-grey-bg {
+  background: #34495e;
+}
+.steel-grey2 {
+  color: #2c3e50;
+}
+.steel-grey2-bg {
+  background: #2c3e50;
+}
+.off-white {
+  color: #ecf0f1;
+}
+.off-white-bg {
+  background: #ecf0f1;
+}
+.light-grey {color: #bdc3c7;}
+.light-grey-bg {background: #bdc3c7;}
+.grey {color: #95a5a6;}
+.grey-bg {background: #95a5a6;}
+.medium-grey {color: #7f8c8d;}
+.medium-grey-bg {background: #7f8c8d;}
+.red-bg,
+.red2-bg,
+.blue-bg,
+.blue2-bg,
+.green-bg,
+.green2-bg,
+.yellow-bg,
+.yellow2-bg,
+.orange-bg,
+.orange2-bg,
+.teal-bg,
+.teal2-bg,
+.purple-bg,
+.purple2-bg,
+.steel-grey-bg,
+.steel-grey2-bg,
+.off-white-bg,
+.light-grey-bg,
+.grey-bg,
+.medium-grey-bg {color: #ffffff;}
+
 /*
 .img {
 	margin-bottom: 30px;
@@ -150,9 +257,12 @@ a.list-group-item:focus {
 .panel-body h3,
 .panel-body h4,
 .panel-body strong,
-.panel-body address,
+.panel-body address {
+	padding: 0 10px;
+}
+
 .panel-body form {
-	padding: 10px;
+	padding: 5px 10px;
 }
 
 .markup {
@@ -461,8 +571,8 @@ footer {
 
 @media (min-width: 480px) {
 	.container {
-		width: 480px;
-		padding-right: 15px;
+		width: 320px;
+		padding-right: 10px;
 		/* padding-bottom: 15px; */
 	}
 }

@@ -2,14 +2,12 @@ package sb.quantocusta.client.views;
 
 import sb.quantocusta.api.Venue;
 
-import com.yammer.dropwizard.views.View;
-
 /**
  * 
  * @author Giuliano Griffante
  *
  */
-public class VenueView extends View {
+public class VenueView extends SimplePageView {
 	
 	private Venue venue;
 	

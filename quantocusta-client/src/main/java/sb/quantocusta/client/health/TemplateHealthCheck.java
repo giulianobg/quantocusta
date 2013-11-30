@@ -1,4 +1,4 @@
-package sb.quantocusta.health;
+package sb.quantocusta.client.health;
 
 import com.yammer.metrics.core.HealthCheck;
 

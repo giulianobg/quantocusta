@@ -1,22 +1,23 @@
 package sb.quantocusta.client.views;
 
-import com.yammer.dropwizard.views.View;
+import sb.quantocusta.api.User;
 
-public class HomeView extends View {
+/**
+ * 
+ * @author Giuliano Griffante
+ *
+ */
+public class HomeView extends SimplePageView {
+	
+	public User user;
 	
 	public HomeView() {
 		super("/assets/tpl/index.ftl");
 	}
 	
-	public HomeView(String path) {
-		super(path);
-		
-//		System.out.println(get);
-		
-		System.out.println("HomeView.enclosing_method()");
-		
-		System.out.println(getCharset());
-		System.out.println();
+	public HomeView(User user) {
+		super("/assets/tpl/home.ftl");
+		this.user = user;
 	}
 
 }

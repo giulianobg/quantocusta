@@ -32,6 +32,8 @@
 			</div>
 		</nav>
 		
+		<div class="breathe"></div>
+		
 		<div class="container">
 	
 			<div class="panel panel-default">
@@ -78,14 +80,24 @@
 						<div class="col-xs-12">
 							<form id="submitPrice" class="form-horizontal" role="form" action="/api/vote/price" method="post">
 								<input type="hidden" name="where" value="${venue.id}">
+								
 								<div class="form-group col-xs-12 text-center">
 									<span>J&aacute; fui e paguei</span>
 								</div>
+								
 								<div class="form-group">
 									<label class="col-xs-3 text-right" style="font-size: 32px;">R$</label>
-									<input type="text" name="price" class="input-lg form-contol col-xs-6">
-									<div class="col-xs-2"><button type="submit" class="btn btn-default btn-lg"><i class="icon-thumbs-up"></i></button></div>
+									
+									<div class="col-xs-8 text-right">
+										<div class="input-group input-group-lg">
+											<input type="text" name="price" class="form-control">
+											<span class="input-group-btn">
+												<button class="btn btn-default" type="submit"><i class="icon-thumbs-up"></i></button>
+											</span>
+										</div>
+									</div>
 								</div>
+								
 								<div class="form-group">
 									<div class="col-xs-12 text-right">
 										<small>por pessoa</small>
