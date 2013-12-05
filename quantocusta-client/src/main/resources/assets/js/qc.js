@@ -19,6 +19,7 @@ var qc = {
 		$.ajax({
 			url: "/api/vote",
 			data: {
+				'access_token': $('#access_token').val(),
 				'id': where,
 				'kind': kind,
 				'v': v
@@ -35,6 +36,7 @@ var qc = {
 		$.ajax({
 			url: "/api/vote/price",
 			data: {
+				'access_token': $('#access_token').val(),
 				'id': where,
 				'price': price.replace(/,/g, '.')
 			},
@@ -46,6 +48,9 @@ var qc = {
 	load: function(where) {
 		$.ajax({
 			url: "/api/venue/" + where,
+			data: {
+				'access_token': $('#access_token').val()
+			},
 			type: "GET",
 			success: function(data) {
 				if (data.result.valuation.food.me) {
@@ -102,6 +107,8 @@ var qc = {
 								sessionStorage.setItem('lat', position.coords.latitude);
 								sessionStorage.setItem('lng', position.coords.longitude);
 								localStorage.setItem('updatedtime', now);
+								$(".hide").show();
+								$('.loading').hide();
 							}
 						});
 					}, function(msg) {

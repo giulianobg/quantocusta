@@ -79,7 +79,7 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("near")
-	public Response near(@QueryParam("lat") String lat, @QueryParam("lng") String lng) {
+	public Response near(@Auth User user, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		
 		if (StringUtils.isEmpty(lat) || StringUtils.isEmpty(lng)) {

@@ -13,9 +13,6 @@ public class VenueView extends SimplePageView {
 	
 	public VenueView(Venue venue) {
 		super("/assets/tpl/venue.ftl");
-		
-		System.out.println(getCharset());
-		
 		this.venue = venue;
 	}
 	

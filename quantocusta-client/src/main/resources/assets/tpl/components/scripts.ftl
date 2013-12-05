@@ -5,5 +5,8 @@
 <script>
 $(document).ready(function() {
 	qc.loadCoordinates();
+	$('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	});
 });
 </script>
