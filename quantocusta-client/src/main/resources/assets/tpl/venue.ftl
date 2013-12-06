@@ -37,7 +37,7 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 					
-						<div class="container">
+						<div class="container2">
 							<div class="navbar-header">
 								<button type="button" class="pull-left btn btn-default btn-sm" data-toggle="offcanvas"><i class="fa fa-bars"></i></button>
 								<form class="form-search pull-left" action="/buscar">
@@ -51,9 +51,7 @@
 					
 					<div class="breathe"></div>
 					
-					<div class="container">
-						<input type="hidden" name="access_token" value="">
-				
+					<div>
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<img class="img img-responsive" src="/assets/images/no-image.png">

@@ -1,7 +1,5 @@
 package sb.quantocusta.resources;
 
-import java.net.URI;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,7 +8,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,6 @@ import sb.quantocusta.api.User;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.UserDao;
 
-import com.sun.jersey.api.client.WebResource;
 import com.yammer.dropwizard.auth.Auth;
 
 /**
@@ -47,23 +43,45 @@ public class UserResource extends BaseResouce {
 	@GET
 	@Path("{id}")
 	public Response findById(@Auth User user, @PathParam("id") String id) {
-//		if (TokenUtils.tokenFromId(id).equals(token)) {
-//			UserDao dao = Daos.get(UserDao.class);
-//			User user = dao.findById(id);
-			if (user != null) {
-				URI uri = UriBuilder.fromResource(SessionResource.class).
-						path("create").
-						build();
-				
-//				WebResource target = client.resource(uri);
-				
-//				create(user.getId());
+		UserDao dao = Daos.get(UserDao.class);
+		User retrievedUser = dao.findById(id);
+		
+		if (retrievedUser != null) {
+			//				URI uri = UriBuilder.fromResource(SessionResource.class).
+			//						path("create").
+			//						build();
 
-				return Response.status(Status.OK).entity(DataResponse.build(user)).build();
-			}
-//		} else {
-//			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
-//		}
+			//				SessionDao dao = Daos.get(SessionDao.class);
+			//				
+			//				Session session = new Session();
+			//				session.setAccessToken(TokenUtils.tokenFromId(user.getId()));
+			//				session.setUserId(user.getId());
+			//				session.setCreatedAt(new Date());
+			//				
+			//				dao.insert(session);
+
+			return Response.status(Status.OK).entity(DataResponse.build(retrievedUser)).build();
+		}
+		//		} else {
+		//			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
+		//		}
+
+		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
+	}
+
+	@GET
+	@Path("thrd/{id}")
+	public Response findByPartnerId(@PathParam("id") String id) {
+		//		if (TokenUtils.tokenFromId(id).equals(token)) {
+		UserDao dao = Daos.get(UserDao.class);
+		User user = dao.findById(id);
+
+		if (user != null) {
+			return Response.status(Status.OK).entity(DataResponse.build(user)).build();
+		}
+		//		} else {
+		//			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
+		//		}
 
 		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 	}

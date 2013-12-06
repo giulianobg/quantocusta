@@ -17,7 +17,7 @@ $.ajaxSetup({
 var qc = {
 	vote: function(where, kind, v) {
 		$.ajax({
-			url: "/api/vote",
+			url: "/vote",
 			data: {
 				'access_token': $('#access_token').val(),
 				'id': where,
@@ -34,7 +34,7 @@ var qc = {
 	},
 	submitPrice: function(where, price) {
 		$.ajax({
-			url: "/api/vote/price",
+			url: "/vote/price",
 			data: {
 				'access_token': $('#access_token').val(),
 				'id': where,
@@ -48,9 +48,6 @@ var qc = {
 	load: function(where) {
 		$.ajax({
 			url: "/api/venue/" + where,
-			data: {
-				'access_token': $('#access_token').val()
-			},
 			type: "GET",
 			success: function(data) {
 				if (data.result.valuation.food.me) {
@@ -92,7 +89,7 @@ var qc = {
 				console.debug('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
 				
 				if (!sessionStorage.getItem('lat') || !sessionStorage.getItem('lng') || 
-						(now - localStorage.getItem('updatedtime')) > 900000) { // 15 minutos
+						(now - localStorage.getItem('updatedtime')) > 120000) {//900000) { // 15 minutos
 					navigator.geolocation.getCurrentPosition(function(position) {
 						// definitive solution
 						$.ajax({
@@ -106,9 +103,11 @@ var qc = {
 								console.log("Saving coordinates");
 								sessionStorage.setItem('lat', position.coords.latitude);
 								sessionStorage.setItem('lng', position.coords.longitude);
-								localStorage.setItem('updatedtime', now);
-								$(".hide").show();
-								$('.loading').hide();
+								//localStorage.setItem('updatedtime', now);
+								$("div:hidden").each(function() {
+									$(this).removeClass('hide');
+								});
+								$('.loading').remove();
 							}
 						});
 					}, function(msg) {

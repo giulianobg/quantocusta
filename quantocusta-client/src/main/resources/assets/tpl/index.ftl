@@ -29,9 +29,9 @@
 							<h1 style="text-indent: -9999px;">Quanto Custa?</h1>
 							
 							<div class="hide">
-								<span>Quer ir em um restaurante e saber quanto ir&aacute; pagar?</span>
+								<span>Quer ir em um restaurante e saber quanto irá pagar?</span>
 								<form class="form-search" action="/buscar">
-									<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required>
 									<button type="submit"><i class="icon-search"></i></button>
 									<div class="clearfix"></div>
 								</form>
@@ -43,13 +43,7 @@
 						</div>
 					</div>
 					<div class="hide">
-						<#if me??>
-						<a href="#">
-							<img class="img-circle" src="https://graph.facebook.com/${me.thirdyId}/picture?type=normal" width="40">
-							Me: ${me}</a>
-						<#else>
 						<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-link"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
-						</#if>
 					</div>
 				</div>
 			</div>
@@ -58,5 +52,10 @@
 		<#include "/assets/tpl/components/footer.ftl">
 
 		<#include "/assets/tpl/components/scripts.ftl">
+		<script>
+			$(document).ready(function() {
+				qc.loadCoordinates();
+			});
+		</script>
 	</body>
 </html>
