@@ -74,7 +74,7 @@ public class UserResource extends BaseResouce {
 	public Response findByPartnerId(@PathParam("id") String id) {
 		//		if (TokenUtils.tokenFromId(id).equals(token)) {
 		UserDao dao = Daos.get(UserDao.class);
-		User user = dao.findById(id);
+		User user = dao.findBy3rdId(id);
 
 		if (user != null) {
 			return Response.status(Status.OK).entity(DataResponse.build(user)).build();
