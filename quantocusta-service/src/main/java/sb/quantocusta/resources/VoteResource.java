@@ -24,6 +24,7 @@ import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 
 import com.google.common.base.Optional;
+import com.yammer.dropwizard.auth.Auth;
 import com.yammer.dropwizard.jersey.params.IntParam;
 
 /**
@@ -40,11 +41,12 @@ public class VoteResource extends BaseResouce {
 	}
 
 	@POST
-	public Response vote(@FormParam("id") String id,
+	public Response vote(@Auth User user,
+			@FormParam("id") String id,
 			@FormParam("kind") String kind,
 			@FormParam("v") IntParam v) {
 
-		User user = (User) request.getSession().getAttribute("user");
+//		User user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
 			VenueDao dao = Daos.get(VenueDao.class);
 

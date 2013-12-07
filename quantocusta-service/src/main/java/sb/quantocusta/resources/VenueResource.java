@@ -30,6 +30,8 @@ import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
+import sb.quantocusta.dao.SessionDao;
+import sb.quantocusta.dao.UserDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
@@ -79,7 +81,7 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("near")
-	public Response near(@QueryParam("lat") String lat, @QueryParam("lng") String lng) {
+	public Response near(@Auth User user, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		
 		if (StringUtils.isEmpty(lat) || StringUtils.isEmpty(lng)) {
@@ -103,13 +105,20 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("{id}")
-	public Response findById(@Auth User user, @PathParam("id") String id) {
-		Venue venue = Daos.get(VenueDao.class).findById(id);
+	public Response findById(@PathParam("id") String id, @QueryParam("access_token") String token) {
+		UserDao uDao = Daos.get(UserDao.class);
 
+		Venue venue = Daos.get(VenueDao.class).findById(id);
+		
 		if (venue == null) {
 			return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 		} else {
-//			User user = (User) request.getSession().getAttribute("user");
+			User user = null;
+			if (token != null) {
+				user = uDao.findById(Daos.get(SessionDao.class).find(token).getUserId());
+			}
+			
+			
 			if (user != null) {
 				Review r = Daos.get(ReviewDao.class).find(id, user.getId());
 				if (r != null) {
@@ -129,8 +138,13 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("thrd/{id}")
-	public Response findBy3rdId(@Auth User user, @PathParam("id") String id, @QueryParam("fat") Optional<String> fat) {
+	public Response findBy3rdId(@PathParam("id") String id, @QueryParam("fat") Optional<String> fat, @QueryParam("access_token") String token) {
 		Venue venue = Daos.get(VenueDao.class).findBy3rdId(id);
+		
+//		User user = null;
+//		if (token != null) {
+//			
+//		}
 		
 		if (venue == null) {
 			try {
@@ -198,7 +212,7 @@ public class VenueResource extends BaseResouce {
 		}
 		
 		if (venue != null) {
-			return findById(user, venue.getId());
+			return findById(venue.getId(), token);
 		}
 		
 		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();

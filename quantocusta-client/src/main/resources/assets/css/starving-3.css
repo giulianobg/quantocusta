@@ -13,14 +13,12 @@ h1 {font-size: 24px; padding: 0;}
 h4 {font-size: 16px;}
 address {font-size: 12px;}
 strong {font-family: 'Raleway', sans-serif;font-weight: 400;}
-
 .breathe {padding: 30px;}
-.container {width: 320px; padding-right: 10px;}
+.container {width: 320px; padding: 0 10px;}
 .container-bg {
 	position:relative;
     width: 100%;
 }
-
 .container-bg .overlay {
 	width: 100%;
     z-index: 100;
@@ -179,6 +177,52 @@ strong {font-family: 'Raleway', sans-serif;font-weight: 400;}
 	border-color: #1F263C;
 }
 
+/*
+ * Off-canvas 
+ */
+ /*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+html {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+.row-offcanvas {
+  position: relative;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+}
+
+.row-offcanvas-right
+.sidebar-offcanvas {
+  right: -75%; /* 9 columns */
+}
+
+.row-offcanvas-left
+.sidebar-offcanvas {
+  left: -75%; /* 9 columns */
+}
+
+.row-offcanvas-right.active {
+  right: 75%; /* 9 columns */
+}
+
+.row-offcanvas-left.active {
+  left: 75%; /* 9 columns */
+}
+
+.sidebar-offcanvas {
+  position: absolute;
+  top: 60px;
+  width: 75%; /* 9 columns */
+}
+
 /* Panels and other componentes */
 .tab-pane {
 	margin-top: 15px;
@@ -187,7 +231,7 @@ strong {font-family: 'Raleway', sans-serif;font-weight: 400;}
 .list-group .list-group-item {
 	background-color: #505A7A;
 	color: #FFFFFF;
-	border: 1px solid #1F263C
+	border: 1px solid #1F263C;
 }
 
 a.list-group-item:hover,
@@ -383,8 +427,7 @@ a.list-group-item:focus {
 
 .navbar-header {
 	width: 100%;
-	margin-top: 10px;
-	margin-bottom: 0;
+	margin: 10px auto 0 10px;
 }
 
 .navbar-header > a {
@@ -404,7 +447,7 @@ a.list-group-item:focus {
 
 .navbar-header > .form-search {
 	width: 80%;
-	padding: 0;
+	padding: 0 0 0 10px;
 	margin: 0;
 }
  
@@ -572,7 +615,7 @@ footer {
 @media (min-width: 480px) {
 	.container {
 		width: 320px;
-		padding-right: 10px;
+		padding: 0 10px;
 		/* padding-bottom: 15px; */
 	}
 }

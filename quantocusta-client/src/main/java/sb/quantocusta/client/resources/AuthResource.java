@@ -82,7 +82,7 @@ public class AuthResource extends BaseResouce {
 				// Busca usuário
 				URI uri = UriBuilder.fromUri(configuration.getApi()).
 						path("/api/user/thrd/{id}").
-						queryParam("oauth_token", TokenUtils.tokenFromId(id)).
+//						queryParam("access_token", TokenUtils.tokenFromId(id)).
 						build(id);
 				
 				DataResponse responseUser = client.resource(uri).get(DataResponse.class);
@@ -90,26 +90,36 @@ public class AuthResource extends BaseResouce {
 
 				if (user == null) {
 					// Primeiro acesso - salva usuário
-					MultivaluedMap<String, String> formParams = new MultivaluedMapImpl();
-					formParams.add("email", node.get("email").asText());
-					formParams.add("name", node.get("name").asText());
-					formParams.add("thirdyId", id);
+					MultivaluedMap<String, String> formParams2 = new MultivaluedMapImpl();
+					formParams2.add("email", node.get("email").asText());
+					formParams2.add("name", node.get("name").asText());
+					formParams2.add("thirdyId", id);
 					
 					URI uriUser = UriBuilder.fromUri(configuration.getApi()).
 							path("/api/user/create").
 							queryParam("access_token", TokenUtils.tokenFromId(id)).
 							build();
 					
-					WebResource target = client.resource(uriUser);
-					
-					DataResponse response = target.
+					client.resource(uriUser).
 							type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
 							accept(MediaType.APPLICATION_JSON_TYPE).
-							post(DataResponse.class, formParams);
+							post(DataResponse.class, formParams2);
 				}
 				
 				// cria sessao persistente
-				// TODO
+				MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
+				formParamsSession.add("id", user.getId());
+				formParamsSession.add("lat", (String) request.getSession().getAttribute("lat"));
+				formParamsSession.add("lng", (String) request.getSession().getAttribute("lng"));
+				
+				URI uri0 = UriBuilder.fromUri(configuration.getApi()).
+						path("/api/session/create").
+						build();
+				
+				client.resource(uri0).
+						type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+						accept(MediaType.APPLICATION_JSON_TYPE).
+						post(DataResponse.class, formParamsSession);
 
 				request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(user.getId()));
 				request.getSession().setAttribute("user", user);

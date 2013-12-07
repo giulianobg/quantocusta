@@ -36,6 +36,7 @@
 		
 		<div class="section">
 			<div class="container">
+			
 				<span>Termo de busca</span>
 				<div class="row">
 					<div class="col-xs-12">

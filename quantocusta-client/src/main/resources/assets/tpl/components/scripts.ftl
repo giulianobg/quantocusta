@@ -4,6 +4,9 @@
 <script src="/assets/js/qc.js"></script>
 <script>
 $(document).ready(function() {
-	qc.loadCoordinates();
+	//qc.loadCoordinates();
+	$('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas').toggleClass('active');
+	});
 });
 </script>

@@ -21,5 +21,14 @@ public class SessionDao extends Dao<Session> {
 	public Session find(String accessToken) {
 		return coll.findOne(DBQuery.is("access_token", accessToken));
 	}
+	
+//	public List<Session> findAll(String accessToken) {
+//		List<Session> sessions = new ArrayList<Session>();
+//		return coll.f
+//	}
+	
+	public void invalidate(String accessToken) {
+//		coll. TODO
+	}
 
 }

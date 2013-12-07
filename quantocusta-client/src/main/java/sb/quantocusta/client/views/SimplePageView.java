@@ -3,6 +3,8 @@ package sb.quantocusta.client.views;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import sb.quantocusta.api.User;
 import sb.quantocusta.api.Venue;
 
@@ -18,6 +20,7 @@ public class SimplePageView extends View {
 	private User me;
 	private List<Venue> venues;
 	private Venue venue;
+	private HttpServletRequest request;
 	
 	public SimplePageView(String path) {
 		this(path, null);
@@ -50,6 +53,14 @@ public class SimplePageView extends View {
 	
 	public void setVenues(List<Venue> venues) {
 		this.venues = venues;
+	}
+	
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 	
 }
