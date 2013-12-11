@@ -26,7 +26,6 @@ import com.yammer.dropwizard.auth.Auth;
  */
 @Path("/api/user")
 @Produces("application/json; charset=utf-8")
-//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class UserResource extends BaseResouce {
 
 	static Logger LOG = LoggerFactory.getLogger(UserResource.class);

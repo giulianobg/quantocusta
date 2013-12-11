@@ -188,26 +188,4 @@ public class HtmlResource extends BaseResouce {
 		return new ErrorView();
 	}
 	
-	@POST
-	@Path("vote")
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces("application/json; charset=utf-8")
-	public Response vote(@FormParam("id") String id, @FormParam("kind") String kind, @FormParam("v") IntParam v) {
-		String token = (String) request.getSession().getAttribute("access_token");
-		
-
-		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
-	}
-
-	@POST
-	@Path("vote/price")
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces("application/json; charset=utf-8")
-	public Response submitPrice(@FormParam("id") String id, @FormParam("price") Double price) {
-		String token = (String) request.getSession().getAttribute("access_token");
-		
-
-		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
-	}
-	
 }
