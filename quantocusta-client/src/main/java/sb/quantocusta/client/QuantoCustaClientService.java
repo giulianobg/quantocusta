@@ -8,6 +8,7 @@ import sb.quantocusta.client.health.TemplateHealthCheck;
 import sb.quantocusta.client.resources.AuthResource;
 import sb.quantocusta.client.resources.GeoLocationResource;
 import sb.quantocusta.client.resources.HtmlResource;
+import sb.quantocusta.client.resources.JsonResource;
 
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.assets.AssetsBundle;
@@ -50,6 +51,7 @@ public class QuantoCustaClientService extends Service<QuantoCustaClientConfigura
 		environment.addResource(new AuthResource(configuration));
 		environment.addResource(new GeoLocationResource());
 		environment.addResource(new HtmlResource(configuration));
+		environment.addResource(new JsonResource(configuration));
 //		environment.addResource(new TestSessionResource());
 //		environment.addResource(new GibaResource()); // :)
 		

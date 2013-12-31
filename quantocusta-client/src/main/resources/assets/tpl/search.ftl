@@ -9,50 +9,46 @@
 		<title>Quanto Custa?</title>
 
 		<!-- Bootstrap core CSS -->
-		<link href="/assets/css/bootstrap.css" rel="stylesheet">
+		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- Add custom CSS here -->
 		<link href="/assets/css/starving-3.css" rel="stylesheet">
-		<link href="/assets/css/font-awesome.min.css" rel="stylesheet">
-		<link href="/assets/css/whhg.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300' rel='stylesheet' type='text/css'>
 	</head>
 
 	<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<a href="javascript:window.history.back()" class="pull-left"><i class="fa fa-arrow-circle-o-left"></i></a>
-					<form class="form-search pull-left" action="/buscar">
-						<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
-						<button type="submit"><i class="icon-search"></i></button>
-						<div class="clearfix"></div>
-					</form>
-				</div>
-			</div>
-		</nav>
+		<div class="container">
+	
+			<div class="row row-offcanvas row-offcanvas-left">
+			
+				<div class="col-xs-9 sidebar-offcanvas" id="sidebar" role="navigation">
+					<#include "/assets/tpl/components/nav.ftl">
+				</div><!--/span-->
+				
+				<div class="col-xs-12">
+				
+					<#include "/assets/tpl/components/search.ftl">
+					
+					<div class="breathe"></div>
 		
-		<div class="breathe"></div>
-		
-		<div class="section">
-			<div class="container">
-				<span>Termo de busca</span>
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="list-group">
-							<#if venues??>
-								<#list venues as venue>
-									<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
-										<img class="img img-circle pull-left" src="http://placehold.it/40x40">
-										<span class="pull-left">
-											${venue.name?html}<br>
-											<small><#if venue.category??>${venue.category.name!""}</#if></small>
-										</span>
-										<span class="pull-right"><i class="fa fa-chevron-right"></i></span>
-										<div class="clearfix"></div>
-									</a>
-								</#list>
-							</#if>
+					<span>Termo de busca</span>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="list-group">
+								<#if venues??>
+									<#list venues as venue>
+										<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
+											<!-- <img class="img img-circle pull-left" src="http://placehold.it/40x40"> -->
+											<span class="pull-left">
+												${venue.name?html}<br>
+												<small><#if venue.category??>${venue.category.name!""}</#if></small>
+											</span>
+											<span class="pull-right"><i class="icon-chevron-right"></i></span>
+											<div class="clearfix"></div>
+										</a>
+									</#list>
+								</#if>
+							</div>
 						</div>
 					</div>
 				</div>

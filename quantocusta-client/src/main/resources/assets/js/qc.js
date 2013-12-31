@@ -88,35 +88,30 @@ var qc = {
 				var now = new Date().getTime();
 				console.debug('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
 				
-				if (!sessionStorage.getItem('lat') || !sessionStorage.getItem('lng') || 
-						(now - localStorage.getItem('updatedtime')) > 120000) {//900000) { // 15 minutos
-					navigator.geolocation.getCurrentPosition(function(position) {
-						// definitive solution
-						$.ajax({
-							url: "/geo/location",
-							type: 'PUT',
-							data: {
-								'lat': position.coords.latitude,
-								'lng': position.coords.longitude
-							},
-							success: function(data) {
-								console.log("Saving coordinates");
-								sessionStorage.setItem('lat', position.coords.latitude);
-								sessionStorage.setItem('lng', position.coords.longitude);
-								//localStorage.setItem('updatedtime', now);
-								$("div:hidden").each(function() {
-									$(this).removeClass('hide');
-								});
-								$('.loading').remove();
-							}
-						});
-					}, function(msg) {
-						// provavelmente o usuário bloqueou a leitura de localicação, tratar isso
-						console.error("Oops! It isn't worked properly :( - " + msg);
+				navigator.geolocation.getCurrentPosition(function(position) {
+					// definitive solution
+					$.ajax({
+						url: "/geo/location",
+						type: 'PUT',
+						data: {
+							'lat': position.coords.latitude,
+							'lng': position.coords.longitude
+						},
+						success: function(data) {
+							console.log("Saving coordinates");
+							sessionStorage.setItem('lat', position.coords.latitude);
+							sessionStorage.setItem('lng', position.coords.longitude);
+							//localStorage.setItem('updatedtime', now);
+							$("div:hidden").each(function() {
+								$(this).removeClass('hide');
+							});
+							$('.loading').remove();
+						}
 					});
-				} else {
-					console.log('Location update skipped.');
-				}
+				}, function(msg) {
+					// provavelmente o usuário bloqueou a leitura de localicação, tratar isso
+					console.error("Oops! It isn't worked properly :( - " + msg);
+				});
 			} catch (e) {console.error(e);}
 		}
 	}

@@ -13,8 +13,6 @@
 
 		<!-- Add custom CSS here -->
 		<link href="/assets/css/starving-3.css" rel="stylesheet">
-		<link href="/assets/css/font-awesome.min.css" rel="stylesheet">
-		<link href="/assets/css/whhg.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300' rel='stylesheet' type='text/css'>
 	</head>
 

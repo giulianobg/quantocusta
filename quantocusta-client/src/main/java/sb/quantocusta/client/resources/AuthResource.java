@@ -53,7 +53,6 @@ public class AuthResource extends BaseResouce {
 	
 	public AuthResource(QuantoCustaClientConfiguration configuration) {
 		this.configuration = configuration;
-		
 		client = Client.create();
 		mapper = new ObjectMapper();
 	}
@@ -162,16 +161,31 @@ public class AuthResource extends BaseResouce {
 	public Response stubConnect(@QueryParam("id") String id) {
 		// Busca usuário
 		URI uriUser = UriBuilder.fromUri(configuration.getApi()).
-				path("/api/user/{id}").
-				queryParam("access_token", TokenUtils.tokenFromId(id)).
+				path("/api/user/thrd/{id}").
+				//queryParam("access_token", TokenUtils.tokenFromId(id)).
 				build(id);
 		
 		DataResponse responseUser = client.resource(uriUser).get(DataResponse.class);
 		User user = mapper.convertValue(responseUser.getResult(), User.class);
 
 		if (user != null) {
+			// cria sessao persistente
+			MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
+			formParamsSession.add("id", user.getId());
+			formParamsSession.add("lat", (String) request.getSession().getAttribute("lat"));
+			formParamsSession.add("lng", (String) request.getSession().getAttribute("lng"));
+			
+			URI uri0 = UriBuilder.fromUri(configuration.getApi()).
+					path("/api/session/create").
+					build();
+			
+			client.resource(uri0).
+					type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+					accept(MediaType.APPLICATION_JSON_TYPE).
+					post(DataResponse.class, formParamsSession);
+			
 			request.getSession().setAttribute("user", user);
-			request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(id));
+			request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(user.getId()));
 			request.getSession().setMaxInactiveInterval(7200); // 2 hora
 		} else {
 			return Response.status(Status.ERROR).build();
@@ -181,7 +195,7 @@ public class AuthResource extends BaseResouce {
 	}
 	
 	@GET
-	@Path("logout")
+	@Path("sair")
 	public Response logout() {
 		request.getSession().removeAttribute("user");
 		request.getSession().removeAttribute("access_token");
