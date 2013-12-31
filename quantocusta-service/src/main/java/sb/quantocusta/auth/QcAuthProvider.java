@@ -26,43 +26,44 @@ import com.yammer.dropwizard.auth.Authenticator;
  * @param <T> the principal type
  */
 public class QcAuthProvider<T> implements InjectableProvider<Auth, Parameter> {
-	
-    private static class QcAuthInjectable<T> extends AbstractHttpContextInjectable<T> {
-        private static final Logger LOG = LoggerFactory.getLogger(QcAuthProvider.class);
-//        private static final String HEADER_NAME = "WWW-Authenticate";
-//        private static final String HEADER_VALUE = "Bearer realm=\"%s\"";
-//        private static final String PREFIX = "bearer";
 
-        private final Authenticator<String, T> authenticator;
-        private final String realm;
-        private final boolean required;
+	private static class QcAuthInjectable<T> extends AbstractHttpContextInjectable<T> {
+		
+		private static final Logger LOG = LoggerFactory.getLogger(QcAuthProvider.class);
+		//        private static final String HEADER_NAME = "WWW-Authenticate";
+		//        private static final String HEADER_VALUE = "Bearer realm=\"%s\"";
+		//        private static final String PREFIX = "bearer";
 
-        private QcAuthInjectable(Authenticator<String, T> authenticator, String realm, boolean required) {
-            this.authenticator = authenticator;
-            this.realm = realm;
-            this.required = required;
-        }
+		private final Authenticator<String, T> authenticator;
+//		private final String realm;
+//		private final boolean required;
 
-        @Override
-        public T getValue(HttpContext c) {
-        	String accessToken = c.getRequest().getQueryParameters().getFirst("access_token");
-        	
-        	if (accessToken == null) {
-        		throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("access_token is required to access this resource.")
-                        .type(MediaType.TEXT_PLAIN_TYPE)
-                        .build());
-        	}
-        	
-        	// Verifica se accessToken está ativo
-        	// se sim, retorna
+		private QcAuthInjectable(Authenticator<String, T> authenticator, String realm, boolean required) {
+			this.authenticator = authenticator;
+//			this.realm = realm;
+//			this.required = required;
+		}
+
+		@Override
+		public T getValue(HttpContext c) {
+			String accessToken = c.getRequest().getQueryParameters().getFirst("access_token");
+
+			if (accessToken == null) {
+				throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+						.entity("access_token is required to access this resource.")
+						.type(MediaType.TEXT_PLAIN_TYPE)
+						.build());
+			}
+
+			// Verifica se oauth token está ativo
+			// se sim, retorna
 			try {
 				Optional<T> result = authenticator.authenticate(accessToken);
-				
+
 				if (result.isPresent()) {
 					return result.get();
 				} else {
-					throw new WebApplicationException(Response.status(Status.ACCEPTED).
+					throw new WebApplicationException(Response.status(Status.UNAUTHORIZED).
 							entity("You have no access to this resource or your access_token was expired.").
 							type(MediaType.TEXT_PLAIN).
 							build());
@@ -71,62 +72,60 @@ public class QcAuthProvider<T> implements InjectableProvider<Auth, Parameter> {
 				LOG.warn(e.getMessage(), e);
 				throw new WebApplicationException(e);
 			}
-        	
-        	
-//            try {
-//                final String header = c.getRequest().getHeaderValue(HttpHeaders.AUTHORIZATION);
-//                if (header != null) {
-//                    final int space = header.indexOf(' ');
-//                    if (space > 0) {
-//                        final String method = header.substring(0, space);
-//                        if (PREFIX.equalsIgnoreCase(method)) {
-//                            final String credentials = header.substring(space + 1);
-//                            final Optional<T> result = authenticator.authenticate(credentials);
-//                            if (result.isPresent()) {
-//                                return result.get();
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (AuthenticationException e) {
-//                LOGGER.warn("Error authenticating credentials", e);
-//                throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
-//            }
 
-//            if (required) {
-//                throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-//                                                          .header(HEADER_NAME,
-//                                                                  String.format(HEADER_VALUE,
-//                                                                                realm))
-//                                                          .entity("Credentials are required to access this resource.")
-//                                                          .type(MediaType.TEXT_PLAIN_TYPE)
-//                                                          .build());
-//            }
-        }
-    }
 
-    private final Authenticator<String, T> authenticator;
-    private final String realm;
+			//            try {
+			//                final String header = c.getRequest().getHeaderValue(HttpHeaders.AUTHORIZATION);
+			//                if (header != null) {
+			//                    final int space = header.indexOf(' ');
+			//                    if (space > 0) {
+			//                        final String method = header.substring(0, space);
+			//                        if (PREFIX.equalsIgnoreCase(method)) {
+			//                            final String credentials = header.substring(space + 1);
+			//                            final Optional<T> result = authenticator.authenticate(credentials);
+			//                            if (result.isPresent()) {
+			//                                return result.get();
+			//                            }
+			//                        }
+			//                    }
+			//                }
+			//            } catch (AuthenticationException e) {
+			//                LOGGER.warn("Error authenticating credentials", e);
+			//                throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
+			//            }
 
-    /**
-     * Creates a new OAuthProvider with the given {@link Authenticator} and realm.
-     *
-     * @param authenticator    the authenticator which will take the OAuth2 bearer token and convert
-     *                         them into instances of {@code T}
-     * @param realm            the name of the authentication realm
-     */
-    public QcAuthProvider(Authenticator<String, T> authenticator, String realm) {
-        this.authenticator = authenticator;
-        this.realm = realm;
-    }
+			//            if (required) {
+			//                throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
+			//                                                          .header(HEADER_NAME,
+			//                                                                  String.format(HEADER_VALUE,
+			//                                                                                realm))
+			//                                                          .entity("Credentials are required to access this resource.")
+			//                                                          .type(MediaType.TEXT_PLAIN_TYPE)
+			//                                                          .build());
+			//            }
+		}
+	}
 
-    public ComponentScope getScope() {
-        return ComponentScope.PerRequest;
-    }
+	private final Authenticator<String, T> authenticator;
+	private final String realm;
 
-    public Injectable<?> getInjectable(ComponentContext ic,
-                                       Auth a,
-                                       Parameter c) {
-        return new QcAuthInjectable<T>(authenticator, realm, a.required());
-    }
+	/**
+	 * Creates a new OAuthProvider with the given {@link Authenticator} and realm.
+	 *
+	 * @param authenticator    the authenticator which will take the OAuth2 bearer token and convert
+	 *                         them into instances of {@code T}
+	 * @param realm            the name of the authentication realm
+	 */
+	public QcAuthProvider(Authenticator<String, T> authenticator, String realm) {
+		this.authenticator = authenticator;
+		this.realm = realm;
+	}
+
+	public ComponentScope getScope() {
+		return ComponentScope.PerRequest;
+	}
+
+	public Injectable<?> getInjectable(ComponentContext ic, Auth a, Parameter c) {
+		return new QcAuthInjectable<T>(authenticator, realm, a.required());
+	}
 }

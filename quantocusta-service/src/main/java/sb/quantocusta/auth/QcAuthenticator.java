@@ -22,14 +22,10 @@ import com.yammer.dropwizard.auth.Authenticator;
 public class QcAuthenticator implements Authenticator<String, User> {
 
 	public Optional<User> authenticate(String accessToken) throws AuthenticationException {
-		
-		System.out.println("QcAuthenticator.authenticate()");
-		
 		SessionDao dao = Daos.get(SessionDao.class);
-		Session s = null;//dao.find(accessToken);
+		Session s = dao.find(accessToken);
 		
 		if (s == null || s.getStatus() == Status.EXPIRED) {
-//			return null;
 			throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
                     .entity("You have no access to this resource or your access_token was expired.")
                     .type(MediaType.TEXT_PLAIN_TYPE)
@@ -37,8 +33,6 @@ public class QcAuthenticator implements Authenticator<String, User> {
 		} else {
 			UserDao uDao = Daos.get(UserDao.class);
 			User user = uDao.findById(s.getUserId());
-		
-			System.out.println(accessToken);
 			
 			return Optional.<User>fromNullable(user);
 		}

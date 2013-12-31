@@ -39,11 +39,9 @@ import org.slf4j.LoggerFactory;
 import sb.quantocusta.api.User;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.UserDao;
-import ch.qos.logback.core.status.Status;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yammer.dropwizard.auth.Auth;
 
 @Path("/auth")
 public class AuthResource extends BaseResouce {
@@ -52,6 +50,14 @@ public class AuthResource extends BaseResouce {
 
 	private static final String FB_APP_ID = "479032988828474"; 
 	private static final String FB_APP_SECRET = "174f93c3a563214dd805d19a9bfbd89c";
+
+//	private static final String FSQ_APP_ID = ""; 
+//	private static final String FSQ_APP_SECRET = "";
+
+	private static final String GOOGLE_APP_ID = ""; 
+	private static final String GOOGLE_APP_SECRET = "";
+
+
 
 	//		//	             .authorizationResponse(HttpServletResponse.SC_FOUND)
 	//		//	             .setCode(oauthIssuerImpl.authorizationCode())
@@ -138,15 +144,15 @@ public class AuthResource extends BaseResouce {
 	@Path("authorize2")
 	public Object auth(@QueryParam("redirect_url") String redirectUrl,
 			@QueryParam("client_id") String clientId) throws IOException, OAuthSystemException {
-		
+
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
-		
+
 		try {
 			//dynamically recognize an OAuth profile based on request characteristic (params,
 			// method, content type etc.), perform validation
 			OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
 
-//			validateRedirectionURI(oauthRequest)
+			//			validateRedirectionURI(oauthRequest)
 
 			//build OAuth response
 			OAuthResponse resp = OAuthASResponse
@@ -155,12 +161,12 @@ public class AuthResource extends BaseResouce {
 					.location(redirectUrl)
 					.buildQueryMessage();
 
-//			response.sendRedirect(resp.getLocationUri());
-			
+			//			response.sendRedirect(resp.getLocationUri());
+
 			return Response.status(resp.getResponseStatus()).location(UriBuilder.fromUri(resp.getLocationUri()).build()).build();
 
-//			return Response.status(302).location(UriBuilder.fromUri(redirectUrl).build()).entity(resp.getLocationUri()).build();
-			
+			//			return Response.status(302).location(UriBuilder.fromUri(redirectUrl).build()).entity(resp.getLocationUri()).build();
+
 			//if something goes wrong
 		} catch (OAuthProblemException ex) {
 			final OAuthResponse resp = OAuthASResponse
@@ -170,26 +176,26 @@ public class AuthResource extends BaseResouce {
 					.buildQueryMessage();
 
 			response.sendRedirect(resp.getLocationUri());
-			
+
 			return Response.status(response.getStatus()).build();
 		} catch (OAuthSystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return Response.status(response.getStatus()).build();
 	}
 
 	@POST
 	@Path("token")
 	@Consumes("application/x-www-form-urlencoded")
-//	@Produces("application/json")
+	//	@Produces("application/json")
 	public Object ok(@FormParam("client_id") String clientId,
 			@FormParam("client_secret") String clientSecret,
 			@FormParam("redirect_uri") String redirectUri,
 			@FormParam("grant_type") String grant_type,
 			@FormParam("scope") String scope) {
-		
+
 		OAuthTokenRequest oauthRequest = null;
 
 		OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
@@ -217,12 +223,12 @@ public class AuthResource extends BaseResouce {
 					.setRefreshToken(refreshToken)
 					.buildJSONMessage();
 
-//			response.setStatus(r.getResponseStatus());
+			//			response.setStatus(r.getResponseStatus());
 			PrintWriter pw = response.getWriter();
 			pw.print(r.getBody());
 			pw.flush();
 			pw.close();
-			
+
 			return Response.ok(r.getBody()).
 					build();
 
@@ -230,14 +236,14 @@ public class AuthResource extends BaseResouce {
 		} catch(OAuthProblemException ex) {
 
 			ex.printStackTrace();
-			
+
 			OAuthResponse r = null;
 			try {
 				r = OAuthResponse
 						.errorResponse(401)
 						.error(ex)
 						.buildJSONMessage();
-				
+
 				response.setStatus(r.getResponseStatus());
 
 				PrintWriter pw = response.getWriter();
@@ -252,7 +258,7 @@ public class AuthResource extends BaseResouce {
 				e.printStackTrace();
 			}
 
-//			response.sendError(401);
+			//			response.sendError(401);
 			return Response.status(r.getResponseStatus()).build();
 		} catch (OAuthSystemException e) {
 			// TODO Auto-generated catch block
@@ -261,63 +267,47 @@ public class AuthResource extends BaseResouce {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return Response.status(401).build();
 	}
 
-	@GET
-	@Path("connect2")
-	public Object connect2(@QueryParam("code") String code) {
-		OAuthService service = new ServiceBuilder().
-				provider(FacebookApi.class).
-				apiKey(FB_APP_ID).
-				apiSecret(FB_APP_SECRET).
-				callback("http://m.quantocusta.cc/auth/connect2").
-				build();
-		
-		Token requestToken = service.getRequestToken();
+	//	@GET
+	//	@Path("connect2")
+	//	public Object connect2(@QueryParam("code") String code) {
+	//		OAuthService service = new ServiceBuilder().
+	//				provider(FacebookApi.class).
+	//				apiKey(FB_APP_ID).
+	//				apiSecret(FB_APP_SECRET).
+	//				callback("http://m.quantocusta.cc/auth/connect2").
+	//				build();
+	//		
+	//		Token requestToken = service.getRequestToken();
+	//
+	//		String authUrl = service.getAuthorizationUrl(requestToken);
+	//		System.out.println(authUrl);
+	//
+	//		Verifier v = new Verifier("verifier you got from the user");
+	//		Token accessToken = service.getAccessToken(requestToken, v); // the requestToken you had from step 2
+	//
+	//		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?id,email,name");
+	//		service.signRequest(accessToken, request); // the access token from step 4
+	//		org.scribe.model.Response response = request.send();
+	//		System.out.println(response.getBody());
+	//
+	//		return null;
+	//	}
 
-		String authUrl = service.getAuthorizationUrl(requestToken);
-		System.out.println(authUrl);
-
-		Verifier v = new Verifier("verifier you got from the user");
-		Token accessToken = service.getAccessToken(requestToken, v); // the requestToken you had from step 2
-
-		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?id,email,name");
-		service.signRequest(accessToken, request); // the access token from step 4
-		org.scribe.model.Response response = request.send();
-		System.out.println(response.getBody());
-
-		return null;
-	}
-
-	@GET
-	@Path("protected")
-	public Object testOAuth(@Auth User user) {
-		System.out.println("AuthResource.testOAuth()");
-		return null;
-	}
-
-	@GET
-	@Path("stub")
-	public Object stubConnect(@QueryParam("id") String id) {
-		UserDao dao = Daos.get(UserDao.class);
-
-		User user = dao.findById(id);
-		if (user != null) {
-			request.getSession().setAttribute("user", user);
-			request.getSession().setMaxInactiveInterval(3600); // 1 hora
-		} else {
-			return Response.status(Status.ERROR).build();
-		}
-
-		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
-		//		return true;
-	}
-
+//	@POST
+//	@Path("login")
+//	public Response facebookCallback(@FormParam("username") String username,
+//			@FormParam("password") String password,
+//			@FormParam("redirect_uri") String redirectUri) {
+//		return null;
+//	}
+	
 	@GET
 	@Path("connect")
-	public Object facebookCallback(@QueryParam("code") String code) {
+	public Response facebookCallback(@QueryParam("code") String code) {
 		if (code != null) {
 			try {
 				String r = "https://graph.facebook.com/oauth/access_token" + 
@@ -332,10 +322,10 @@ public class AuthResource extends BaseResouce {
 
 				String reqUrl = "https://graph.facebook.com/me?id,email,name&" + accessToken;
 				JsonNode node = new ObjectMapper().readTree(new URL(reqUrl));
-				
+
 				String id = node.get("id").asText();
 				LOG.debug("User's thirdy party ID is " + id);
-				
+
 				UserDao dao = Daos.get(UserDao.class);
 				User user = dao.findBy3rdId(id);
 				if (user == null) {
@@ -344,26 +334,100 @@ public class AuthResource extends BaseResouce {
 					user.setEmail(node.get("email").asText());
 					user.setName(node.get("name").asText());
 					user.setThirdyId(id);
-					
+
 					user = dao.insert(user);
 				}
 				
-				System.out.println(accessToken);
+				// cria sessao persistente
 				
+
 				request.getSession().setAttribute("user", user);
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
-				e.printStackTrace();
+			}
+		}
+
+		return Response.seeOther(UriBuilder.fromUri("http://m.quantocusta.cc/me").build()).build();
+//		return null;
+	}
+
+	@GET
+	@Path("connect_fb")
+	public Object fbCallback() {
+		OAuthService service = new ServiceBuilder()
+		.provider(FacebookApi.class)
+		.apiKey(FB_APP_ID)
+		.apiSecret(FB_APP_SECRET)
+		.callback("http://m.quantocusta.cc/auth/connect_fb")
+		.build();
+
+		// Obtain the Authorization URL
+		String authorizationUrl = service.getAuthorizationUrl(null);
+		System.out.println(authorizationUrl);
+
+		// Trade the Request Token and Verfier for the Access Token
+		System.out.println("Trading the Request Token for an Access Token...");
+		Token accessToken = service.getAccessToken(null, new Verifier(""));
+
+		// Now let's go and ask for a protected resource!
+		System.out.println("Now we're going to access a protected resource...");
+		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?id,email,name");
+		service.signRequest(accessToken, request);
+		org.scribe.model.Response response = request.send();
+		System.out.println("Got it! Lets see what we found...");
+		System.out.println();
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
+		
+		return null;
+	}
+
+	@GET
+	@Path("connect_g")
+	public Object googleCallback(@QueryParam("code") String code) {
+		if (code != null) {
+			try {
+				String r = "https://accounts.google.com/o/oauth2" + 
+						"?client_id=" + GOOGLE_APP_ID + 
+						"&redirect_uri=" + URLEncoder.encode("http://m.quantocusta.cc/auth/connect", "UTF-8") + 
+						"&client_secret=" + GOOGLE_APP_SECRET + 
+						"&response_type=" + code;
+
+				InputStream rIs = new URL(r).openStream();
+				String accessToken = IOUtils.toString(rIs);
+				rIs.close();
+
+				String reqUrl = "https://graph.facebook.com/me?id,email,name&" + accessToken;
+				JsonNode node = new ObjectMapper().readTree(new URL(reqUrl));
+
+				String id = node.get("id").asText();
+				LOG.debug("User's thirdy party ID is " + id);
+
+				UserDao dao = Daos.get(UserDao.class);
+				User user = dao.findBy3rdId(id);
+				if (user == null) {
+					// Primeiro acesso
+					user = new User();
+					user.setEmail(node.get("email").asText());
+					user.setName(node.get("name").asText());
+					user.setThirdyId(id);
+
+					user = dao.insert(user);
+				}
+
+				request.getSession().setAttribute("user", user);
+			} catch (IOException e) {
+				LOG.error(e.getMessage(), e);
 			}
 		}
 
 		return null;
 	}
 
-	@GET
-	@Path("logout")
-	public Object logout() {
-		request.getSession().removeAttribute("user");
-		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
-	}
+	//	@GET
+	//	@Path("logout")
+	//	public Object logout() {
+	//		request.getSession().removeAttribute("user");
+	//		return Response.temporaryRedirect(UriBuilder.fromResource(HtmlResource.class).build()).build();
+	//	}
 }

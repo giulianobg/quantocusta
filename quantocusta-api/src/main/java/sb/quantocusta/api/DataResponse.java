@@ -87,4 +87,8 @@ public class DataResponse {
 		return r;
 	}
 	
+	public static DataResponse build(Status code, Object result) {
+		return build(code.getStatusCode(), result);
+	}
+	
 }

@@ -3,6 +3,7 @@ package sb.quantocusta.resources;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * 
@@ -16,5 +17,8 @@ public class BaseResouce {
 	
 	@Context
 	protected HttpServletResponse response;
+	
+	@Context
+	protected UriInfo uriInfo;
 
 }

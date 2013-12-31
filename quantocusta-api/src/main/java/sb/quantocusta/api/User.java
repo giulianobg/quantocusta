@@ -4,6 +4,11 @@ import org.mongojack.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 
+ * @author Giuliano Griffante
+ *
+ */
 public class User {
 	
 	@ObjectId

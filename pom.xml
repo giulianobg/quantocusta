@@ -4,7 +4,7 @@
 
 	<groupId>sb</groupId>
 	<artifactId>quantocusta</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 
 	<name>quantocusta</name>
 
@@ -65,12 +65,12 @@
 			<groupId>org.apache.oltu.oauth2</groupId>
 			<artifactId>org.apache.oltu.oauth2.authzserver</artifactId>
 			<version>0.31</version>
-		</dependency>
+		</dependency><!-- 
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client</artifactId>
 			<version>1.17.0-rc</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.scribe</groupId>
 			<artifactId>scribe</artifactId>
@@ -81,6 +81,18 @@
 			<artifactId>google-oauth-client-appengine</artifactId>
 			<version>1.17.0-rc</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		
+		<!-- Geo services -->
+		<dependency>
+	        <groupId>com.maxmind.geoip2</groupId>
+	        <artifactId>geoip2</artifactId>
+	        <version>0.7.0</version>
+	    </dependency>
 		
 	</dependencies>
 
@@ -89,6 +101,5 @@
 		<module>quantocusta-api</module>
 		<module>quantocusta-service</module>
 		<module>quantocusta-client</module>
-    <module>quantocusta-web</module>
-  </modules>
+	</modules>
 </project>

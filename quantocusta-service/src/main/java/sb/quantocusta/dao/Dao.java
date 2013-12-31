@@ -1,8 +1,11 @@
 package sb.quantocusta.dao;
 
+import org.mongojack.DBCursor;
 import org.mongojack.JacksonDBCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mongodb.DBObject;
 
 /**
  * 
@@ -42,6 +45,10 @@ public abstract class Dao<T> {
 			LOG.debug("Object '" + obj + "' was inserted.");
 		}
 		return saved;
+	}
+	
+	public DBCursor<T> findAll(DBObject query) {
+		return coll.find(query);
 	}
 
 }

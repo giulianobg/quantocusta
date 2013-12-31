@@ -13,17 +13,17 @@ import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
+import sb.quantocusta.dao.SessionDao;
 import sb.quantocusta.dao.UserDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.health.MongoHealthCheck;
 import sb.quantocusta.resources.AuthResource;
-import sb.quantocusta.resources.HtmlResource;
 import sb.quantocusta.resources.OAuthResource;
-import sb.quantocusta.resources.TestSessionResource;
-import sb.quantocusta.resources.api.ApiVenueResource;
-import sb.quantocusta.resources.api.ApiVoteResource;
-import sb.quantocusta.resources.api.Apis;
+import sb.quantocusta.resources.SessionResource;
+import sb.quantocusta.resources.UserResource;
+import sb.quantocusta.resources.VenueResource;
+import sb.quantocusta.resources.VoteResource;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
@@ -49,7 +49,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 	}
 
 	public void initialize(Bootstrap<QuantoCustaConfiguration> bootstrap) {
-		bootstrap.setName("quantocusta-app");
+		bootstrap.setName("quantocusta-api-app");
 		bootstrap.addBundle(new ViewBundle());
 
 		bootstrap.addBundle(new AssetsBundle());
@@ -78,29 +78,22 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		Daos.addDao(new CategoryDao(db));
 		Daos.addDao(new CityDao(db));
 		Daos.addDao(new ReviewDao(db));
+		Daos.addDao(new SessionDao(db));
 		Daos.addDao(new UserDao(db));
 		Daos.addDao(new VenueDao(db));
 		Daos.addDao(new VoteDao(db));
 		
 		/* OAuth2 */
-//		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "The secret code"));
-//		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
-		
-		/* APIs */
-		Apis.addApi("venue", new ApiVenueResource(db));
-		Apis.addApi("vote", new ApiVoteResource(db));
+//		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth")); // morre
+		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
 		/* Resources */
-		environment.addResource(Apis.get("venue"));
-		environment.addResource(Apis.get("vote"));
-		
 		environment.addResource(new OAuthResource());
 		environment.addResource(new AuthResource());
-		environment.addResource(new HtmlResource());
-		environment.addResource(new TestSessionResource());
-//		environment.addResource(new GibaResource()); // :)
-		
-		environment.addProtectedTarget("/assets/tpl/");
+		environment.addResource(new SessionResource());
+		environment.addResource(new UserResource());
+		environment.addResource(new VenueResource());
+		environment.addResource(new VoteResource());
 		
 		/* Health checkers */
 		environment.addHealthCheck(new MongoHealthCheck(null));

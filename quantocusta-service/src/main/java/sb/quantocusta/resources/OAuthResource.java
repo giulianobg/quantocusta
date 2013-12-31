@@ -9,9 +9,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.client.Client;
@@ -20,19 +20,22 @@ import sb.quantocusta.dao.Daos;
 
 @Path("oauth")
 public class OAuthResource extends BaseResouce {
+	
+	static Logger LOG = LoggerFactory.getLogger(OAuthResource.class);
 
 	@GET
 	public Response oauth(@QueryParam("client_id") String clientId,
 			@QueryParam("client_secret") String clientSecret,
 			@QueryParam("redirect_uri") String redirectUri,
-			@QueryParam("type") String type) {
+			@QueryParam("response_type") String type) {
 		// check appId and appSecret
-//		ClientDao dao = Daos.get(ClientDao.class);
-//		Client client = dao.find(clientId, clientSecret);
 		
-//		if (client == null) {
-//			Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
-//		}
+		ClientDao dao = Daos.get(ClientDao.class);
+		Client client = dao.find(clientId, clientSecret);
+		
+		if (client == null) {
+			Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
+		}
 		
 		// generate code
 		try {
@@ -40,7 +43,7 @@ public class OAuthResource extends BaseResouce {
 			
 			return Response.temporaryRedirect(URI.create(redirectUri + "?code=" + code)).build();
 		} catch (OAuthSystemException e) {
-			// TODO Auto-generated catch block
+			LOG.error(e.getMessage(), e);
 			e.printStackTrace();
 		}
 		
