@@ -24,14 +24,7 @@
 	
 			<div class="row row-offcanvas row-offcanvas-left">
 			
-				<div class="col-xs-9 sidebar-offcanvas" id="sidebar" role="navigation">
-					<div class="list-group">
-						<a href="#" class="list-group-item active">Link</a>
-						<a href="#" class="list-group-item">Link</a>
-						<a href="#" class="list-group-item">Link</a>
-						<a href="#" class="list-group-item">Link</a>
-					</div>
-				</div><!--/span-->
+				<#include "/assets/tpl/components/footer.ftl">
 				
 				<div class="col-xs-12">
 				
