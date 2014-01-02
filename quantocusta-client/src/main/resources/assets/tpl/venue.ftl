@@ -8,7 +8,7 @@
 
 		<title>Quanto Custa?</title>
 		
-		<!-- Bootstrap core CSS -->
+		<!-- Bootstrap core and jQuery Mobile CSS -->
 		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- Add custom CSS here -->
@@ -24,11 +24,20 @@
 			
 				<div class="col-xs-9 sidebar-offcanvas" id="sidebar" role="navigation">
 					<#include "/assets/tpl/components/nav.ftl">
-				</div><!--/span-->
+				</div>
 				
 				<div class="col-xs-12">
 				
-					<#include "/assets/tpl/components/search.ftl">
+					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
+						<div class="navbar-header">
+							<a href="#voltar" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon-arrow-circle-left"></i></a>
+							<form class="form-search pull-left" action="/buscar">
+								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+								<button type="submit"><i class="icon-search"></i></button>
+								<div class="clearfix"></div>
+							</form>
+						</div>
+					</nav>
 					
 					<div class="breathe"></div>
 					
@@ -42,7 +51,11 @@
 								<#if venue.site??><i class="icon-world"></i> ${venue.site!""}<br></#if>
 								<#if venue.phone??><i class="icon-phone"></i> ${venue.phone!""}</#if>
 							</address>
-							
+						</div>
+					</div>
+					
+					<div class="panel panel-default">
+						<div class="panel-body">
 							<div class="section-price">
 								<span class="sign">R$</span>
 								<div class="text-center"><span class="price"><#if venue.reviews.averagePrice &gt; 0>${venue.reviews.averagePrice?string("0")},00<#else>--</#if></span></div>
@@ -70,7 +83,7 @@
 						
 					</div>
 					
-					<div class="panel panel-primary">
+					<div class="panel panel-info">
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-xs-12">
@@ -112,24 +125,24 @@
 								<div class="list-group-item">
 									<i class="icon-soup fa-2x"></i> <span>Comida</span>
 									<div class="btn-group pull-right">
-										<button type="button" class="btn btn-info btn-food-s" onclick="qc.vote('${venue.id}', 'food', 1);"><i class="icon-smile fa-2x"></i></button>
-										<button type="button" class="btn btn-info btn-food-p" onclick="qc.vote('${venue.id}', 'food', -1);"><i class="icon-frown fa-2x"></i></button>
+										<button type="button" class="btn btn-inverse btn-food-s" onclick="qc.vote('${venue.id}', 'food', 1);"><i class="icon-smile fa-2x"></i></button>
+										<button type="button" class="btn btn-inverse btn-food-p" onclick="qc.vote('${venue.id}', 'food', -1);"><i class="icon-frown fa-2x"></i></button>
 									</div>
 									<div class="clearfix"></div>
 								</div>
 								<div class="list-group-item">
 									<i class="icon-foodtray fa-2x"></i> <span>Atendimento</span>
 									<div class="btn-group pull-right">
-										<button type="button" class="btn btn-info btn-treatment-s" onclick="qc.vote('${venue.id}', 'treatment', 1);"><i class="icon-smile fa-2x"></i></button>
-										<button type="button" class="btn btn-info btn-treatment-p" onclick="qc.vote('${venue.id}', 'treatment', -1);"><i class="icon-frown fa-2x"></i></button>
+										<button type="button" class="btn btn-inverse btn-treatment-s" onclick="qc.vote('${venue.id}', 'treatment', 1);"><i class="icon-smile fa-2x"></i></button>
+										<button type="button" class="btn btn-inverse btn-treatment-p" onclick="qc.vote('${venue.id}', 'treatment', -1);"><i class="icon-frown fa-2x"></i></button>
 									</div>
 									<div class="clearfix"></div>
 								</div>
 								<div class="list-group-item">
 									<i class="icon-store fa-2x"></i> <span>Ambiente</span>
 									<div class="btn-group pull-right">
-										<button type="button" class="btn btn-info btn-environment-s" onclick="qc.vote('${venue.id}', 'environment', 1);"><i class="icon-smile fa-2x"></i></button>
-										<button type="button" class="btn btn-info btn-environment-p" onclick="qc.vote('${venue.id}', 'environment', -1);"><i class="icon-frown fa-2x"></i></button>
+										<button type="button" class="btn btn-inverse btn-environment-s" onclick="qc.vote('${venue.id}', 'environment', 1);"><i class="icon-smile fa-2x"></i></button>
+										<button type="button" class="btn btn-inverse btn-environment-p" onclick="qc.vote('${venue.id}', 'environment', -1);"><i class="icon-frown fa-2x"></i></button>
 									</div>
 									<div class="clearfix"></div>
 								</div>
@@ -140,8 +153,6 @@
 					
 					<#include "/assets/tpl/components/modal.ftl">
 			
-					<#include "/assets/tpl/components/footer.ftl">
-					
 				</div>
 				
 			</div>

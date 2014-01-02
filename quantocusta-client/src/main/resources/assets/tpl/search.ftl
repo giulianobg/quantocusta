@@ -8,7 +8,7 @@
 
 		<title>Quanto Custa?</title>
 
-		<!-- Bootstrap core CSS -->
+		<!-- Bootstrap core and jQuery Mobile CSS -->
 		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- Add custom CSS here -->

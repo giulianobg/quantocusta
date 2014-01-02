@@ -8,7 +8,7 @@
 
 		<title>Quanto Custa?</title>
 
-		<!-- Bootstrap core CSS -->
+		<!-- Bootstrap core and jQuery Mobile CSS -->
 		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- Add custom CSS here -->
@@ -19,28 +19,24 @@
 	<body>
 	
 		<div class="container">
-			<div class="panel panel-default">
+			<div class="panel panel-primary" style="min-height: 400px;">
 				<div class="panel-body">
-					<div class="container-bg">
-						<img class="img img-responsive bg" width="320" src="../assets/images/logo.png">
-						<div class="overlay">
-							<h1 style="text-indent: -9999px;">Quanto Custa?</h1>
-							<div class="hide">
-								<span>Quer ir em um restaurante e saber quanto irá pagar?</span>
-								<form class="form-search" action="/buscar">
-									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required>
-									<button type="submit"><i class="icon-search"></i></button>
-									<div class="clearfix"></div>
-								</form>
-							</div>
-							<br><br>
-							<div class="loading">
-								<img alt="Carregando conteúdo..." src="../assets/images/ajax-loader-2.gif">
+					<!--  logo -->
+					<div class="overlay">
+						<h1>Quanto Custa?</h1>
+						<span>Quer ir em um restaurante e saber quanto irá pagar?</span>
+						<br><br>
+						<div class="loading">
+							<div id="circleG" title="Carregando conteúdo...">
+								<div id="circleG_1" class="circleG"></div>
+								<div id="circleG_2" class="circleG"></div>
+								<div id="circleG_3" class="circleG"></div>
 							</div>
 						</div>
 					</div>
+					
 					<div class="hide">
-						<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-link"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
+						<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-block"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
 					</div>
 				</div>
 			</div>

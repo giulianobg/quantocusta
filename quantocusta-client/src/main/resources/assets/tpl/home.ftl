@@ -8,7 +8,7 @@
 
 		<title>Quanto Custa?</title>
 
-		<!-- Bootstrap core CSS -->
+		<!-- Bootstrap core and jQuery Mobile CSS -->
 		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- Add custom CSS here -->
@@ -32,7 +32,6 @@
 					
 					<div class="breathe"></div>
 		
-					<span>Termo de busca</span>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="list-group">
