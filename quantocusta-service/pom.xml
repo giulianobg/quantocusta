@@ -3,25 +3,34 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<groupId>sb</groupId>
 		<artifactId>quantocusta</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.0</version>
 	</parent>
-	<groupId>sb</groupId>
+
 	<artifactId>quantocusta-service</artifactId>
 	<name>quantocusta-service</name>
-	<url>http://maven.apache.org</url>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>sb</groupId>
+			<artifactId>quantocusta-api</artifactId>
+			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- Jersey client -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.17.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -55,7 +64,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>sb.quantocusta.HelloWorldService</mainClass>
+									<mainClass>sb.quantocusta.QuantoCustaService</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

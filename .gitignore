@@ -1,3 +1,11 @@
+# Eclipse specific settings
+.classpath
+.project
+.settings
+
+# Binaries
+target
+*/target
 *.class
 
 # Package Files #
