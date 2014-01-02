@@ -1,0 +1,28 @@
+# App settings
+api: http://localhost:8090
+
+# Logging settings.
+logging:
+  level: INFO
+  
+  # Logger-specific levels.
+  loggers:
+    "sb.quantocusta.client": INFO
+
+
+# HTTP-specific options.
+http:
+
+  port: 8092
+  adminPort: 8092
+  adminUsername: quantocusta
+  adminPassword: fanipituchasimba
+  
+  # The number of threads dedicated to accepting connections.
+  acceptorThreads: 2
+  
+  acceptQueueSize: 1024
+
+  # Configuration parameters for GZIP encoding of response entities.
+  gzip:
+    enabled: false
