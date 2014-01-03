@@ -52,7 +52,6 @@ public class QuantoCustaClientService extends Service<QuantoCustaClientConfigura
 		environment.addResource(new GeoLocationResource());
 		environment.addResource(new HtmlResource(configuration));
 		environment.addResource(new JsonResource(configuration));
-//		environment.addResource(new TestSessionResource());
 //		environment.addResource(new GibaResource()); // :)
 		
 		environment.addProtectedTarget("/assets/tpl/");

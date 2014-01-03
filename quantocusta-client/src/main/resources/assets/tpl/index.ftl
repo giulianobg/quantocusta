@@ -22,7 +22,7 @@
 			<div class="panel panel-primary" style="min-height: 400px;">
 				<div class="panel-body">
 					<!--  logo -->
-					<div class="overlay">
+					<div style="margin: 10px;">
 						<h1>Quanto Custa?</h1>
 						<span>Quer ir em um restaurante e saber quanto irá pagar?</span>
 						<br><br>
@@ -33,10 +33,10 @@
 								<div id="circleG_3" class="circleG"></div>
 							</div>
 						</div>
-					</div>
-					
-					<div class="hide">
-						<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-block"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
+						
+						<div class="hide">
+							<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-block facebook"><i class="icon-facebook"></i> Conecte-se com o Facebook</a>
+						</div>
 					</div>
 				</div>
 			</div>

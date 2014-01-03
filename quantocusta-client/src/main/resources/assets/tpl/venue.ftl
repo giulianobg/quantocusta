@@ -30,7 +30,7 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="#voltar" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon-arrow-circle-left"></i></a>
+							<a href="#voltar" onclick="javascript:window.history.back();" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon-arrow-circle-left"></i></a>
 							<form class="form-search pull-left" action="/buscar">
 								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
 								<button type="submit"><i class="icon-search"></i></button>
