@@ -1,7 +1,7 @@
 $.ajaxSetup({
 	type: "POST",
 	contentType: "application/x-www-form-urlencoded;charset=utf-8",
-	timeout: 2000,
+	timeout: 6000,
 	error: function(xhr, textStatus, err) {
 		var data = JSON.parse(xhr.responseText);
 		$("#error-modal .modal-title").html("Ooops!");
@@ -15,28 +15,43 @@ $.ajaxSetup({
 });
 
 var qc = {
-	vote: function(where, kind, v) {
+	vote: function(elm, where, kind, v) {
+		if ($(elm).hasClass('active')) {
+			v = -1;
+		}
+		
 		$.ajax({
-			url: "/vote",
+			url: "/api/vote",
 			data: {
-				'access_token': $('#access_token').val(),
 				'id': where,
 				'kind': kind,
 				'v': v
 			},
 			success: function(data) {
-				$(".food").html(Math.round(data.result.valuation.food.smileAverage) + '%');
-				$('.treatment').html(Math.round(data.result.valuation.treatment.smileAverage) + '%');
-				$('.environment').html(Math.round(data.result.valuation.environment.smileAverage) + '%');
+				$(".food").html(Math.round(data.result.valuation.food.average) + '%');
+				$('.treatment').html(Math.round(data.result.valuation.treatment.average) + '%');
+				$('.environment').html(Math.round(data.result.valuation.environment.average) + '%');
 				qc.load(where);
 			}
 		});
 	},
 	submitPrice: function(where, price) {
 		$.ajax({
-			url: "/vote/price",
+			url: "/api/vote/price",
 			data: {
-				'access_token': $('#access_token').val(),
+				'id': where,
+				'price': price.replace(/,/g, '.')
+			},
+			success: function(data) {
+				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
+				$("input[name='price']").val("");
+			}
+		});
+	},
+	submitComment: function(where, who, comment) {
+		$.ajax({
+			url: "/api/comment",
+			data: {
 				'id': where,
 				'price': price.replace(/,/g, '.')
 			},
@@ -53,9 +68,7 @@ var qc = {
 				if (data.result.valuation.food.me) {
 					if (data.result.valuation.food.me.val > 0) {
 						$(".btn-food-s").addClass("active");
-						$(".btn-food-p").removeClass("active");
 					} else {
-						$(".btn-food-p").addClass("active");
 						$(".btn-food-s").removeClass("active");
 					}
 				}
@@ -63,9 +76,7 @@ var qc = {
 				if (data.result.valuation.treatment.me) {
 					if (data.result.valuation.treatment.me.val > 0) {
 						$(".btn-treatment-s").addClass("active");
-						$(".btn-treatment-p").removeClass("active");
 					} else {
-						$(".btn-treatment-p").addClass("active");
 						$(".btn-treatment-s").removeClass("active");
 					}
 				}
@@ -73,9 +84,7 @@ var qc = {
 				if (data.result.valuation.environment.me) {
 					if (data.result.valuation.environment.me.val > 0) {
 						$(".btn-environment-s").addClass("active");
-						$(".btn-environment-p").removeClass("active");
 					} else {
-						$(".btn-environment-p").addClass("active");
 						$(".btn-environment-s").removeClass("active");
 					}
 				}

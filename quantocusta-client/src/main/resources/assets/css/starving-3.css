@@ -728,27 +728,27 @@ footer {margin: 50px 0;}
 #circleG_3{-moz-animation-delay:0.5399999999999999s;-webkit-animation-delay:0.5399999999999999s;-o-animation-delay:0.5399999999999999s;-ms-animation-delay:0.5399999999999999s;animation-delay:0.5399999999999999s;}
 @-moz-keyframes bounce_circleG {
 	0% {}
-	50% {background-color:#F35D5D }
+	50% {background-color:#707070 }
 	100% {}
 }
 @-webkit-keyframes bounce_circleG {
 	0% {}
-	50% {background-color:#F35D5D }
+	50% {background-color:#707070 }
 	100% {}
 }
 @-o-keyframes bounce_circleG{
 	0%{}
-	50%{background-color:#F35D5D}
+	50%{background-color:#707070}
 	100%{}
 }
 @-ms-keyframes bounce_circleG{
 	0%{}
-	50%{background-color:#F35D5D}
+	50%{background-color:#707070}
 	100%{}
 }
 @keyframes bounce_circleG{
 	0%{}
-	50%{background-color:#F35D5D}
+	50%{background-color:#707070}
 	100%{}
 }
 
