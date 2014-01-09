@@ -4,18 +4,15 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+
+import org.apache.commons.lang3.StringUtils;
 
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.User;
@@ -27,13 +24,10 @@ import sb.quantocusta.client.views.SearchView;
 import sb.quantocusta.client.views.SimplePageView;
 import sb.quantocusta.client.views.VenueView;
 import sb.quantocusta.resources.BaseResouce;
-import sb.quantocusta.util.TokenUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-import com.yammer.dropwizard.jersey.params.IntParam;
 import com.yammer.dropwizard.views.View;
 
 @Path("/")
@@ -62,8 +56,6 @@ public class HtmlResource extends BaseResouce {
 	public View me() {
 		// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
 		String token = (String) request.getSession().getAttribute("access_token");
-		
-		
 		
 //		URI uri = UriBuilder.fromUri(configuration.getApi()).
 //				path("/api/user/me").
@@ -123,28 +115,36 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	@Path("buscar")
 	public View search(@QueryParam("q") String q) {
-		URI uri = UriBuilder.fromUri(configuration.getApi()).
-				path("/api/venue/search").
-				queryParam("q", q.replaceAll(" ", "+")).
-				queryParam("lat", request.getSession().getAttribute("lat")).
-				queryParam("lng", request.getSession().getAttribute("lng")).
-				build();
-		
-		WebResource target = client.resource(uri);
-		
-		DataResponse response = target.accept(
-		        MediaType.APPLICATION_JSON).
-		        get(DataResponse.class);
-
-		List list = mapper.convertValue(response.getResult(), List.class);
-		
-		List<Venue> venues = new ArrayList<Venue>();
-		for (int i = 0; i < list.size(); i++) {
-			venues.add(mapper.convertValue(list.get(i), Venue.class));
-		}
-
 		SimplePageView page = new SearchView();
-		page.setVenues(venues);
+		
+		if (StringUtils.isEmpty(q)) {
+			return page;
+		} else {
+//			String lat = queryParam("lat", request.getSession().getAttribute("lat") == null ?
+//					auth : queryParam("lat", request.getSession().getAttribute("lat")
+			
+			URI uri = UriBuilder.fromUri(configuration.getApi()).
+					path("/api/venue/search").
+					queryParam("q", q.replaceAll(" ", "+")).
+					queryParam("lat", request.getSession().getAttribute("lat")).
+					queryParam("lng", request.getSession().getAttribute("lng")).
+					build();
+			
+			WebResource target = client.resource(uri);
+			
+			DataResponse response = target.accept(
+			        MediaType.APPLICATION_JSON).
+			        get(DataResponse.class);
+	
+			List list = mapper.convertValue(response.getResult(), List.class);
+			
+			List<Venue> venues = new ArrayList<Venue>();
+			for (int i = 0; i < list.size(); i++) {
+				venues.add(mapper.convertValue(list.get(i), Venue.class));
+			}
+	
+			page.setVenues(venues);
+		}
 		return page;
 	}
 	
@@ -180,7 +180,7 @@ public class HtmlResource extends BaseResouce {
 				accept(MediaType.APPLICATION_JSON).
 		        get(DataResponse.class);
 		
-		Venue venue = mapper.convertValue(response.getResult(), Venue.class);
+		 Venue venue = mapper.convertValue(response.getResult(), Venue.class);
 		
 		if (venue != null) {
 			SimplePageView page = new VenueView(venue);
@@ -189,49 +189,6 @@ public class HtmlResource extends BaseResouce {
 		}
 		
 		return new ErrorView();
-	}
-	
-	@POST
-	@Path("vote")
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces("application/json; charset=utf-8")
-	public Response vote(@FormParam("id") String id, @FormParam("kind") String kind, @FormParam("v") IntParam v) {
-		String token = (String) request.getSession().getAttribute("access_token");
-		
-
-		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
-	}
-
-	@POST
-	@Path("vote/price")
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces("application/json; charset=utf-8")
-	public Response submitPrice(@FormParam("id") String id, @FormParam("price") Double price) {
-		String token = (String) request.getSession().getAttribute("access_token");
-		
-		MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-		params.add("id", id);
-		params.add("price", String.valueOf(price));
-		
-		URI uriUser = UriBuilder.fromUri(configuration.getApi()).
-				path("/api/user/create").
-				queryParam("access_token", TokenUtils.tokenFromId(id)).
-				build();
-		
-		client.resource(uriUser).
-				type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
-				accept(MediaType.APPLICATION_JSON_TYPE).
-				post(DataResponse.class, params);
-		
-		URI uri = UriBuilder.fromUri(configuration.getApi()).path("/api/vote/price").build();
-		
-		DataResponse response = client.resource(uri).
-				accept(MediaType.APPLICATION_JSON).
-		        post(DataResponse.class);
-		
-		Venue venue = mapper.convertValue(response.getResult(), Venue.class);
-
-		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
 	}
 	
 }

@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import sb.quantocusta.api.DataResponse;
+import sb.quantocusta.api.Venue;
 import sb.quantocusta.client.QuantoCustaClientConfiguration;
 import sb.quantocusta.resources.BaseResouce;
 
@@ -97,6 +98,8 @@ public class JsonResource extends BaseResouce {
 //	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response submitPrice(@FormParam("id") String id, @FormParam("price") Double price) {
 		String token = (String) request.getSession().getAttribute("access_token");
+		
+		System.out.println(token);
 		
 		// cria sessao persistente
 		MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
