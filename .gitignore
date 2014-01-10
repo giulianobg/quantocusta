@@ -12,3 +12,6 @@ target
 *.jar
 *.war
 *.ear
+
+# Specific files
+quantocusta-service/configuration-dev.yml
