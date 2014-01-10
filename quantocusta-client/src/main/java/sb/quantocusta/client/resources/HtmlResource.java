@@ -120,6 +120,7 @@ public class HtmlResource extends BaseResouce {
 	@Path("buscar")
 	public View search(@QueryParam("q") String q) {
 		SimplePageView page = new SearchView();
+		page.setMe((User) request.getSession().getAttribute("user"));
 		
 		if (StringUtils.isEmpty(q)) {
 			return page;
@@ -169,6 +170,7 @@ public class HtmlResource extends BaseResouce {
 		if (venue != null) {
 			SimplePageView page = new VenueView(venue);
 			page.setRequest(request);
+			page.setMe((User) request.getSession().getAttribute("user"));
 			return page;
 		}
 		
@@ -189,6 +191,7 @@ public class HtmlResource extends BaseResouce {
 		if (venue != null) {
 			SimplePageView page = new VenueView(venue);
 			page.setRequest(request);
+			page.setMe((User) request.getSession().getAttribute("user"));
 			return page;
 		}
 		
@@ -198,13 +201,13 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	@Path("sobre")
 	public View about() {
-		return new SimplePageView("/assets/tpl/about.ftl");
+		return new SimplePageView("/assets/tpl/about.ftl", (User) request.getSession().getAttribute("user"));
 	}
 	
 	@GET
 	@Path("config")
 	public View settings() {
-		return new SimplePageView("/assets/tpl/settings.ftl");
+		return new SimplePageView("/assets/tpl/settings.ftl", (User) request.getSession().getAttribute("user"));
 	}
 	
 	@GET
