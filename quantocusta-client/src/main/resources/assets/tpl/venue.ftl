@@ -29,7 +29,10 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="javascript:window.history.back();" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-arrow-circle-left"></i></a>
+							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-arrow-circle-left"></i></a>
+							<div class="page-title">
+								${venue.name}
+							</div>
 							<!-- 
 							<form class="form-search pull-left hide" action="/buscar" style="display: block !important;">
 								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
@@ -44,7 +47,7 @@
 					<div class="breathe"></div>
 					
 					<div class="section">
-						<img class="img img-responsive" src="/assets/images/no-image.gif">
+						<img class="img img-responsive" src="/assets/images/no-image.gif" width="340" >
 					</div>
 					
 					<div class="row">

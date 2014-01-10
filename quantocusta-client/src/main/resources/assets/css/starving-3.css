@@ -275,25 +275,29 @@ html {
 }
 
 .row-offcanvas-right .sidebar-offcanvas {
-	right: -75%; /* 9 columns */
+	right: -83.333333333333%; /* 10 columns */
 }
 
 .row-offcanvas-left .sidebar-offcanvas {
-	left: -75%; /* 9 columns */
+	left: -83.333333333333%; /* 10 columns */
 }
 
 .row-offcanvas-right.active {
-	right: 75%; /* 9 columns */
+	right: 83.333333333333%; /* 10 columns */
 }
 
 .row-offcanvas-left.active {
-	left: 75%; /* 9 columns */
+	left: 83.333333333333%; /* 10 columns */
 }
 
 .sidebar-offcanvas {
   position: absolute;
-  top: 60px;
-  width: 75%; /* 9 columns */
+  top: 0px;
+  width: 83.333333333333%; /* 10 columns */
+  padding-left: 0;
+  padding-right: 0;
+  
+  background-color: #F35D5D;
 }
 
 /* Panels and other componentes */
@@ -468,6 +472,7 @@ a.list-group-item:focus {
 
 .section {
 	width: 100%;
+	margin: -20px -10px;
 }
 
 .section-price {
@@ -562,6 +567,15 @@ a.facebook:hover {
 	color: #efefef;
 }
 
+.navbar-header > .page-title {
+	float: left;
+	width: 80%;
+	padding: 0 0 0 10px;
+	margin: 0;
+	text-align: center;
+	font-size: 18px;
+}
+
 .navbar-header > .form-search {
 	width: 80%;
 	padding: 0 0 0 10px;
@@ -591,40 +605,6 @@ a.facebook:hover {
     text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
 }   
    
-.form-wrapper button:hover {     
-    background: #e54040;
-}   
-   
-.form-wrapper button:active,
-.form-wrapper button:focus{   
-    background: #c42f2f;
-    outline: 0;   
-}
- 
-.form-wrapper button:before { /* left arrow */
-    content: '';
-    position: absolute;
-    border-width: 8px 8px 8px 0;
-    border-style: solid solid solid none;
-    border-color: transparent #d83c3c transparent;
-    top: 12px;
-    left: -6px;
-}
- 
-.form-wrapper button:hover:before{
-    border-right-color: #e54040;
-}
- 
-.form-wrapper button:focus:before,
-.form-wrapper button:active:before{
-        border-right-color: #c42f2f;
-}      
- 
-.form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
-    border: 0;
-    padding: 0;
-}    
-
 .sidebar {
 	margin-top: 40px;
 }
@@ -633,6 +613,25 @@ a.facebook:hover {
 	border-radius: 5px;
 	padding: 5px;
 	border: 1px solid #cccccc;
+}
+
+/* Navigation */
+.nav {
+	width: 100%;
+}
+
+.nav > li {
+	border-bottom: 1px solid #fbfbfb;
+}
+
+.nav > li > a {
+	color: #fbfbfb;
+}
+
+.nav > li > a:hover, 
+.nav > li > a:focus {
+	border-radius: 0px;
+	background-color: #F35D5D;
 }
 
 /* Small features */

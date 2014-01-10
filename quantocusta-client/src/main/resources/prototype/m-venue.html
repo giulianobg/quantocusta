@@ -10,63 +10,73 @@
 		<title>Quanto Custa?</title>
 		
 		<!-- Bootstrap core and jQuery Mobile CSS -->
-		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
 		<!-- Add custom CSS here -->
-		<link href="../assets/css/starving-3.css" rel="stylesheet">
-		<link href='http://fonts.googleapis.com/css?family=Asap:400,700' rel='stylesheet' type='text/css'>
+		<link href="/assets/css/starving-3.css" rel="stylesheet">
 	</head>
 
 	<body>
 	
 		<div class="container">
 	
-			<div class="row row-offcanvas row-offcanvas-left" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
-				<div class="col-xs-9 sidebar-offcanvas affix" id="sidebar" role="navigation">
+			<div class="row row-offcanvas row-offcanvas-left">
+			
+				<div class="col-xs-9 sidebar-offcanvas" id="sidebar" role="navigation">
 					<div class="list-group">
 	<a href="/me" class="list-group-item">Início</a>
 	<a href="/sair" class="list-group-item">Sair</a>
-</div>			</div>	</div>
+</div>				</div>
 				
 				<div class="col-xs-12">
 				
-						<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
-							<div class="navbar-header">
-								<a href="#voltar" onclick="javascript:window.history.back();" class="pull-left btn btn-link"><i class="icon icon-arrow-circle-left"></i></a>
-								<a href="#buscar" onclick="javascript:window.history.back();" class="btn btn-link pull-right"><i class="icon icon-search"></i></a>
+					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
+						<div class="navbar-header">
+							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-arrow-circle-left"></i></a>
+							<div class="page-title">
+								Temakeria Japesca
 							</div>
-						</nav>
-					</div>
+							<!-- 
+							<form class="form-search pull-left hide" action="/buscar" style="display: block !important;">
+								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
+								<button type="submit"><i class="icon icon-search"></i></button>
+								<div class="clearfix"></div>
+							</form>
+							-->
+							<a href="/buscar" id="btn-search" class="btn btn-link pull-right"><i class="icon icon-search"></i></a>
+						</div>
+					</nav>
 					
 					<div class="breathe"></div>
 					
 					<div class="section">
-						<img class="img img-responsive" src="http://placehold.it/360x160">
+						<img class="img img-responsive" src="/assets/images/no-image.gif">
 					</div>
 					
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="panel panel-default">
 								<div class="panel-body">
-									<h1>Oak's California Burritos</h1>
-									<strong>Burrito Place</strong>
+									<h1>Temakeria Japesca</h1>
+									<strong>Casa de Sushi</strong>
 									<address>
-										<i class="icon-pin-marker"></i> R. Félix da Cunha, 1215<br>
-										<i class="icon-phone"></i> (51) 3095-0121
+										<i class="icon-pin-marker"></i> R. da República, 415<br>
+										
+										<i class="icon-phone"></i> (51) 3517-9161
 									</address>
 									
 									<div class="section-price">
 										<div class="text-center">
 											<span class="sign">R$</span>
-											<span class="price">18,00</span><br>
-											<small class="info">média por pessoa</small>
+											<span class="price">--</span><br>
+											<small class="info">por pessoa</small>
 										</div>
 										<br>
 										<div class="row">
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-green"></span>
 												Comida<br>
-												<i class="icon-soup fa-lg"></i> <span class="val food">100%</span>
+												<i class="icon-soup fa-lg"></i> <span class="val food">0%</span>
 											</div>
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-blue"></span>
@@ -91,21 +101,22 @@
 								<div class="panel-heading">Quanto custa?</div>
 								<div class="panel-body">
 									<form id="submitPrice" class="form-horizontal" role="form" action="/api/vote/price" method="post">
-										<input type="hidden" name="where" value="52c738e20364c2470ed96b1e">
-										
+										<input type="hidden" name="where" value="52cf028592341c1a22303ce3">
 										<div class="form-group">
-											<div class="col-xs-8 col-xs-offset-2 text-center">
-												<div class="input-group input-group-lg">
-													<input type="text" name="price" class="form-control">
+											<div class="col-xs-8 col-xs-offset-2">
+												<!-- div class="input-group input-group-lg" -->
+													<input type="text" name="price" class="form-control input-lg">
+													<!-- 
 													<span class="input-group-btn">
 														<button class="btn btn-default" type="submit"><i class="icon-thumbs-up"></i></button>
 													</span>
-												</div>
+													-->
+												<!-- /div -->
 											</div>
 										</div>
 										
 										<div class="form-group">
-											<div class="text-right">
+											<div class="col-xs-8 col-xs-offset-2 text-right">
 												<small>por pessoa</small>
 											</div>
 										</div>
@@ -123,7 +134,7 @@
 							</div>
 						</div>
 					</div>
-				
+					
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="panel panel-default">
@@ -133,21 +144,21 @@
 										<div class="list-group-item">
 											<i class="icon-soup fa-2x"></i> <span>Comida</span>
 											<div class="btn-group pull-right">
-												<button type="button" class="btn btn-default btn-food-s" onclick="qc.vote('52c738e20364c2470ed96b1e', 'food', 1);"><i class="icon-heart fa-lg"></i></button>
+												<button type="button" class="btn btn-default btn-food-s" onclick="qc.vote(this, '52cf028592341c1a22303ce3', 'food', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										<div class="list-group-item">
 											<i class="icon-foodtray fa-2x"></i> <span>Atendimento</span>
 											<div class="btn-group pull-right">
-												<button type="button" class="btn btn-default btn-treatment-s" onclick="qc.vote('52c738e20364c2470ed96b1e', 'treatment', 1);"><i class="icon-heart fa-lg"></i></button>
+												<button type="button" class="btn btn-default btn-treatment-s" onclick="qc.vote(this, '52cf028592341c1a22303ce3', 'treatment', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										<div class="list-group-item">
 											<i class="icon-store fa-2x"></i> <span>Ambiente</span>
 											<div class="btn-group pull-right">
-												<button type="button" class="btn btn-default btn-environment-s" onclick="qc.vote('52c738e20364c2470ed96b1e', 'environment', 1);"><i class="icon-heart fa-lg"></i></button>
+												<button type="button" class="btn btn-default btn-environment-s" onclick="qc.vote(this, '52cf028592341c1a22303ce3', 'environment', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
@@ -157,19 +168,21 @@
 						</div>
 					
 					</div>
-					
+					<!-- 
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="panel panel-default">
-								<div class="panel-heading">
-									Comentários <span class="badge badge-primary">0</span>
-								</div>
+								<div class="panel-heading">Comentários <span class="badge">0</span></div>
 								<div class="panel-body">
+									
 								</div>
 							</div>
 						</div>
 					
 					</div>
+					-->
+					
+					<div class="breathe breathe-big"></div>
 					
 <div id="error-modal" class="modal fade">
 	<div class="modal-dialog">
@@ -191,10 +204,11 @@
 		
 		</div>
 
-<script src="../assets/js/jquery-1.10.2.min.js"></script>
+<!-- script src="/assets/js/jquery-1.10.2.min.js"></script -->
+<script src="//code.jquery.com/jquery-1.9.0.js"></script>
 <!-- <script src="//code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script> -->
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/qc.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/qc.js"></script>
 <script>
 $(document).ready(function() {
 	//qc.loadCoordinates();
@@ -203,6 +217,30 @@ $(document).ready(function() {
 	});
 });
 </script>
-		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				qc.load($("#submitPrice").find("input[name='where']").val());
+			});
+			
+			$("#submitPrice").submit(function(event) {
+				// Stop form from submitting normally
+				event.preventDefault();
+				
+				// Get some values from elements on the page:
+				var $form = $(this),
+					where = $form.find("input[name='where']").val(),
+					price = $form.find("input[name='price']").val(),
+					url = $form.attr("action");
+			 
+				// Send the data using post
+				qc.submitPrice(where, price);
+			 
+				// Put the results in a div
+				//posting.done(function( data ) {
+				//	var content = $( data ).find( "#content" );
+				//	$( "#result" ).empty().append( content );
+				//});
+			});
+		</script>
 	</body>
 </html>

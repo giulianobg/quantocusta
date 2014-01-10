@@ -36,15 +36,19 @@ var qc = {
 		});
 	},
 	submitPrice: function(where, price) {
+		$("input[name='price']").val("");
+		$("input[name='price']").prop('disabled', true);
+		var typedPrice = price;
 		$.ajax({
 			url: "/api/vote/price",
 			data: {
 				'id': where,
-				'price': price.replace(/,/g, '.')
+				'price': typedPrice.replace(/,/g, '.')
 			},
 			success: function(data) {
 				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
-				$("input[name='price']").val("");
+				$("input[name='price']").prop('disabled', false);
+				
 			}
 		});
 	},
@@ -94,9 +98,6 @@ var qc = {
 	loadCoordinates: function() {
 		if (navigator && navigator.geolocation) {
 			try {
-				var now = new Date().getTime();
-				console.debug('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
-				
 				navigator.geolocation.getCurrentPosition(function(position) {
 					// definitive solution
 					$.ajax({
@@ -110,6 +111,12 @@ var qc = {
 							console.log("Saving coordinates");
 							sessionStorage.setItem('lat', position.coords.latitude);
 							sessionStorage.setItem('lng', position.coords.longitude);
+							
+							console.log("Checking if he was connected before...");
+							if (localStorage.getItem("auth_connected")) {
+								
+							}
+							
 							//localStorage.setItem('updatedtime', now);
 							$("div:hidden").each(function() {
 								$(this).removeClass('hide');
