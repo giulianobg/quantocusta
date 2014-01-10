@@ -26,7 +26,7 @@
 						
 						<div class="overlay">
 							<h1 style="text-indent: -9999px;">Quanto Custa?</h1>
-							<br><br><br><br><br><br><br><br><br><br>
+							<br><br><br><br><br><br><br><br><br>
 							<div class="loading">
 								<div id="circleG" title="Carregando conteúdo...">
 									<div id="circleG_1" class="circleG"></div>
@@ -46,8 +46,18 @@
 		<#include "/assets/tpl/components/scripts.ftl">
 		<script>
 			$(document).ready(function() {
+				if (getParameterByName("logout") == 'true') {
+					localStorage.setItem('auth_connected', 'false');
+				}
 				qc.loadCoordinates();
 			});
+			
+			function getParameterByName(name) {
+			    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+			    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			        results = regex.exec(location.search);
+			    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
 		</script>
 	</body>
 </html>

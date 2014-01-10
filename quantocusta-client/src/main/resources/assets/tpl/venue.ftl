@@ -47,7 +47,7 @@
 					<div class="breathe"></div>
 					
 					<div class="section">
-						<img class="img img-responsive" src="/assets/images/no-image.gif" width="340" >
+						<img class="img" src="/assets/images/no-image.gif" width="330" >
 					</div>
 					
 					<div class="row">
@@ -101,14 +101,10 @@
 										<input type="hidden" name="where" value="${venue.id}">
 										<div class="form-group">
 											<div class="col-xs-8 col-xs-offset-2">
-												<!-- div class="input-group input-group-lg" -->
+												<div class="input-group">
+													<span class="input-group-addon">R$</span>
 													<input type="text" name="price" class="form-control input-lg">
-													<!-- 
-													<span class="input-group-btn">
-														<button class="btn btn-default" type="submit"><i class="icon-thumbs-up"></i></button>
-													</span>
-													-->
-												<!-- /div -->
+												</div>
 											</div>
 										</div>
 										

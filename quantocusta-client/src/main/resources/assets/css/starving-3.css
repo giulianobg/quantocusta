@@ -62,8 +62,35 @@
 .icon-smile:before {
 	content: "\f118";
 }
+.icon-chevron-left:before {
+	content: "\e608";
+}
 .icon-chevron-right:before {
-	content: "\f105";
+	content: "\e610";
+}
+.icon-chevron-down:before {
+	content: "\e606";
+}
+.icon-chevron-up:before {
+	content: "\e607";
+}
+.icon-chevron-left-o:before {
+	content: "\e60c";
+}
+.icon-chevron-right-o:before {
+	content: "\e60f";
+}
+.icon-chevron-down-o:before {
+	content: "\e60d";
+}
+.icon-chevron-up-o:before {
+	content: "\e60e";
+}
+.icon-user:before {
+	content: "\e60a";
+}
+.icon-star:before {
+	content: "\e60b";
 }
 .icon-bar:before {
 	content: "\f0c9";
@@ -114,16 +141,12 @@
 }
 
 /* Global Styles */
+html {overflow-x: hidden;}
 html, body {height: 100%;}
-body {
-	background-color: #E4DED0;
-	color: #FFFFFF;
-	/*padding-top: 50px;*/ /* body padding for fixed top nav */
-	font-family: 'Asap', sans-serif;
-	font-weight: 300; 
-}
+body {background-color: #E4DED0;color: #FFFFFF;font-family: 'Asap', sans-serif;font-weight: 300; }
 h1, h2, h3, h4, h5, h6 {font-family: 'Asap', sans-serif;font-weight: 400;}
 h1 {font-size: 24px; padding: 0;}
+h2 {font-size: 18px; color: #F35D5D;}
 h4 {font-size: 16px;}
 p {font-size: 13px;}
 address {font-size: 12px;}
@@ -133,10 +156,7 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 .container {width: 100%; padding-left: 0; padding-right: 0;}
 .row {margin-left: 0; margin-right: 0;}
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 { position: relative; min-height: 1px; padding-left: 3px; padding-right: 3px;}
-.container-bg {
-	position:relative;
-    width: 100%;
-}
+.container-bg {position:relative;width: 100%;}
 .container-bg .overlay {
 	width: 100%;
     z-index: 100;
@@ -222,11 +242,6 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 .medium-grey-bg {color: #ffffff;}
 
 /*
-.img {
-	margin-bottom: 30px;
-}*/
-
-/*
  * Main navigation
  */
 .st-nav {
@@ -234,6 +249,11 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 	text-shadow: 0 -1px 0 rgba(0,0,0,.15);
 	background-color: #F35D5D;
 	border-color: #F35D5D;
+}
+
+.st-nav.active {
+	left: 83.3333333%;
+	right: -83.3333333%;
 }
 
 .st-nav .navbar-collapse {
@@ -244,23 +264,6 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 .st-nav .navbar-nav > li > a,
 .st-nav .navbar-nav > li > a:hover {
 	color: #FFFFFF;
-}
-
-/*.st-nav .navbar-nav > .active > a,
-.st-nav .navbar-nav > .active > a:hover {
-	color: #FFFFFF;
-	background-color: #dedede;
-}*/
-
-/*
- * Off-canvas 
- */
- /*
- * Style tweaks
- * --------------------------------------------------
- */
-html {
-  overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
 /*
@@ -282,6 +285,14 @@ html {
 	left: -83.333333333333%; /* 10 columns */
 }
 
+.row-offcanvas-left.active .sidebar-offcanvas {
+	left: 0;
+}
+
+.row-offcanvas-right.active .sidebar-offcanvas {
+	right: 0;
+}
+
 .row-offcanvas-right.active {
 	right: 83.333333333333%; /* 10 columns */
 }
@@ -291,13 +302,12 @@ html {
 }
 
 .sidebar-offcanvas {
-  position: absolute;
-  top: 0px;
-  width: 83.333333333333%; /* 10 columns */
-  padding-left: 0;
-  padding-right: 0;
-  
-  background-color: #F35D5D;
+	position: fixed;
+	top: 0px;
+	width: 83.333333333333%; /* 10 columns */
+	padding-left: 0;
+	padding-right: 0;
+	background-color: #F35D5D;
 }
 
 /* Panels and other componentes */
@@ -308,12 +318,6 @@ html {
 .list-group {
 	margin-bottom: 0;
 }
-
-/*.list-group .list-group-item {
-	background-color: #505A7A;
-	color: #FFFFFF;
-	border: 1px solid #1F263C;
-}*/
 
 a.list-group-item:hover,
 a.list-group-item:focus {
@@ -397,12 +401,13 @@ a.list-group-item:focus {
 	padding: 0px;
 }
 
-.panel-body h1,
-.panel-body h2,
-.panel-body h3,
-.panel-body h4,
-.panel-body strong,
-.panel-body address {
+.panel-body > h1,
+.panel-body > h2,
+.panel-body > h3,
+.panel-body > h4,
+.panel-body > strong,
+.panel-body > p,
+.panel-body > address {
 	padding: 0 10px;
 }
 
@@ -438,18 +443,6 @@ a.list-group-item:focus {
 	width: 4px !important;
 	height: 20px; !important;
 }
-
-/* Page Sections */
-/*
-.section,
-.section-colored {
-  padding: 50px 0;
-}
-
-.section-colored {
-  background-color: #bebebe; 
-}
-*/
 
 .summary {
 	border-left: 1px solid #E4DED0;
@@ -515,39 +508,13 @@ a.facebook:hover {
 	text-size: 18px;
 }
 
-/*
-.cf:before, .cf:after{
-    content:"";
-    display:table;
-}
- 
-.cf:after{
-    clear:both;
-}
- 
-.cf{
-    zoom:1;
-}*/ 
-
-/* Form wrapper styling */
-
-.form-search {
-	text-align: center;
-    padding: 15px;
-    /* margin: 20px 25px 20px 5px; */
-    margin: 20px;
-    -webkit-transition: all 0.25s ease-out;
-	-moz-transition: all 0.25s ease-out;
-	transition: all 0.25s ease-out;
-}
-
 .navbar-header {
-	width: 98%;
-	margin: 10px 1%;
+	min-width: 100%;
+	margin: 10px 3px;
 }
 
 .navbar-header > a {
-	width: 10%;
+	width: 34px;
 	padding: 0;
 }
 
@@ -556,7 +523,7 @@ a.facebook:hover {
 }
 
 .navbar-header > a > i {
-	color: #fff;
+	color: #ffffff;
 	font-size: 1.8em;
 	/*padding: 3px 0 0 15px;*/
 	vertical-align: text-top;
@@ -569,8 +536,8 @@ a.facebook:hover {
 
 .navbar-header > .page-title {
 	float: left;
-	width: 80%;
-	padding: 0 0 0 10px;
+	min-width: 250px;
+	/* padding: 0 0 0 10px; */
 	margin: 0;
 	text-align: center;
 	font-size: 18px;
@@ -586,12 +553,34 @@ a.facebook:hover {
     width: 82%;
     height: 30px;
 	padding: 10px 5px;
-	float: left;
-    border: 0;
-    border-radius: 3px 0 0 3px;      
+	/* float: left; */
+    /* border: 0 */;
+    /* border-radius: 3px 0 0 3px; */      
 }
 
-.form-search button {
+.input-group > .form-control {
+	border-left: 0;
+}
+
+.input-group-addon {
+	background-color: #fff;
+}
+
+.input-group-btn:last-child > .btn {
+	height: 30px;
+	border-color: #ccc;
+	border-left: 0;
+	background-color: #fff;
+}
+
+.input-group .form-control:focus {
+	border-color: #ccc;
+	-moz-box-shadow: 0px 0px 0px;
+	-webkit-box-shadow: 0px 0px 0px;
+	box-shadow: 0px 0px 0px;
+}
+
+/* .form-search button {
     overflow: visible;
     float: left;
     border: 0;
@@ -603,7 +592,7 @@ a.facebook:hover {
     background: #1F263C;
     border-radius: 0 3px 3px 0;      
     text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
-}   
+}    */
    
 .sidebar {
 	margin-top: 40px;

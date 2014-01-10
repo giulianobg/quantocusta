@@ -113,15 +113,15 @@ var qc = {
 							sessionStorage.setItem('lng', position.coords.longitude);
 							
 							console.log("Checking if he was connected before...");
-							if (localStorage.getItem("auth_connected")) {
-								
+							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('quantocusta.cc') > -1) {
+								$('a[class="facebook]').click();
+							} else {
+								//localStorage.setItem('updatedtime', now);
+								$("div:hidden").each(function() {
+									$(this).removeClass('hide');
+								});
+								$('.loading').remove();
 							}
-							
-							//localStorage.setItem('updatedtime', now);
-							$("div:hidden").each(function() {
-								$(this).removeClass('hide');
-							});
-							$('.loading').remove();
 						}
 					});
 				}, function(msg) {

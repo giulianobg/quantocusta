@@ -34,12 +34,11 @@
 				
 				<div class="col-xs-12">
 				
-					<nav class="navbar navbar-inverse st-nav" role="navigation">
+					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
 							<a href="#menu" class="pull-left btn btn-link" data-toggle="offcanvas"><i class="icon-bar"></i></a>
 							<form class="form-search pull-left" action="/buscar">
 								<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required>
-								<button type="submit"><i class="icon-search"></i></button>
 								<div class="clearfix"></div>
 							</form>
 						</div>
@@ -340,14 +339,9 @@
 		$(document).ready(function() {
 			//qc.loadCoordinates();
 			$('[data-toggle=offcanvas]').click(function() {
-				$('.row-offcanvas').toggleClass('active');
 				$("html, body").animate({ scrollTop: 0 }, "fast");
-				/*if ($('.navbar').hasClass('navbar-fixed-top')) {
-					$('.navbar').removeClass('navbar-fixed-top');
-				} else {
-					setTimeout(function(){$('.navbar').addClass('navbar-fixed-top')}, 400);
-				}*/
-				
+				$('.row-offcanvas').toggleClass('active');
+				$('.st-nav').toggleClass("active");
 			});
 		});
 		</script>

@@ -29,7 +29,7 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-arrow-circle-left"></i></a>
+							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-chevron-left-o"></i></a>
 							<div class="page-title">Sobre</div>
 							<a href="/buscar" id="btn-search" class="btn btn-link pull-right"><i class="icon icon-search"></i></a>
 						</div>
@@ -38,9 +38,22 @@
 					<div class="breathe"></div>
 					
 					<div class="row">
+						
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h2>Sobre o <strong>Quanto Custa?</strong></h2>
+								<p>Quanto Custa é um aplicativo gratuito em versão beta que vai ajudar a você a saber qual a média de preço de algum lugar que você tem interesse em ir. Assim você não terá uma surpresa na hora de pagar a conta e poderá aproveitar o máximo para se divertir.</p>
+								<p>Os valores são informados pelos usuários. Então quanto mais usuários contribuírem mais próximo o valor será.</p>
+								<p>Os locais são apenas relacionados à categoria de alimentação, por enquanto nao há como consultar locais como “Salão de beleza”.</p>
+								<p>Esperamos em breve poder melhorar a sua experiência e contamos com a colaboração de todos para enriquecer nossa base de consultas.</p>
+								<br>
+								<p>
+									<strong>Quer conversar conosco, deixar uma sugestão ou tirar uma dúvida?</strong><br>
+									<strong><a href="mailto:contato@quantocusta.cc">contato@quantocusta.cc</a></strong>
+								</p> 
+							</div>
+						</div>
 					
-						
-						
 					</div>
 					
 					<div class="breathe breathe-big"></div>
@@ -54,7 +67,5 @@
 		</div>
 
 		<#include "/assets/tpl/components/scripts.ftl">
-		<script type="text/javascript">
-		</script>
 	</body>
 </html>

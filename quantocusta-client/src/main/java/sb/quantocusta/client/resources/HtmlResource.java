@@ -57,7 +57,7 @@ public class HtmlResource extends BaseResouce {
 		User user = (User) request.getSession().getAttribute("user");
 		HomeView page = new HomeView(user);
 		
-		List<Venue> venues = (List<Venue>) request.getAttribute("list_me");
+		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
 		if (venues == null) {
 			// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
 			String token = (String) request.getSession().getAttribute("access_token");
@@ -193,6 +193,25 @@ public class HtmlResource extends BaseResouce {
 		}
 		
 		return new ErrorView();
+	}
+	
+	@GET
+	@Path("sobre")
+	public View about() {
+		return new SimplePageView("/assets/tpl/about.ftl");
+	}
+	
+	@GET
+	@Path("config")
+	public View settings() {
+		return new SimplePageView("/assets/tpl/settings.ftl");
+	}
+	
+	@GET
+	@Path("sair")
+	public View logout() {
+		request.getSession().invalidate(); // limpa sessão
+		return new SimplePageView("/assets/tpl/index.ftl?logout=true");
 	}
 	
 }

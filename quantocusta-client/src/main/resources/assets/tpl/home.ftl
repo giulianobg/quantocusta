@@ -32,9 +32,12 @@
 						<div class="navbar-header">
 							<a href="#menu" class="pull-left btn btn-link" data-toggle="offcanvas"><i class="icon-bar"></i></a>
 							<form class="form-search pull-left" action="/buscar">
-								<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required>
-								<button type="submit"><i class="icon-search"></i></button>
-								<div class="clearfix"></div>
+								<div class="input-group">
+									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
+									<div class="input-group-btn">
+										<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+									</div>
+								</div>
 							</form>
 						</div>
 					</nav>
@@ -47,7 +50,6 @@
 								<#if venues??>
 									<#list venues as venue>
 										<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
-											<!-- <img class="img img-circle pull-left" src="http://placehold.it/40x40"> -->
 											<span class="pull-left">
 												${venue.name?html}<br>
 												<small><#if venue.category??>${venue.category.name!""}</#if></small>
@@ -70,5 +72,10 @@
 		</div>
 
 		<#include "/assets/tpl/components/scripts.ftl">
+		<script>
+			$(document).ready(function() {
+				localStorage.setItem('auth_connected', 'true');
+			});
+		</script>
 	</body>
 </html>

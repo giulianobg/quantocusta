@@ -5,9 +5,9 @@
 <script src="/assets/js/qc.js"></script>
 <script>
 $(document).ready(function() {
-	//qc.loadCoordinates();
 	$('[data-toggle=offcanvas]').click(function() {
 		$('.row-offcanvas').toggleClass('active');
+		$('.st-nav').toggleClass("active");
 	});
 });
 </script>
