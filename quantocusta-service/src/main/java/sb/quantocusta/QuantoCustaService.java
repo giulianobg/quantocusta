@@ -65,6 +65,8 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		try {
 			MongoClient client = new MongoClient(configuration.getMongo().getHost(), configuration.getMongo().getPort());
 			db = client.getDB(configuration.getMongo().getDb());
+			boolean auth = db.authenticate(configuration.getMongo().getUser(), configuration.getMongo().getPwd().toCharArray());
+			System.out.println(auth);
 			
 			MongoManaged mongoManaged = new MongoManaged(client);
 			environment.manage(mongoManaged);

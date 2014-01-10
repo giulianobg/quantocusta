@@ -1,6 +1,7 @@
 package sb.quantocusta.resources;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -21,11 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.Category;
+import sb.quantocusta.api.CategoryRef;
 import sb.quantocusta.api.City;
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Review;
 import sb.quantocusta.api.User;
 import sb.quantocusta.api.Venue;
+import sb.quantocusta.api.Vote;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.Daos;
@@ -38,6 +41,7 @@ import sb.quantocusta.resources.thirdy.FoursquareApi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Optional;
+import com.mongodb.BasicDBObject;
 import com.yammer.dropwizard.auth.Auth;
 
 /**
@@ -118,6 +122,9 @@ public class VenueResource extends BaseResouce {
 				user = uDao.findById(Daos.get(SessionDao.class).find(token).getUserId());
 			}
 			
+			if (venue.getCategory() != null) {
+				venue.setCategory(Daos.get(CategoryDao.class).findById(venue.getCategory().getId()));
+			}
 			
 			if (user != null) {
 				Review r = Daos.get(ReviewDao.class).find(id, user.getId());
@@ -126,9 +133,22 @@ public class VenueResource extends BaseResouce {
 				}
 				
 				// Load valuations
-				venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
-				venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
-				venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
+				for (String kind : Venue.VALUATION_KINDS) {
+					LinkedHashMap<String, Object> valuation = (LinkedHashMap<String, Object>) (venue.getValuation().get(kind));
+					Vote vote = Daos.get(VoteDao.class).find(id, user.getId(), kind);
+					valuation.put("me", new BasicDBObject("val", vote == null ? 0 : vote.getVal()));
+				}
+				
+//				((Valuation) venue.getValuation().get(Venue.FOOD)).setMe(new BasicDBObject("val", Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD).getVal()));
+//				((Valuation) venue.getValuation().get(Venue.TREATMENT)).setMe(new BasicDBObject("val", Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT).getVal()));
+//				venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
+//				venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
+//				venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
+//				BasicDBObject me = new BasicDBObject();
+//				me.put(Venue.FOOD, Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD).getVal());
+//				me.put(Venue.TREATMENT, Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT).getVal());
+//				me.put(Venue.ENVIRONMENT, Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT).getVal());
+//				venue.getValuation().setMe(me);
 			}
 	
 			return Response.ok(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
@@ -174,6 +194,7 @@ public class VenueResource extends BaseResouce {
 								city.setState(node.get("location").get("state").asText());
 								city = dao.insert(city);
 							}
+//							venue.setCity(new DBRef<City, String>(city.getId(), City.class));
 							venue.setCity(city);
 						}
 						
@@ -190,16 +211,20 @@ public class VenueResource extends BaseResouce {
 								category.setIdFoursquare(node.get("categories").get(0).get("id").asText());
 								category.setName(node.get("categories").get(0).get("name").asText());
 								
-								dao.insert(category);
+								category = dao.insert(category);
 							}
-							
-							venue.setCategory(category);
+							CategoryRef ref = new CategoryRef();
+							ref.setId(category.getId());
+							venue.setCategory(ref);
 						}
 					}
 				}
 
 				venue = Daos.get(VenueDao.class).insert(venue);
 				
+				if (venue.getCategory() != null) {
+					venue.setCategory(Daos.get(CategoryDao.class).findById(venue.getCategory().getId()));
+				}
 				
 //				if (!fat.or("false").equals("true")) {
 //					venue.getReviews().getReviews().clear();

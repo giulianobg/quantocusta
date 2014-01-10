@@ -1,6 +1,7 @@
 package sb.quantocusta.resources;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -23,7 +24,7 @@ import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 
-import com.google.common.base.Optional;
+import com.mongodb.BasicDBObject;
 import com.yammer.dropwizard.auth.Auth;
 import com.yammer.dropwizard.jersey.params.IntParam;
 
@@ -46,69 +47,99 @@ public class VoteResource extends BaseResouce {
 			@FormParam("kind") String kind,
 			@FormParam("v") IntParam v) {
 
-//		User user = (User) request.getSession().getAttribute("user");
-		if (user != null) {
-			VenueDao dao = Daos.get(VenueDao.class);
+		VenueDao dao = Daos.get(VenueDao.class);
 
-			Venue venue = dao.findById(id);
-
-			Valuation valuation = venue.getValuation().get(kind);
-			if (valuation == null) {
-				valuation = new Valuation();
-			}
-
-			if (v.get() > 0) { // Smile
-				Optional<Integer> value = Optional.fromNullable(valuation.getSmileCount());
-				valuation.setSmileCount(value.or(0) + 1);
-			} else { // Pout
-				Optional<Integer> value = Optional.fromNullable(valuation.getPoutCount());
-				valuation.setPoutCount(value.or(0) + 1);
-			}
-			valuation.setTotalCount(Optional.fromNullable(valuation.getTotalCount()).or(0) + 1);
-
-			valuation.setPoutAverage((valuation.getPoutCount() / (double) valuation.getTotalCount()) * 100);
-			valuation.setSmileAverage((valuation.getSmileCount() / (double) valuation.getTotalCount()) * 100);
-
-			venue.getValuation().put(kind, valuation);
-
-			/* Atualiza voto do usuário */
-			// usuário já votou nesse mesmo local?
-			// Sim, update Vote e Venue
-			// Não, insert Vote e update Venue
-			Vote vote = Daos.get(VoteDao.class).find(id, user.getId(), kind);
-			if (vote == null) {
-				vote = new Vote();
-				vote.setIdVenue(id);
-				vote.setIdUser(user.getId());
-				vote.setKind(kind);
-				vote.setCreatedAt(new Date());
-			}
+		Venue venue = dao.findById(id);
+		
+		boolean iVeAlreadyVoted = Daos.get(VoteDao.class).find(id, user.getId()) != null;
+		
+		int value = v.get(); 
+		if (iVeAlreadyVoted && v.get() < 0) {
+		} else if (v.get() > 0) {
+		} else {
+			value = 0;
+		}
+		
+		BasicDBObject valuations = venue.getValuation();
+		LinkedHashMap<String, Object> valuation = null;
+		if (kind.equals(Venue.FOOD)) {
+			valuation = (LinkedHashMap<String, Object>) valuations.get(Venue.FOOD);
+		} else if (kind.equals(Venue.ENVIRONMENT)) {
+			valuation = (LinkedHashMap<String, Object>) valuations.get(Venue.ENVIRONMENT);
+		} else if (kind.equals(Venue.TREATMENT)) {
+			valuation = (LinkedHashMap<String, Object>) valuations.get(Venue.TREATMENT);
+		}
 			
+		if (v.get() > 0) {
+			if (!iVeAlreadyVoted) {
+				valuations.put("totalCount", (Integer) valuations.get("totalCount") + 1);
+			}
+		}
+		
+		valuation.put("count", (Integer) valuation.get("count") + value);
+		valuation.put("average", ((Integer) valuation.get("count") / new Double((Integer) valuations.get("totalCount"))) * 100);
+		
+		venue.setValuation(valuations);
+			
+//			if (StringUtils.equals(k, kind)) {
+//				System.out.println("Calculating 'the' vote!");
+//				System.out.println("Valued " + v.get());
+				
+//				if (v.get() > 0) {
+//					Optional<Integer> value = Optional.fromNullable(valuation.getSmileCount());
+//					valuation.setSmileCount(value.or(0) + 1);
+//				} else {
+//					Optional<Integer> value = Optional.fromNullable(valuation.getSmileCount());
+//					valuation.setSmileCount(value.or(0) - 1);
+//				}
+//			}
+			
+//			if (!iVeAlreadyVoted) {
+//				valuation.setTotalCount(Optional.fromNullable(valuation.getTotalCount()).or(0) + 1);
+//			}
+			
+		
+		/* Atualiza voto do usuário */
+		// usuário já votou nesse mesmo local?
+		// Sim, update Vote e Venue
+		// Não, insert Vote e update Venue
+		Vote vote = Daos.get(VoteDao.class).find(id, user.getId(), kind);
+		if (vote == null) {
+			vote = new Vote();
+			vote.setIdVenue(id);
+			vote.setIdUser(user.getId());
+			vote.setKind(kind);
+			vote.setCreatedAt(new Date());
 			vote.setVal(v.get());
-
+		}
+		
+		if (v.get() > 0) {
 			// insert/update vote
 			Daos.get(VoteDao.class).update(vote);
-
-			// update venue
-			venue = dao.update(venue);
-			
-			// incorpora valoração "me" aos dados do venue
-			venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
-			venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
-			venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
-
-			return Response.ok(DataResponse.build(venue)).build();
+		} else {
+			Daos.get(VoteDao.class).removeById(vote.getId());
 		}
 
-		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
+		// update venue
+		venue = dao.update(venue);
+		
+		// incorpora valoração "me" aos dados do venue
+		for (String k : Venue.VALUATION_KINDS) {
+			LinkedHashMap<String, Object> aValuation = (LinkedHashMap<String, Object>) (venue.getValuation().get(k));
+			Vote aVote = Daos.get(VoteDao.class).find(id, user.getId(), k);
+			aValuation.put("me", new BasicDBObject("val", aVote == null ? 0 : aVote.getVal()));
+		}
+
+		return Response.ok(DataResponse.build(venue)).build();
 	}
 
 	@POST
 	@Path("price")
-	public Response submitPrice(@FormParam("id") String id,
+	public Response submitPrice(@Auth User user,
+			@FormParam("id") String id,
 			@FormParam("price") Double price) {
 
-		User user = (User) request.getSession().getAttribute("user");
+//		User user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
 
 			VenueDao dao = Daos.get(VenueDao.class);

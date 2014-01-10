@@ -54,59 +54,63 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	@Path("me")
 	public View me() {
-		// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
-		String token = (String) request.getSession().getAttribute("access_token");
-		
-//		URI uri = UriBuilder.fromUri(configuration.getApi()).
-//				path("/api/user/me").
-//				queryParam("access_token", token).
-//				build();
-//		
-//		WebResource target = client.resource(uri);
-//		
-//		DataResponse response = target.accept(
-//		        MediaType.APPLICATION_JSON).
-//		        get(DataResponse.class);
-//		
-//		User user = mapper.convertValue(response.getResult(), User.class);
-//		
-//		URI uri = UriBuilder.fromUri(configuration.getApi()).
-//				path("/api/venue/me").
-//				queryParam("access_token", token).
-//				build();
-//		
-//		WebResource target = client.resource(uri);
-//		
-//		DataResponse response = target.accept(
-//		        MediaType.APPLICATION_JSON).
-//		        get(DataResponse.class);
-//		
-//		User user = mapper.convertValue(response.getResult(), User.class);
-		
 		User user = (User) request.getSession().getAttribute("user");
+		HomeView page = new HomeView(user);
 		
-		SimplePageView page = new HomeView(user);
-		
-		// Load venues próximos
-		URI uri = UriBuilder.fromUri(configuration.getApi()).
-				path("/api/venue/near").
-				queryParam("lat", request.getSession().getAttribute("lat")).
-				queryParam("lng", request.getSession().getAttribute("lng")).
-				queryParam("access_token", token).
-				build();
-		
-		DataResponse response = client.resource(uri).accept(
-		        MediaType.APPLICATION_JSON).
-		        get(DataResponse.class);
-		
-		List list = mapper.convertValue(response.getResult(), List.class);
-		
-		System.out.println(list.size());
-		
-		List<Venue> venues = new ArrayList<Venue>();
-		for (int i = 0; i < list.size(); i++) {
-			venues.add(mapper.convertValue(list.get(i), Venue.class));
+		List<Venue> venues = (List<Venue>) request.getAttribute("list_me");
+		if (venues == null) {
+			// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
+			String token = (String) request.getSession().getAttribute("access_token");
+			
+	//		URI uri = UriBuilder.fromUri(configuration.getApi()).
+	//				path("/api/user/me").
+	//				queryParam("access_token", token).
+	//				build();
+	//		
+	//		WebResource target = client.resource(uri);
+	//		
+	//		DataResponse response = target.accept(
+	//		        MediaType.APPLICATION_JSON).
+	//		        get(DataResponse.class);
+	//		
+	//		User user = mapper.convertValue(response.getResult(), User.class);
+	//		
+	//		URI uri = UriBuilder.fromUri(configuration.getApi()).
+	//				path("/api/venue/me").
+	//				queryParam("access_token", token).
+	//				build();
+	//		
+	//		WebResource target = client.resource(uri);
+	//		
+	//		DataResponse response = target.accept(
+	//		        MediaType.APPLICATION_JSON).
+	//		        get(DataResponse.class);
+	//		
+	//		User user = mapper.convertValue(response.getResult(), User.class);
+			
+			// Load venues próximos
+			URI uri = UriBuilder.fromUri(configuration.getApi()).
+					path("/api/venue/near").
+					queryParam("lat", request.getSession().getAttribute("lat")).
+					queryParam("lng", request.getSession().getAttribute("lng")).
+					queryParam("access_token", token).
+					build();
+			
+			DataResponse response = client.resource(uri).accept(
+			        MediaType.APPLICATION_JSON).
+			        get(DataResponse.class);
+			
+			List list = mapper.convertValue(response.getResult(), List.class);
+			
+			venues = new ArrayList<Venue>();
+			for (int i = 0; i < list.size(); i++) {
+				venues.add(mapper.convertValue(list.get(i), Venue.class));
+			}
+			
+			// adiciona a cache (sessao do usuário)
+			request.getSession().setAttribute("list_me", venues);
 		}
+		
 		page.setVenues(venues);
 		
 		return page;
