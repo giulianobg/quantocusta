@@ -114,9 +114,10 @@ var qc = {
 							
 							console.log("Checking if he was connected before...");
 							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('quantocusta.cc') > -1) {
-								$('a[class="facebook]').click();
+								console.log("Already authenticated!");
+								window.location.href = "https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code";
 							} else {
-								//localStorage.setItem('updatedtime', now);
+								console.log("First date ;)");
 								$("div:hidden").each(function() {
 									$(this).removeClass('hide');
 								});

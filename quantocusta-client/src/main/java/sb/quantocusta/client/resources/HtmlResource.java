@@ -211,7 +211,7 @@ public class HtmlResource extends BaseResouce {
 	@Path("sair")
 	public View logout() {
 		request.getSession().invalidate(); // limpa sessão
-		return new SimplePageView("/assets/tpl/index.ftl?logout=true");
+		return new SimplePageView("/assets/tpl/index_logout.ftl");
 	}
 	
 }

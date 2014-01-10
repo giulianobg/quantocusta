@@ -46,18 +46,8 @@
 		<#include "/assets/tpl/components/scripts.ftl">
 		<script>
 			$(document).ready(function() {
-				if (getParameterByName("logout") == 'true') {
-					localStorage.setItem('auth_connected', 'false');
-				}
 				qc.loadCoordinates();
 			});
-			
-			function getParameterByName(name) {
-			    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-			    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			        results = regex.exec(location.search);
-			    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-			}
 		</script>
 	</body>
 </html>
