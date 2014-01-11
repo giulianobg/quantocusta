@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,9 +85,14 @@ public class AuthResource extends BaseResouce {
 //						queryParam("access_token", TokenUtils.tokenFromId(id)).
 						build(id);
 				
-				DataResponse responseUser = client.resource(uri).get(DataResponse.class);
-				User user = mapper.convertValue(responseUser.getResult(), User.class);
-
+				User user = null;
+				try {
+					DataResponse responseUser = client.resource(uri).get(DataResponse.class);
+					user = mapper.convertValue(responseUser.getResult(), User.class);
+				} catch (Exception e) {
+					user = null;
+				}
+				
 				if (user == null) {
 					// Primeiro acesso - salva usuário
 					MultivaluedMap<String, String> formParams2 = new MultivaluedMapImpl();
@@ -104,7 +110,7 @@ public class AuthResource extends BaseResouce {
 							accept(MediaType.APPLICATION_JSON_TYPE).
 							post(DataResponse.class, formParams2);
 				}
-				
+
 				// cria sessao persistente
 				MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
 				formParamsSession.add("id", user.getId());
@@ -128,6 +134,39 @@ public class AuthResource extends BaseResouce {
 		}
 
 		return Response.seeOther(UriBuilder.fromUri("http://m.quantocusta.cc/me").build()).build();
+	}
+	
+	@GET
+	@Path("stub_create")
+	public Response stubCreate(@QueryParam("id") String id) {
+		// Busca usuário
+		URI uri = UriBuilder.fromUri(configuration.getApi()).
+				path("/api/user/thrd/{id}").
+//				queryParam("access_token", TokenUtils.tokenFromId(id)).
+				build(id);
+		
+		try {
+			DataResponse responseUser = client.resource(uri).get(DataResponse.class);
+			User user = mapper.convertValue(responseUser.getResult(), User.class);
+		} catch (Exception e) {
+			// Primeiro acesso - salva usuário
+			MultivaluedMap<String, String> formParams2 = new MultivaluedMapImpl();
+			formParams2.add("email", RandomStringUtils.random(10) + "@" + RandomStringUtils.random(8) + ".com.br");
+			formParams2.add("name", RandomStringUtils.random(8) + " " + RandomStringUtils.random(10));
+			formParams2.add("thirdyId", id);
+			
+			URI uriUser = UriBuilder.fromUri(configuration.getApi()).
+					path("/api/user/create").
+					queryParam("access_token", TokenUtils.tokenFromId(id)).
+					build();
+			
+			client.resource(uriUser).
+					type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+					accept(MediaType.APPLICATION_JSON_TYPE).
+					post(DataResponse.class, formParams2);
+		}
+		
+		return Response.noContent().build();
 	}
 	
 	@GET
