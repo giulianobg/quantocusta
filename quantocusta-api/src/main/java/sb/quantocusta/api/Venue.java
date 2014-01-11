@@ -2,13 +2,15 @@ package sb.quantocusta.api;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+import org.mongojack.DBRef;
+import org.mongojack.MongoCollection;
 import org.mongojack.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mongodb.BasicDBObject;
 
 /**
  * 
@@ -16,26 +18,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@MongoCollection(name="venues")
 public class Venue implements Serializable {
-	
+
 	public static final String ENVIRONMENT = "environment";
 	public static final String FOOD = "food";
 	public static final String TREATMENT = "treatment";
-	
+
+	public static final String[] VALUATION_KINDS = {ENVIRONMENT, FOOD, TREATMENT};
+
 	@ObjectId
 	@JsonProperty("_id")
 	private String id;
-//	
+
+	//	@JsonDeserialize(contentConverter)
 	private Category category;
-	
+	//	private Category category;
+
 	private Double lat;
-	
 	private Double lng;
-	
 	private String address;
 
+	//	private DBRef<City, String> city;
 	private City city;
-	
+
 	private String phone;
 
 	@JsonProperty("id_foursquare")
@@ -48,21 +54,23 @@ public class Venue implements Serializable {
 	private Integer state;
 
 	private String status;
-	
-	private Map<String, Valuation> valuation;
+
+	private BasicDBObject valuation;
 
 	private Date createdAt;
-
 	private Date updatedAt;
-	
 	private VenueReviews reviews;
 
+	@ObjectId
+	private List<DBRef<Comment, String>> comments;
+
 	public Venue() {
-		valuation = new HashMap<String, Valuation>();
-		valuation.put(ENVIRONMENT, new Valuation());
-		valuation.put(FOOD, new Valuation());
-		valuation.put(TREATMENT, new Valuation());
-		
+		valuation = new BasicDBObject();
+		valuation.put("totalCount", new Integer(0));
+		valuation.put(Venue.ENVIRONMENT, new Valuation());
+		valuation.put(Venue.FOOD, new Valuation());
+		valuation.put(Venue.TREATMENT, new Valuation());
+
 		reviews = new VenueReviews();
 	}
 
@@ -73,31 +81,43 @@ public class Venue implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public Category getCategory() {
 		return category;
 	}
-	
+
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
+	//	public void setCategory(Category category) {
+	//		this.category = new DBRef<Category, String>(category.getId(), Category.class);
+	//	}
+
+	//	public Category getCategory() {
+	//		return category;
+	//	}
+	//	
+	//	public void setCategory(Category category) {
+	//		this.category = category;
+	//	}
+
 	public Double getLat() {
 		return lat;
 	}
-	
+
 	public void setLat(Double lat) {
 		this.lat = lat;
 	}
-	
+
 	public Double getLng() {
 		return lng;
 	}
-	
+
 	public void setLng(Double lng) {
 		this.lng = lng;
 	}
-	
+
 	public String getAddress() {
 		return this.address;
 	}
@@ -106,10 +126,18 @@ public class Venue implements Serializable {
 		this.address = address;
 	}
 
+	//	public DBRef<City, String> getCity() {
+	//		return city;
+	//	}
+	//	
+	//	public void setCity(DBRef<City, String> city) {
+	//		this.city = city;
+	//	}
+
 	public City getCity() {
 		return city;
 	}
-	
+
 	public void setCity(City city) {
 		this.city = city;
 	}
@@ -129,11 +157,11 @@ public class Venue implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getPic() {
 		return pic;
 	}
-	
+
 	public void setPic(String pic) {
 		this.pic = pic;
 	}
@@ -153,19 +181,19 @@ public class Venue implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 	public String getPhone() {
 		return phone;
 	}
-	
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
-	
+
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -178,87 +206,70 @@ public class Venue implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
-//	public List<Experience> getExperiences() {
-//		return experiences;
-//	}
-//	
-//	public void setExperiences(List<Experience> experiences) {
-//		this.experiences = experiences;
-//	}
-	
-//	public List<model.List> getList() {
-//		return list;
-//	}
-//	
-//	public void setList(List<model.List> list) {
-//		this.list = list;
-//	}
-	
-//	public List<Person> getPeople() {
-//		return people;
-//	}
-//	
-//	public void setPeople(List<Person> people) {
-//		this.people = people;
-//	}
-	
-//	public Double getAveragePrice() {
-//		return averagePrice;
-//	}
-//	
-//	public void setAveragePrice(Double averagePrice) {
-//		this.averagePrice = averagePrice;
-//	}
-	
-	public Map<String, Valuation> getValuation() {
+	//	public List<Experience> getExperiences() {
+	//		return experiences;
+	//	}
+	//	
+	//	public void setExperiences(List<Experience> experiences) {
+	//		this.experiences = experiences;
+	//	}
+
+	//	public List<model.List> getList() {
+	//		return list;
+	//	}
+	//	
+	//	public void setList(List<model.List> list) {
+	//		this.list = list;
+	//	}
+
+	//	public List<Person> getPeople() {
+	//		return people;
+	//	}
+	//	
+	//	public void setPeople(List<Person> people) {
+	//		this.people = people;
+	//	}
+
+	//	public Double getAveragePrice() {
+	//		return averagePrice;
+	//	}
+	//	
+	//	public void setAveragePrice(Double averagePrice) {
+	//		this.averagePrice = averagePrice;
+	//	}
+
+	//	public Map<String, Valuation> getValuation() {
+	//		return valuation;
+	//	}
+	//	
+	//	public void setValuation(Map<String, Valuation> valuation) {
+	//		this.valuation = valuation;
+	//	}
+
+	public BasicDBObject getValuation() {
 		return valuation;
 	}
-	
-	public void setValuation(Map<String, Valuation> valuation) {
+
+	public void setValuation(BasicDBObject valuation) {
 		this.valuation = valuation;
 	}
-	
+
 	public VenueReviews getReviews() {
 		return reviews;
 	}
-	
+
 	public void setReviews(VenueReviews reviews) {
 		this.reviews = reviews;
 	}
-	
-//	public String getFormattedAveragePrice() {
-//		DecimalFormatSymbols custom = new DecimalFormatSymbols(Locale.getDefault());
-//		custom.setDecimalSeparator(',');
-//		DecimalFormat df = new DecimalFormat("0.00##", custom);
-//		return df.format(getAveragePrice());
-////	}
-//	
-//	@PrePersist
-//	protected void onPersist() {
-//		setCreatedAt(new Date());
-//		setUpdatedAt(getCreatedAt());
-//	}
-	
 
-//	@PreUpdate 
-//	protected void onUpdate() {
-//		setUpdatedAt(new Date());
-//	}
-//	
-//	@PostLoad
-//	protected void postLoad() {
-//		Double amount = 0.0;
-//		Integer amountPeople = 0;
-//		for (Experience exp : getExperiences()) {
-//			if (exp.getHowMuch() != null && exp.getHowMuch() > 0) {
-//				amount += exp.getHowMuch();
-//				amountPeople += (exp.getHowManyPeople() != null && exp.getHowManyPeople() > 0) ? exp.getHowManyPeople() : 1;
-//			}
-//		}
-//		
-//		setAveragePrice(new Double(Math.round(amount / amountPeople)));
-//	}
-	
+	public List<DBRef<Comment, String>> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<DBRef<Comment, String>> comments) {
+		this.comments = comments;
+	}
+
 	@Override
 	public String toString() {
 		if (getId() != null) {

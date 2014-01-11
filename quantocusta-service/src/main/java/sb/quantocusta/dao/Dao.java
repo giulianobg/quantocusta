@@ -47,6 +47,10 @@ public abstract class Dao<T> {
 		return saved;
 	}
 	
+	public void removeById(String id) {
+		coll.removeById(id);
+	}
+	
 	public DBCursor<T> findAll(DBObject query) {
 		return coll.find(query);
 	}

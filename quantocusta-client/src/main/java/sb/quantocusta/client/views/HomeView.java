@@ -16,8 +16,7 @@ public class HomeView extends SimplePageView {
 	}
 	
 	public HomeView(User user) {
-		super("/assets/tpl/home.ftl");
-		this.user = user;
+		super("/assets/tpl/home.ftl", user);
 	}
 
 }

@@ -1,5 +1,6 @@
 package sb.quantocusta.api;
 
+import org.mongojack.MongoCollection;
 import org.mongojack.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Giuliano Griffante
  *
  */
+@MongoCollection(name="users")
 public class User {
 	
 	@ObjectId

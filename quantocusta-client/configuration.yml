@@ -15,8 +15,8 @@ http:
 
   port: 8092
   adminPort: 8092
-  adminUsername: quantocusta
-  adminPassword: fanipituchasimba
+  # adminUsername: ***********
+  # adminPassword: ***************
   
   # The number of threads dedicated to accepting connections.
   acceptorThreads: 2

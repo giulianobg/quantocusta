@@ -2,6 +2,7 @@ package sb.quantocusta.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.mongodb.DBObject;
 
 /**
  * 
@@ -9,76 +10,38 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  */
 public class Valuation {
 
-	private Integer totalCount;
-	private Integer smileCount;
-	private Integer poutCount;
-	private Double smileAverage;
-	private Double poutAverage;
+	private Integer count;
+	private Double average;
 	
 	@JsonInclude(Include.NON_NULL)
-	private Vote me;
+	private DBObject me;
 	
 	public Valuation() {
-		totalCount = 0;
-		smileCount = 0;
-		poutCount = 0;
-		smileAverage = 0.;
-		poutAverage = 0.;
+		count = 0;
+		average = 0.;
 	}
 	
-//	public String getKind() {
-//		return kind;
-//	}
-//	
-//	public void setKind(String kind) {
-//		this.kind = kind;
-//	}
-	
-	public Integer getPoutCount() {
-		return poutCount;
+	public Integer getCount() {
+		return count;
 	}
 	
-	public void setPoutCount(Integer poutCount) {
-		this.poutCount = poutCount;
+	public void setCount(Integer count) {
+		this.count = count;
 	}
 	
-	public Integer getSmileCount() {
-		return smileCount;
+	public Double getAverage() {
+		return average;
 	}
 	
-	public void setSmileCount(Integer smileCount) {
-		this.smileCount = smileCount;
+	public void setAverage(Double average) {
+		this.average = average;
 	}
 	
-	public Integer getTotalCount() {
-		return totalCount;
-	}
-	
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
-	}
-	
-	public Double getPoutAverage() {
-		return poutAverage;
-	}
-	
-	public void setPoutAverage(Double poutAverage) {
-		this.poutAverage = poutAverage;
-	}
-	
-	public Double getSmileAverage() {
-		return smileAverage;
-	}
-	
-	public void setSmileAverage(Double smileAverage) {
-		this.smileAverage = smileAverage;
-	}
-	
-	public Vote getMe() {
+	public DBObject getMe() {
 		return me;
 	}
 	
-	public void setMe(Vote me) {
+	public void setMe(DBObject me) {
 		this.me = me;
 	}
 	

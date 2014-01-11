@@ -22,4 +22,8 @@ public class VoteDao extends Dao<Vote> {
 		return coll.findOne(DBQuery.is("idVenue", idVenue).is("idUser", idUser).is("kind", kind));
 	}
 	
+	public Vote find(String idVenue, String idUser) {
+		return coll.findOne(DBQuery.is("idVenue", idVenue).is("idUser", idUser));
+	}
+	
 }

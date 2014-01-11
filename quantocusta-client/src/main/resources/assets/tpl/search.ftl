@@ -27,11 +27,22 @@
 				
 				<div class="col-xs-12">
 				
-					<#include "/assets/tpl/components/search.ftl">
+					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
+						<div class="navbar-header">
+							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-chevron-left-o"></i></a>
+							<form class="form-search pull-left" action="/buscar">
+								<div class="input-group">
+									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
+									<div class="input-group-btn">
+										<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</nav>
 					
 					<div class="breathe"></div>
 		
-					<span>Termo de busca</span>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="list-group">
@@ -55,7 +66,7 @@
 			</div>
 		</div>
 		
-		<#include "/assets/tpl/components/footer.ftl">
+		<div class="breathe breathe-big"></div>
 
 		<#include "/assets/tpl/components/scripts.ftl">
 	</body>

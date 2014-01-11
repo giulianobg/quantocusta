@@ -2,8 +2,8 @@ package sb.quantocusta.api;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
+import org.mongojack.MongoCollection;
 import org.mongojack.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Giuliano Griffante
  *
  */
+@MongoCollection(name="categories")
 public class Category implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -25,13 +26,8 @@ public class Category implements Serializable {
 	private String idFoursquare;
 
 	private String name;
-	
 	private Category category;
-
-	private List<Category> categories;
-	
 	private Date createdAt;
-
 	private Date updatedAt;
 
 	public Category() {
@@ -85,12 +81,12 @@ public class Category implements Serializable {
 		this.category = category;
 	}
 
-	public List<Category> getCategories() {
-		return this.categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
-	}
+//	public List<Category> getCategories() {
+//		return this.categories;
+//	}
+//
+//	public void setCategories(List<Category> categories) {
+//		this.categories = categories;
+//	}
 
 }

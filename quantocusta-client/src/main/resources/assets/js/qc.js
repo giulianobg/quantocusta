@@ -1,7 +1,7 @@
 $.ajaxSetup({
 	type: "POST",
 	contentType: "application/x-www-form-urlencoded;charset=utf-8",
-	timeout: 2000,
+	timeout: 6000,
 	error: function(xhr, textStatus, err) {
 		var data = JSON.parse(xhr.responseText);
 		$("#error-modal .modal-title").html("Ooops!");
@@ -15,28 +15,47 @@ $.ajaxSetup({
 });
 
 var qc = {
-	vote: function(where, kind, v) {
+	vote: function(elm, where, kind, v) {
+		if ($(elm).hasClass('active')) {
+			v = -1;
+		}
+		
 		$.ajax({
-			url: "/vote",
+			url: "/api/vote",
 			data: {
-				'access_token': $('#access_token').val(),
 				'id': where,
 				'kind': kind,
 				'v': v
 			},
 			success: function(data) {
-				$(".food").html(Math.round(data.result.valuation.food.smileAverage) + '%');
-				$('.treatment').html(Math.round(data.result.valuation.treatment.smileAverage) + '%');
-				$('.environment').html(Math.round(data.result.valuation.environment.smileAverage) + '%');
+				$(".food").html(Math.round(data.result.valuation.food.average) + '%');
+				$('.treatment').html(Math.round(data.result.valuation.treatment.average) + '%');
+				$('.environment').html(Math.round(data.result.valuation.environment.average) + '%');
 				qc.load(where);
 			}
 		});
 	},
 	submitPrice: function(where, price) {
+		$("input[name='price']").val("");
+		$("input[name='price']").prop('disabled', true);
+		var typedPrice = price;
 		$.ajax({
-			url: "/vote/price",
+			url: "/api/vote/price",
 			data: {
-				'access_token': $('#access_token').val(),
+				'id': where,
+				'price': typedPrice.replace(/,/g, '.')
+			},
+			success: function(data) {
+				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
+				$("input[name='price']").prop('disabled', false);
+				
+			}
+		});
+	},
+	submitComment: function(where, who, comment) {
+		$.ajax({
+			url: "/api/comment",
+			data: {
 				'id': where,
 				'price': price.replace(/,/g, '.')
 			},
@@ -53,9 +72,7 @@ var qc = {
 				if (data.result.valuation.food.me) {
 					if (data.result.valuation.food.me.val > 0) {
 						$(".btn-food-s").addClass("active");
-						$(".btn-food-p").removeClass("active");
 					} else {
-						$(".btn-food-p").addClass("active");
 						$(".btn-food-s").removeClass("active");
 					}
 				}
@@ -63,9 +80,7 @@ var qc = {
 				if (data.result.valuation.treatment.me) {
 					if (data.result.valuation.treatment.me.val > 0) {
 						$(".btn-treatment-s").addClass("active");
-						$(".btn-treatment-p").removeClass("active");
 					} else {
-						$(".btn-treatment-p").addClass("active");
 						$(".btn-treatment-s").removeClass("active");
 					}
 				}
@@ -73,9 +88,7 @@ var qc = {
 				if (data.result.valuation.environment.me) {
 					if (data.result.valuation.environment.me.val > 0) {
 						$(".btn-environment-s").addClass("active");
-						$(".btn-environment-p").removeClass("active");
 					} else {
-						$(".btn-environment-p").addClass("active");
 						$(".btn-environment-s").removeClass("active");
 					}
 				}
@@ -85,9 +98,6 @@ var qc = {
 	loadCoordinates: function() {
 		if (navigator && navigator.geolocation) {
 			try {
-				var now = new Date().getTime();
-				console.debug('Difference between locations registration time: ' + (now - localStorage.getItem('updatedtime'))); // remover asap
-				
 				navigator.geolocation.getCurrentPosition(function(position) {
 					// definitive solution
 					$.ajax({
@@ -101,11 +111,18 @@ var qc = {
 							console.log("Saving coordinates");
 							sessionStorage.setItem('lat', position.coords.latitude);
 							sessionStorage.setItem('lng', position.coords.longitude);
-							//localStorage.setItem('updatedtime', now);
-							$("div:hidden").each(function() {
-								$(this).removeClass('hide');
-							});
-							$('.loading').remove();
+							
+							console.log("Checking if he was connected before...");
+							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('quantocusta.cc') > -1) {
+								console.log("Already authenticated!");
+								window.location.href = "https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code";
+							} else {
+								console.log("First date ;)");
+								$("div:hidden").each(function() {
+									$(this).removeClass('hide');
+								});
+								$('.loading').remove();
+							}
 						}
 					});
 				}, function(msg) {

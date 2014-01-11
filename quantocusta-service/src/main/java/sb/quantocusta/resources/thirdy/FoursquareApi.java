@@ -31,9 +31,9 @@ public class FoursquareApi {
 	
 	private static final String FOOD_CATEGORY = "4d4b7105d754a06374d81259";
 	
-	private static final String SEARCH_VENUE = HOST + "/venues/search?near=${near}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&v=" + VERSION;
-	private static final String SEARCH_VENUE_V2 = HOST + "/venues/search?ll=${lat},${lng}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&v=" + VERSION;
-	private static final String GET_VENUE = HOST + "/venues/${id}?oauth_token=" + TOKEN + "&v=" + VERSION;
+	private static final String SEARCH_VENUE = HOST + "/venues/search?near=${near}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
+	private static final String SEARCH_VENUE_V2 = HOST + "/venues/search?ll=${lat},${lng}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
+	private static final String GET_VENUE = HOST + "/venues/${id}?oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
 	
 	public static JsonNode get(String id) throws Exception {
 		String queryString = StringUtils.replaceOnce(GET_VENUE, "${id}", id);

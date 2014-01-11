@@ -11,15 +11,21 @@ import com.yammer.dropwizard.config.Configuration;
 public class MongoConfiguration extends Configuration {
 
 	@JsonProperty @NotEmpty
-	public String host = "68.169.54.122";
+	public String host;
 
 	@Min(1)
 	@Max(65535)
 	@JsonProperty
-	public int port = 27017;
+	public int port;
 
 	@JsonProperty @NotEmpty
-	public String db = "quantocusta-dev";
+	public String db;
+	
+	@JsonProperty @NotEmpty
+	public String user;
+	
+	@JsonProperty @NotEmpty
+	public String pwd;
 	
 	public String getHost() {
 		return host;
@@ -43,6 +49,22 @@ public class MongoConfiguration extends Configuration {
 	
 	public void setDb(String db) {
 		this.db = db;
+	}
+	
+	public String getUser() {
+		return user;
+	}
+	
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
+	public String getPwd() {
+		return pwd;
+	}
+	
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	
 }

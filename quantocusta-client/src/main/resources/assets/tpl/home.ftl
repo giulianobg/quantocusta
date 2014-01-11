@@ -28,18 +28,28 @@
 				
 				<div class="col-xs-12">
 				
-					<#include "/assets/tpl/components/search.ftl">
+					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
+						<div class="navbar-header">
+							<a href="#menu" class="pull-left btn btn-link" data-toggle="offcanvas"><i class="icon-bar"></i></a>
+							<form class="form-search pull-left" action="/buscar">
+								<div class="input-group">
+									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
+									<div class="input-group-btn">
+										<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</nav>
 					
 					<div class="breathe"></div>
 		
-					<span>Termo de busca</span>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="list-group">
 								<#if venues??>
 									<#list venues as venue>
 										<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
-											<!-- <img class="img img-circle pull-left" src="http://placehold.it/40x40"> -->
 											<span class="pull-left">
 												${venue.name?html}<br>
 												<small><#if venue.category??>${venue.category.name!""}</#if></small>
@@ -53,14 +63,19 @@
 						</div>
 					</div>
 					
-					<#include "/assets/tpl/components/footer.ftl">
-					
 				</div>
 				
 			</div>
 			
+			<div class="breathe breathe-big"></div>
+			
 		</div>
 
 		<#include "/assets/tpl/components/scripts.ftl">
+		<script>
+			$(document).ready(function() {
+				localStorage.setItem('auth_connected', 'true');
+			});
+		</script>
 	</body>
 </html>
