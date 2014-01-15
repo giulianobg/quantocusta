@@ -5,6 +5,7 @@
 
 # Binaries
 target
+target/*
 */target
 *.class
 
@@ -12,6 +13,8 @@ target
 *.jar
 *.war
 *.ear
+
+*.pom
 
 # Specific files
 quantocusta-service/configuration-dev.yml
