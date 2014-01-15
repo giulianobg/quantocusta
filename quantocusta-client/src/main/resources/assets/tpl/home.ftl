@@ -14,6 +14,12 @@
 		<!-- Add custom CSS here -->
 		<link href="/assets/css/starving-3.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
+		
+		<style type="text/css">
+			#map {height: 200px; margin: -10px; z-index: 0;}
+		</style>
 	</head>
 
 	<body>
@@ -46,15 +52,16 @@
 		
 					<div class="row">
 						<div class="col-xs-12">
+						
+							<div id="map"></div>
+						
 							<div class="list-group">
 								<#if venues??>
 									<#list venues as venue>
 										<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
-											<span class="pull-left">
-												${venue.name?html}<br>
-												<small><#if venue.category??>${venue.category.name!""}</#if></small>
-											</span>
-											<span class="pull-right"><i class="icon-chevron-right"></i></span>
+											<span class="pull-left">${venue.name?html}</span><br>
+											<small class="pull-left"><#if venue.category??>${venue.category.name!""}</#if></small>
+											<!-- <span class="price pull-right"><small>R$</small> 58</span> -->
 											<div class="clearfix"></div>
 										</a>
 									</#list>
@@ -74,6 +81,14 @@
 		<#include "/assets/tpl/components/scripts.ftl">
 		<script>
 			$(document).ready(function() {
+				var map = L.map('map').setView([${request.session.getAttribute('lat')}, ${request.session.getAttribute('lng')}], 13);
+				
+				L.tileLayer('http://{s}.tile.cloudmade.com/5e92db154a5541809618b12d82e2edbb/997/256/{z}/{x}/{y}.png?token=?token=d3c898f7ef6f494b913353df4fef7cee', {
+					maxZoom: 18,
+					minZoom: 10,
+					attribution: ''
+				}).addTo(map);
+				
 				localStorage.setItem('auth_connected', 'true');
 			});
 		</script>

@@ -56,6 +56,7 @@ public class HtmlResource extends BaseResouce {
 	public View me() {
 		User user = (User) request.getSession().getAttribute("user");
 		HomeView page = new HomeView(user);
+		page.setRequest(request);
 		
 		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
 		if (venues == null) {
