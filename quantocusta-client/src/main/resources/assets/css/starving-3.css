@@ -558,6 +558,12 @@ a.facebook:hover {
     /* border-radius: 3px 0 0 3px; */      
 }
 
+.form-control {
+	-moz-box-shadow: 0px 0px 0px;
+	-webkit-box-shadow: 0px 0px 0px;
+	box-shadow: 0px 0px 0px;
+}
+
 .input-group > .form-control {
 	border-left: 0;
 }
