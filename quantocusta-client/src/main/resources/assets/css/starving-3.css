@@ -156,7 +156,7 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 .container {width: 100%; padding-left: 0; padding-right: 0;}
 .row {margin-left: 0; margin-right: 0;}
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 { position: relative; min-height: 1px; padding-left: 3px; padding-right: 3px;}
-.container-bg {position:relative;width: 100%;}
+.container-bg {position:relative;width: 100%;margin:-3px;}
 .container-bg .overlay {
 	width: 100%;
     z-index: 100;
@@ -319,15 +319,14 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 	margin-bottom: 0;
 }
 
-a.list-group-item:hover,
-a.list-group-item:focus {
-	text-decoration: none;
-	background-color: #909AB6;
-}
-
 .list-group .list-group-item span {
 	vertical-align: super;
-	padding-left: 10px;
+	font-weight: bold;
+	color: #F35D5D;
+}
+
+.list-group .list-group-item span.price {
+	font-size: 18px;
 }
 
 .panel {
@@ -348,6 +347,7 @@ a.list-group-item:focus {
 	/*border-color: #505A7A;*/
 }
 
+/* pink */
 .panel-default > .panel-heading {
 	color: #F4F4F4;
 	background-color: #F35D5D;
@@ -360,7 +360,7 @@ a.list-group-item:focus {
 	color: #F03737;
 }
 
-/* pink */
+/* red */
 .badge-primary,
 .btn-primary,
 .label-primary,
@@ -370,7 +370,7 @@ a.list-group-item:focus {
 	/*border-color: #E44E67;*/
 }
 
-/* light blue */
+/* green */
 .badge-info,
 .btn-info,
 .label-info,
@@ -380,13 +380,18 @@ a.list-group-item:focus {
 	border-color: #22A8AA;
 }
 
+/* dark */
 .badge-inverse,
 .btn-inverse,
 .label-inverse,
 .panel-inverse {
-	background-color: #505A7A;
-	color: #909AB6;
-	border-color: #909AB6;
+	background-color: #2D2D2D;
+	color: #F0F0F0;
+	border-color: #2D2D2D;
+}
+
+.btn-inverse:hover, .btn-inverse:focus, .btn-inverse:active, .btn-inverse.active, .open .dropdown-toggle.btn-inverse {
+	color: #F0F0F0;
 }
 
 /*

@@ -14,7 +14,8 @@ target/*
 *.war
 *.ear
 
-*.pom
+pom.properties
 
 # Specific files
-quantocusta-service/configuration-dev.yml
+*.yml
+quantocusta-service/configuration.yml

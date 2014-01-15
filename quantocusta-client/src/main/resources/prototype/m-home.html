@@ -15,6 +15,12 @@
 		<!-- Add custom CSS here -->
 		<link href="../assets/css/starving-3.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
+		
+		<style type="text/css">
+			#map {height: 200px; margin: -10px; z-index: 0;}
+		</style>
 	</head>
 
 	<body>
@@ -44,10 +50,13 @@
 						</div>
 					</nav>
 					
-					<!-- div class="breathe"></div -->
+					<div class="breathe"></div>
 		
 					<div class="row">
 						<div class="col-xs-12">
+						
+							<div id="map"></div>
+						
 							<div class="list-group">
 								<a href="/local/thrd/4d90ba3c62f1dcb366fa8b12" class="list-group-item">
 									<!-- <img class="img img-circle pull-left" src="http://placehold.it/40x40"> -->
@@ -335,11 +344,18 @@
 		<!-- <script src="//code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script> -->
 		<script src="../assets/js/bootstrap.min.js"></script>
 		<script src="../assets/js/qc.js"></script>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
 		<script>
 		$(document).ready(function() {
-			//qc.loadCoordinates();
+			
+			var map = L.map('map').setView([51.505, -0.09], 13);
+			
+			L.tileLayer('http://{s}.tile.cloudmade.com/5e92db154a5541809618b12d82e2edbb/997/256/{z}/{x}/{y}.png?token=?token=d3c898f7ef6f494b913353df4fef7cee', {
+				maxZoom: 18,
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+			}).addTo(map);
+			
 			$('[data-toggle=offcanvas]').click(function() {
-				$("html, body").animate({ scrollTop: 0 }, "fast");
 				$('.row-offcanvas').toggleClass('active');
 				$('.st-nav').toggleClass("active");
 			});
