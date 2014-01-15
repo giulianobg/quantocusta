@@ -18,12 +18,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mongojack.DBCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.Category;
 import sb.quantocusta.api.CategoryRef;
 import sb.quantocusta.api.City;
+import sb.quantocusta.api.Comment;
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Review;
 import sb.quantocusta.api.User;
@@ -31,6 +33,7 @@ import sb.quantocusta.api.Venue;
 import sb.quantocusta.api.Vote;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
+import sb.quantocusta.dao.CommentDao;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
 import sb.quantocusta.dao.SessionDao;
@@ -138,23 +141,30 @@ public class VenueResource extends BaseResouce {
 					Vote vote = Daos.get(VoteDao.class).find(id, user.getId(), kind);
 					valuation.put("me", new BasicDBObject("val", vote == null ? 0 : vote.getVal()));
 				}
-				
-//				((Valuation) venue.getValuation().get(Venue.FOOD)).setMe(new BasicDBObject("val", Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD).getVal()));
-//				((Valuation) venue.getValuation().get(Venue.TREATMENT)).setMe(new BasicDBObject("val", Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT).getVal()));
-//				venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
-//				venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
-//				venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
-//				BasicDBObject me = new BasicDBObject();
-//				me.put(Venue.FOOD, Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD).getVal());
-//				me.put(Venue.TREATMENT, Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT).getVal());
-//				me.put(Venue.ENVIRONMENT, Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT).getVal());
-//				venue.getValuation().setMe(me);
 			}
+			
+			// load comments
+			BasicDBObject query = new BasicDBObject("access_token", token);
+			DBCursor<Comment> commentsCursor = Daos.get(CommentDao.class).findAll(query);
+			List<Comment> comments = new ArrayList<Comment>();
+			while (commentsCursor.hasNext()) {
+				Comment comment = commentsCursor.next();
+				comment.setUserInstance(Daos.get(UserDao.class).findById(comment.getUser().getId()));
+				comment.setUser(null);
+				comments.add(comment);
+			}
+			venue.setComments(comments);
 	
 			return Response.ok(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
 		}
 		
 	}
+	
+//	@GET
+//	@Path("{id}/comments")
+//	public Response comments() {
+//		
+//	}
 	
 	@GET
 	@Path("thrd/{id}")

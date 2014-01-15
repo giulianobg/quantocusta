@@ -10,7 +10,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sb.quantocusta.api.Category;
 import sb.quantocusta.api.Venue;
+import sb.quantocusta.dao.CategoryDao;
+import sb.quantocusta.dao.Daos;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -116,10 +119,21 @@ public class FoursquareApi {
 			
 			venue.setIdFoursquare(v.get("id").asText());
 			
+			if (v.get("categories").size() > 0) {
+				Category category = Daos.get(CategoryDao.class).findBy3rdId(v.get("categories").get(0).get("id").asText());
+//				System.out.println(category);
+				if (category == null) {
+					category = new Category();
+					category.setName(v.get("categories").get(0).get("name").asText());
+				}
+				venue.setCategory(category);
+			}
+			
 			if (v.get("location") != null && 
 					v.get("location").get("address") != null) {
 				venue.setAddress(v.get("location").get("address").asText());
 			}
+			
 			venue.setName(v.get("name").asText());
 			
 			venues.add(venue);
