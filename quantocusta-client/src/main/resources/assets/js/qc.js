@@ -47,7 +47,23 @@ var qc = {
 			},
 			success: function(data) {
 				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
-				$("input[name='price']").prop('disabled', false);
+				
+				var dResp = document.createElement("div");
+				dResp.className = "text-center";
+				
+				var pTitle = document.createElement("p");
+				var title = document.createElement("strong");
+				title.innerHTML = "<br>Obrigado pela contribuição <i class=\"icon icon-smile\"></i>";
+				pTitle.appendChild(title);
+				
+				var pBody = document.createElement("p");
+				pBody.innerHTML = "Continue colaborando e nos ajude a deixar<br> o Quanto Custa ainda mais completo.";
+				
+				dResp.appendChild(pTitle);
+				dResp.appendChild(pBody);
+				
+				$('#submitPrice').parent().append(dResp);
+				$('#submitPrice').remove();
 				
 			}
 		});
