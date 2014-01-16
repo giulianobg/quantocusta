@@ -52,15 +52,15 @@ var qc = {
 			}
 		});
 	},
-	submitComment: function(where, who, comment) {
+	submitComment: function(where, comment) {
 		$.ajax({
 			url: "/api/comment",
 			data: {
 				'id': where,
-				'price': price.replace(/,/g, '.')
+				'comment': comment
 			},
 			success: function(data) {
-				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
+				alert("ok o/");
 			}
 		});
 	},
