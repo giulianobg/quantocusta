@@ -6,7 +6,10 @@ import org.mongojack.DBRef;
 import org.mongojack.MongoCollection;
 import org.mongojack.ObjectId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * 
@@ -20,7 +23,9 @@ public class Comment {
 	@JsonProperty("_id")
 	private String id;
 	
+	@JsonInclude(Include.NON_NULL)
 	private DBRef<User, String> user;
+	private User userInstance;
 	
 	private DBRef<Venue, String> venue;
 	
@@ -47,6 +52,15 @@ public class Comment {
 		this.user = user;
 	}
 	
+	public User getUserInstance() {
+		return userInstance;
+	}
+	
+	public void setUserInstance(User userInstance) {
+		this.userInstance = userInstance;
+	}
+	
+	@JsonIgnore
 	public DBRef<Venue, String> getVenue() {
 		return venue;
 	}

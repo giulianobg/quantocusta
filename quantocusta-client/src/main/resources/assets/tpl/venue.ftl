@@ -116,12 +116,8 @@
 										
 										<hr>
 										
-										<p>
-											Já foi? Quanto pagou?
-										</p>
-										<p>
-											Se não lembrar o valor exato, informe um valor aproximado. 
-										</p>
+										<p>Já foi? Quanto pagou?</p>
+										<p>Se não lembrar o valor exato, informe um valor aproximado.</p>
 									</form>
 								</div>
 							</div>
@@ -161,19 +157,37 @@
 						</div>
 					
 					</div>
-					<!-- 
+					
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">Comentários <span class="badge">0</span></div>
 								<div class="panel-body">
+									<ul id="comments">
+									<#list venue.comments as comment>
+										<li>
+											<img src="http://graph.facebook.com/${comment.userInstance.thirdyId}/picture"> ${comment.userInstance.name}<br>
+											<p>${comment.comment}</p>	
+										</li>
+										
+									</#list>
+									</ul>
 									
+									<hr>
+									
+									<form id="submitComment" class="form-horizontal" role="form" action="/api/comment" method="post">
+										<input type="hidden" name="where" value="${venue.id}">
+										<div class="form-group">
+											<div class="col-xs-12">
+												<textarea rows="4" name="comment" placeholder="Escreva um comentário sobre esse local..."></textarea>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
 					
 					</div>
-					-->
 					
 					<div class="breathe breathe-big"></div>
 					
@@ -203,12 +217,20 @@
 			 
 				// Send the data using post
 				qc.submitPrice(where, price);
+			});
+			
+			$("#submitComment").submit(function(event) {
+				// Stop form from submitting normally
+				event.preventDefault();
+				
+				// Get some values from elements on the page:
+				var $form = $(this),
+					where = $form.find("input[name='where']").val(),
+					comment = $form.find("textarea[name='comment']").val(),
+					url = $form.attr("action");
 			 
-				// Put the results in a div
-				//posting.done(function( data ) {
-				//	var content = $( data ).find( "#content" );
-				//	$( "#result" ).empty().append( content );
-				//});
+				// Send the data using post
+				qc.submitComment(where, comment);
 			});
 		</script>
 	</body>

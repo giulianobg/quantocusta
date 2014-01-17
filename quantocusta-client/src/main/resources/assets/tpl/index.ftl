@@ -22,7 +22,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					 <div class="container-bg">
-						<img class="img" width="360" src="/assets/images/home_qc.jpg">
+						<img class="img" width="320" src="/assets/images/background.png">
 						
 						<div class="overlay">
 							<h1 style="text-indent: -9999px;">Quanto Custa?</h1>
