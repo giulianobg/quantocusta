@@ -198,22 +198,14 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 .teal2-bg {background: #16a085;}
 .purple {color: #9b59b6;}
 .purple-bg {background: #9b59b6;}
-.purple2 {
-  color: #8e44ad;
-}
-.purple2-bg {
-  background: #8e44ad;
-}
-.steel-grey {
-  color: #34495e;}
-.steel-grey-bg {
-  background: #34495e;}
-.steel-grey2 {
-  color: #2c3e50;}
+.purple2 {color: #8e44ad;}
+.purple2-bg {background: #8e44ad;}
+.steel-grey {color: #34495e;}
+.steel-grey-bg {background: #34495e;}
+.steel-grey2 {color: #2c3e50;}
 .steel-grey2-bg {background: #2c3e50;}
 .off-white {color: #ecf0f1;}
-.off-white-bg {background: #ecf0f1;
-}
+.off-white-bg {background: #ecf0f1;}
 .light-grey {color: #bdc3c7;}
 .light-grey-bg {background: #bdc3c7;}
 .grey {color: #95a5a6;}
@@ -308,6 +300,17 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 	padding-left: 0;
 	padding-right: 0;
 	background-color: #F35D5D;
+}
+
+/* Map */
+#map {
+	height: 200px;
+	margin: -5px -6px -10px -6px;
+	z-index: 0;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+	color: #0f0f0f;
 }
 
 /* Panels and other componentes */
