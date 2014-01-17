@@ -16,10 +16,6 @@
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300' rel='stylesheet' type='text/css'>
 		
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
-		
-		<style type="text/css">
-			#map {height: 200px; margin: -10px; z-index: 0;}
-		</style>
 	</head>
 
 	<body>
@@ -55,17 +51,16 @@
 						
 							<div id="map"></div>
 						
-							<div class="list-group">
-								<#if venues??>
-									<#list venues as venue>
-										<a href="/local/thrd/${venue.idFoursquare}" class="list-group-item">
-											<span class="pull-left">${venue.name?html}</span><br>
-											<small class="pull-left"><#if venue.category??>${venue.category.name!""}</#if></small>
-											<!-- <span class="price pull-right"><small>R$</small> 58</span> -->
-											<div class="clearfix"></div>
-										</a>
-									</#list>
-								</#if>
+							<div id="data-result" class="list-group">
+							
+								<div class="loading">
+									<div class="breathe"></div>
+									<div id="circleG" title="Carregando conteúdo...">
+										<div id="circleG_1" class="circleG"></div>
+										<div id="circleG_2" class="circleG"></div>
+										<div id="circleG_3" class="circleG"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -90,6 +85,54 @@
 				}).addTo(map);
 				
 				localStorage.setItem('auth_connected', 'true');
+				
+				$.ajax({
+					url: "/api/near",
+					type: "GET",
+					timeout: 15000,
+					success: function(data) {
+						var list = $("#data-result");
+
+						for (var i in data.result) {
+							var venue = data.result[i];
+
+							var item = document.createElement("a");
+							item.href = "/local/" + (venue._id ? venue._id : "thrd/" + venue.id_foursquare);
+							item.className = "list-group-item";
+							
+							var title = document.createElement("span");
+							title.className = "pull-left";
+							title.innerHTML = venue.name;
+							
+							var category = document.createElement("small");
+							category.className = "pull-left";
+							category.innerHTML = venue.category ? venue.category.name : "";
+							
+							var price = document.createElement("span");
+							price.className = "pull-right";
+							if (venue.reviews.averagePrice > 0) {
+								price.innerHTML = "<small>R$</small> " + Math.round(venue.reviews.averagePrice) + ",00";
+							}
+							
+							item.appendChild(title);
+							item.appendChild(document.createElement("br"));
+							item.appendChild(category);
+							item.appendChild(price);
+							
+							var clearfix = document.createElement("div");
+							clearfix.className = "clearfix";
+							item.appendChild(clearfix);
+							
+							// map marker
+							if (venue.lat && venue.lng) {
+								L.marker([venue.lat, venue.lng]).addTo(map).bindPopup("<b>" + venue.name + "</b>");
+							}
+							
+							$(".loading").remove();
+							$(list).append(item);
+						}
+					}
+				});
 			});
 		</script>
 	</body>

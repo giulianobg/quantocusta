@@ -1,6 +1,8 @@
 package sb.quantocusta.client.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -37,6 +39,39 @@ public class JsonResource extends BaseResouce {
 		this.configuration = configuration;
 		client = Client.create();
 		mapper = new ObjectMapper();
+	}
+	
+	@GET
+	@Path("near")
+	public Response near() {
+		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
+		if (venues == null) {
+			String token = (String) request.getSession().getAttribute("access_token");
+			
+			// Load venues próximos
+			URI uri = UriBuilder.fromUri(configuration.getApi()).
+					path("/api/venue/near").
+					queryParam("lat", request.getSession().getAttribute("lat")).
+					queryParam("lng", request.getSession().getAttribute("lng")).
+					queryParam("access_token", token).
+					build();
+			
+			DataResponse response = client.resource(uri).accept(
+			        MediaType.APPLICATION_JSON).
+			        get(DataResponse.class);
+			
+			List list = mapper.convertValue(response.getResult(), List.class);
+			
+			venues = new ArrayList<Venue>();
+			for (int i = 0; i < list.size(); i++) {
+				venues.add(mapper.convertValue(list.get(i), Venue.class));
+			}
+			
+			// adiciona a cache (sessao do usuário)
+			request.getSession().setAttribute("list_me", venues);
+		}
+		
+		return Response.ok(DataResponse.build(venues)).build();
 	}
 
 	@GET
