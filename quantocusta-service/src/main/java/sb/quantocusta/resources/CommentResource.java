@@ -49,7 +49,7 @@ public class CommentResource extends BaseResouce {
 		instance = Daos.get(CommentDao.class).insert(instance);
 
 		// update venue
-//		venue = dao.update(venue);
+//		Venue venue = dao.findById(id);
 
 		return Response.ok(DataResponse.build(instance)).build();
 	}

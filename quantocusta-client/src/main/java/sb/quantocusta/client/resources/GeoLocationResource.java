@@ -19,9 +19,6 @@ public class GeoLocationResource extends BaseResouce {
 	public void setLocation(@FormParam("lat") String lat, @FormParam("lng") String lng) {
 		request.getSession().setAttribute("lat", lat);
 		request.getSession().setAttribute("lng", lng);
-		
-		System.out.println(lat);
-		System.out.println(request.getSession().getAttribute("lng"));
 	}
 
 }

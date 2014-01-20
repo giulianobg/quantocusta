@@ -305,12 +305,12 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 /* Map */
 #map {
 	height: 200px;
-	margin: -5px -6px -10px -6px;
+	margin: -10px -6px 6px -6px;
 	z-index: 0;
 }
 
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-	color: #0f0f0f;
+	color: #0F0F0F;
 }
 
 /* Panels and other componentes */
@@ -322,14 +322,25 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 	margin-bottom: 0;
 }
 
-.list-group .list-group-item span {
+#data-result .list-group-item span {
 	vertical-align: super;
 	font-weight: bold;
+	color: #575757;
+}
+
+#data-result .list-group-item span > span {
+	font-size: 12px;
+	font-weight: lighter;
+}
+
+#data-result .list-group-item span.price {
+	font-size: 16px;
 	color: #F35D5D;
 }
 
-.list-group .list-group-item span.price {
-	font-size: 18px;
+#data-result .list-group-item span.price > small {
+	font-size: 10px;
+	font-weight: lighter;
 }
 
 .panel {
@@ -350,27 +361,27 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 	/*border-color: #505A7A;*/
 }
 
-/* pink */
-.panel-default > .panel-heading {
-	color: #F4F4F4;
-	background-color: #F35D5D;
-	font-size: 22px;
-	text-align: center;
-	text-transform: lowercase;
-}
-
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
 	color: #F03737;
 }
 
-/* red */
+/* pink */
 .badge-primary,
 .btn-primary,
 .label-primary,
 .panel-primary {
-	color: #F4F4F4;
-	background-color: #F03737;
+	background-color: #FBFBFB;
+	color: #2A2A2A;
 	/*border-color: #E44E67;*/
+}
+
+.panel-primary > .panel-heading {
+	color: #F4F4F4;
+	background-color: #F35D5D;
+	border-color: #F35D5D;
+	font-size: 20px;
+	text-align: center;
+	text-transform: lowercase;
 }
 
 /* green */
@@ -378,9 +389,16 @@ strong {font-family: 'Asap', sans-serif;font-weight: 700;}
 .btn-info,
 .label-info,
 .panel-info {
-	background-color: #22A8AA;
-	color: #ffffff;
-	border-color: #22A8AA;
+	background-color: #FBFBFB;
+	color: #2A2A2A;
+}
+
+.panel-info > .panel-heading {
+	color: #F4F4F4;
+	background-color: #F35D5D;
+	border-color: #F35D5D;
+	text-align: center;
+	text-transform: lowercase;
 }
 
 /* dark */

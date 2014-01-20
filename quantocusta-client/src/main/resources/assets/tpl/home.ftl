@@ -51,14 +51,18 @@
 						
 							<div id="map"></div>
 						
-							<div id="data-result" class="list-group">
-							
-								<div class="loading">
-									<div class="breathe"></div>
-									<div id="circleG" title="Carregando conteúdo...">
-										<div id="circleG_1" class="circleG"></div>
-										<div id="circleG_2" class="circleG"></div>
-										<div id="circleG_3" class="circleG"></div>
+							<div class="panel panel-default">
+								<div class="panel-heading">Locais próximos</div>
+								<div class="panel-body">
+									<div id="data-result" class="list-group">
+										<div class="loading">
+											<div class="breathe"></div>
+											<div id="circleG" title="Carregando conteúdo...">
+												<div id="circleG_1" class="circleG"></div>
+												<div id="circleG_2" class="circleG"></div>
+												<div id="circleG_3" class="circleG"></div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -65,7 +65,7 @@ public class AuthResource extends BaseResouce {
 			try {
 				String r = "https://graph.facebook.com/oauth/access_token" + 
 						"?client_id=" + FB_APP_ID + 
-						"&redirect_uri=" + URLEncoder.encode("http://m.quantocusta.cc/auth/connect", "UTF-8") + 
+						"&redirect_uri=" + URLEncoder.encode(configuration.getAuthCallback(), "UTF-8") + 
 						"&client_secret=" + FB_APP_SECRET + 
 						"&code=" + code;
 
@@ -133,7 +133,14 @@ public class AuthResource extends BaseResouce {
 			}
 		}
 
-		return Response.seeOther(UriBuilder.fromUri("http://m.quantocusta.cc/me").build()).build();
+		String host = "m";
+		System.out.println(configuration.getAuthCallback());
+		if (configuration.getAuthCallback().contains("prev.quantocusta")) {
+			System.out.println("AuthResource.facebookCallback()");
+			host = "prev";	
+		}
+			
+		return Response.seeOther(UriBuilder.fromUri("http://" + host + ".quantocusta.cc/me").build()).build();
 	}
 	
 	@GET

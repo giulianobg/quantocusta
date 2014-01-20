@@ -14,10 +14,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import sb.quantocusta.api.DataResponse;
-import sb.quantocusta.api.Venue;
 import sb.quantocusta.client.QuantoCustaClientConfiguration;
 import sb.quantocusta.resources.BaseResouce;
 
@@ -103,7 +101,6 @@ public class JsonResource extends BaseResouce {
 	
 	@POST
 	@Path("vote")
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response vote(@FormParam("id") String id, @FormParam("kind") String kind, @FormParam("v") IntParam v) {
 		String token = (String) request.getSession().getAttribute("access_token");
 		
@@ -124,13 +121,10 @@ public class JsonResource extends BaseResouce {
 				post(DataResponse.class, formParamsSession);
 		
 		return Response.ok(response).build();
-		
-//		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN)).build();
 	}
 
 	@POST
 	@Path("vote/price")
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response submitPrice(@FormParam("id") String id, @FormParam("price") Double price) {
 		String token = (String) request.getSession().getAttribute("access_token");
 		
@@ -154,6 +148,31 @@ public class JsonResource extends BaseResouce {
 		return Response.ok(response).build();
 
 //		return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
+	}
+	
+	@POST
+	@Path("comment")
+	public Response submitComment(@FormParam("id") String id, @FormParam("comment") String comment) {
+		String token = (String) request.getSession().getAttribute("access_token");
+		
+		MultivaluedMap<String, String> formParams = new MultivaluedMapImpl();
+		formParams.add("id", id);
+		formParams.add("comment", comment);
+		
+		System.out.println(id);
+		System.out.println(comment);
+		
+		URI uri0 = UriBuilder.fromUri(configuration.getApi()).
+				path("/api/comment").
+				queryParam("access_token", token).
+				build();
+		
+		DataResponse response = client.resource(uri0).
+				type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+				accept(MediaType.APPLICATION_JSON_TYPE).
+				post(DataResponse.class, formParams);
+		
+		return Response.ok(response).build();
 	}
 
 }
