@@ -97,6 +97,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">Quanto custa?</div>
 								<div class="panel-body">
+									<br>
 									<form id="submitPrice" class="form-horizontal" role="form" action="/api/vote/price" method="post">
 										<input type="hidden" name="where" value="${venue.id}">
 										<div class="form-group">

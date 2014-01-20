@@ -17,6 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class AuthResource extends BaseResouce {
 	
 	@GET
 	@Path("connect")
-	public Response facebookCallback(@QueryParam("code") String code) {
+	public Response facebookCallback(@QueryParam("code") String code, @QueryParam("error") String error) {
 		if (code != null) {
 			try {
 				String r = "https://graph.facebook.com/oauth/access_token" + 
@@ -109,8 +110,11 @@ public class AuthResource extends BaseResouce {
 							type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
 							accept(MediaType.APPLICATION_JSON_TYPE).
 							post(DataResponse.class, formParams2);
+					
+					DataResponse responseUser = client.resource(uri).get(DataResponse.class);
+					user = mapper.convertValue(responseUser.getResult(), User.class);
 				}
-
+				
 				// cria sessao persistente
 				MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
 				formParamsSession.add("id", user.getId());
@@ -130,6 +134,11 @@ public class AuthResource extends BaseResouce {
 				request.getSession().setAttribute("user", user);
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
+			}
+		} else if (error != null) {
+			if (StringUtils.equals(error, "access_denied")) { 
+				LOG.warn("User hasn't allowed access. Redirecting to home page...");
+				return Response.seeOther(UriBuilder.fromUri("http://m.quantocusta.cc/").build()).build();
 			}
 		}
 
