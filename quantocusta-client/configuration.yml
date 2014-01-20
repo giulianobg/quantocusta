@@ -1,5 +1,7 @@
 # App settings
 api: http://localhost:8090
+authCallback: http://
+nfs: /nfs/quantocusta/
 
 # Logging settings.
 logging:
