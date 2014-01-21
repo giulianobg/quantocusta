@@ -19,7 +19,6 @@ import sb.quantocusta.dao.UserDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.health.MongoHealthCheck;
-import sb.quantocusta.resources.AuthResource;
 import sb.quantocusta.resources.CommentResource;
 import sb.quantocusta.resources.OAuthResource;
 import sb.quantocusta.resources.SessionResource;
@@ -67,7 +66,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		try {
 			MongoClient client = new MongoClient(configuration.getMongo().getHost(), configuration.getMongo().getPort());
 			db = client.getDB(configuration.getMongo().getDb());
-			boolean auth = db.authenticate(configuration.getMongo().getUser(), configuration.getMongo().getPwd().toCharArray());
+			//boolean auth = db.authenticate(configuration.getMongo().getUser(), configuration.getMongo().getPwd().toCharArray());
 			
 			MongoManaged mongoManaged = new MongoManaged(client);
 			environment.manage(mongoManaged);
@@ -88,12 +87,11 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		Daos.addDao(new VoteDao(db));
 		
 		/* OAuth2 */
-//		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth")); // morre
 		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
 		/* Resources */
 		environment.addResource(new OAuthResource());
-		environment.addResource(new AuthResource());
+//		environment.addResource(new AuthResource());
 		environment.addResource(new CommentResource());
 		environment.addResource(new SessionResource());
 		environment.addResource(new UserResource());

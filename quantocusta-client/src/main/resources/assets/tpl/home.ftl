@@ -51,14 +51,18 @@
 						
 							<div id="map"></div>
 						
-							<div id="data-result" class="list-group">
-							
-								<div class="loading">
-									<div class="breathe"></div>
-									<div id="circleG" title="Carregando conteúdo...">
-										<div id="circleG_1" class="circleG"></div>
-										<div id="circleG_2" class="circleG"></div>
-										<div id="circleG_3" class="circleG"></div>
+							<div class="panel panel-info">
+								<div class="panel-heading">Locais próximos</div>
+								<div class="panel-body">
+									<div id="data-result" class="list-group">
+										<div class="loading">
+											<div class="breathe"></div>
+											<div id="circleG" title="Carregando conteúdo...">
+												<div id="circleG_1" class="circleG"></div>
+												<div id="circleG_2" class="circleG"></div>
+												<div id="circleG_3" class="circleG"></div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -102,21 +106,22 @@
 							
 							var title = document.createElement("span");
 							title.className = "pull-left";
-							title.innerHTML = venue.name;
 							
-							var category = document.createElement("small");
-							category.className = "pull-left";
+							var category = document.createElement("span");
 							category.innerHTML = venue.category ? venue.category.name : "";
 							
+							title.innerHTML = venue.name + "<br>";
+							title.appendChild(category);
+							
 							var price = document.createElement("span");
-							price.className = "pull-right";
+							price.className = "pull-right price";
 							if (venue.reviews.averagePrice > 0) {
 								price.innerHTML = "<small>R$</small> " + Math.round(venue.reviews.averagePrice) + ",00";
 							}
 							
 							item.appendChild(title);
-							item.appendChild(document.createElement("br"));
-							item.appendChild(category);
+							//item.appendChild(document.createElement("br"));
+							//item.appendChild(category);
 							item.appendChild(price);
 							
 							var clearfix = document.createElement("div");
