@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Review;
 import sb.quantocusta.api.User;
-import sb.quantocusta.api.Valuation;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.api.Vote;
 import sb.quantocusta.dao.Daos;
