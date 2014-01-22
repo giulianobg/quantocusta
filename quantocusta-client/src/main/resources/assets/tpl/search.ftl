@@ -54,7 +54,7 @@
 												${venue.name?html}<br>
 												<small><#if venue.category??>${venue.category.name!""}</#if></small>
 											</span>
-											<span class="pull-right"><i class="icon-chevron-right"></i></span>
+											<span class="pull-right"><i class="icon icon-chevron-right"></i></span>
 											<div class="clearfix"></div>
 										</a>
 									</#list>

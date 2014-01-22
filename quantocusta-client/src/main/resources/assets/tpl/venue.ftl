@@ -57,9 +57,9 @@
 									<h1>${venue.name}</h1>
 									<strong><#if venue.category??>${venue.category.name!""}</#if></strong>
 									<address>
-										<#if venue.address??><i class="icon-pin-marker"></i> ${venue.address!""}<br></#if>
-										<#if venue.site??><i class="icon-world"></i> ${venue.site!""}<br></#if>
-										<#if venue.phone??><i class="icon-phone"></i> ${venue.phone!""}</#if>
+										<#if venue.address??><i class="icon icon-pin-marker"></i> ${venue.address!""}<br></#if>
+										<#if venue.site??><i class="icon icon-world"></i> ${venue.site!""}<br></#if>
+										<#if venue.phone??><i class="icon icon-phone"></i> ${venue.phone!""}</#if>
 									</address>
 									
 									<div class="section-price">
@@ -73,17 +73,17 @@
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-green"></span>
 												Comida<br>
-												<i class="icon-soup fa-lg"></i> <span class="val food">${venue.valuation.food.average?string("")}%</span>
+												<i class="icon icon-soup fa-lg"></i> <span class="val food">${venue.valuation.food.average?string("")}%</span>
 											</div>
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-blue"></span>
 												Atendimento<br>
-												<i class="icon-foodtray fa-lg"></i> <span class="val treatment">${venue.valuation.treatment.average?string("")}%</span>
+												<i class="icon icon-foodtray fa-lg"></i> <span class="val treatment">${venue.valuation.treatment.average?string("")}%</span>
 											</div>
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-yellow"></span>
 												Ambiente<br>
-												<i class="icon-store fa-lg"></i> <span class="val environment">${venue.valuation.environment.average?string("")}%</span> 
+												<i class="icon icon-store fa-lg"></i> <span class="val environment">${venue.valuation.environment.average?string("")}%</span> 
 											</div>
 										</div>
 									</div>
@@ -97,6 +97,7 @@
 							<div class="panel panel-primary">
 								<div class="panel-heading">Quanto custa?</div>
 								<div class="panel-body">
+									<br>
 									<form id="submitPrice" class="form-horizontal" role="form" action="/api/vote/price" method="post">
 										<input type="hidden" name="where" value="${venue.id}">
 										<br>
@@ -132,21 +133,21 @@
 								<div class="panel-body">
 									<div class="list-group">
 										<div class="list-group-item">
-											<i class="icon-soup fa-2x"></i> <span>Comida</span>
+											<i class="icon icon-soup fa-2x"></i> <span>Comida</span>
 											<div class="btn-group pull-right">
 												<button type="button" class="btn btn-default btn-food-s" onclick="qc.vote(this, '${venue.id}', 'food', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										<div class="list-group-item">
-											<i class="icon-foodtray fa-2x"></i> <span>Atendimento</span>
+											<i class="icon icon-foodtray fa-2x"></i> <span>Atendimento</span>
 											<div class="btn-group pull-right">
 												<button type="button" class="btn btn-default btn-treatment-s" onclick="qc.vote(this, '${venue.id}', 'treatment', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										<div class="list-group-item">
-											<i class="icon-store fa-2x"></i> <span>Ambiente</span>
+											<i class="icon icon-store fa-2x"></i> <span>Ambiente</span>
 											<div class="btn-group pull-right">
 												<button type="button" class="btn btn-default btn-environment-s" onclick="qc.vote(this, '${venue.id}', 'environment', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
