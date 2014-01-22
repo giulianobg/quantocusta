@@ -52,7 +52,7 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-body">
 									<h1>${venue.name}</h1>
 									<strong><#if venue.category??>${venue.category.name!""}</#if></strong>
@@ -94,14 +94,15 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-heading">Quanto custa?</div>
 								<div class="panel-body">
 									<form id="submitPrice" class="form-horizontal" role="form" action="/api/vote/price" method="post">
 										<input type="hidden" name="where" value="${venue.id}">
+										<br>
 										<div class="form-group">
 											<div class="col-xs-8 col-xs-offset-2">
-												<div class="input-group">
+												<div class="input-group input-group-lg">
 													<span class="input-group-addon">R$</span>
 													<input type="text" name="price" class="form-control input-lg">
 												</div>
@@ -126,7 +127,7 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-heading">Do que mais gostou?</div>
 								<div class="panel-body">
 									<div class="list-group">
@@ -160,17 +161,18 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-heading">Comentários <span class="badge">0</span></div>
 								<div class="panel-body">
 									<ul id="comments">
+									<#if venue.comments??>
 									<#list venue.comments as comment>
 										<li>
 											<img src="http://graph.facebook.com/${comment.userInstance.thirdyId}/picture"> ${comment.userInstance.name}<br>
 											<p>${comment.comment}</p>	
 										</li>
-										
 									</#list>
+									</#if>
 									</ul>
 									
 									<hr>
