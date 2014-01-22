@@ -66,7 +66,7 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		try {
 			MongoClient client = new MongoClient(configuration.getMongo().getHost(), configuration.getMongo().getPort());
 			db = client.getDB(configuration.getMongo().getDb());
-			boolean auth = db.authenticate(configuration.getMongo().getUser(), configuration.getMongo().getPwd().toCharArray());
+			//boolean auth = db.authenticate(configuration.getMongo().getUser(), configuration.getMongo().getPwd().toCharArray());
 			
 			MongoManaged mongoManaged = new MongoManaged(client);
 			environment.manage(mongoManaged);
@@ -87,7 +87,6 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		Daos.addDao(new VoteDao(db));
 		
 		/* OAuth2 */
-//		environment.addProvider(new OAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth")); // morre
 		environment.addProvider(new QcAuthProvider<User>(new QcAuthenticator(), "QuantoCusta-OAuth"));
 		
 		/* Resources */

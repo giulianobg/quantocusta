@@ -14,6 +14,7 @@ import sb.quantocusta.api.Category;
 import sb.quantocusta.api.Venue;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.Daos;
+import sb.quantocusta.dao.VenueDao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,27 +116,45 @@ public class FoursquareApi {
 		for (int i = 0; i < arr.size(); i++) {
 			JsonNode v = arr.get(i);
 			
-			Venue venue = new Venue();
+			String fSqId = v.get("id").asText();
+
+//			URI uri = UriBuilder.fromResource(VenueResource.class).path("findBy3rdId").build(fSqId);
+//			
+//			DataResponse response = Client.create().resource(uri).accept(
+//					MediaType.APPLICATION_JSON).
+//					get(DataResponse.class);
+//			Venue venue = new ObjectMapper().convertValue(response.getResult(), Venue.class);
+			Venue venue = Daos.get(VenueDao.class).findBy3rdId(fSqId);
 			
-			venue.setIdFoursquare(v.get("id").asText());
+//			System.out.println(venue + "/ " + venue.getCategory());
 			
-			if (v.get("categories").size() > 0) {
-				Category category = Daos.get(CategoryDao.class).findBy3rdId(v.get("categories").get(0).get("id").asText());
-//				System.out.println(category);
-				if (category == null) {
-					category = new Category();
-					category.setName(v.get("categories").get(0).get("name").asText());
+//			Venue venue = new VenueResource().findBy3rdId(null, fSqId, null);
+			if (venue == null) {
+				venue = new Venue();
+				
+				venue.setIdFoursquare(fSqId);
+				
+				if (v.get("categories").size() > 0) {
+					Category category = Daos.get(CategoryDao.class).findBy3rdId(v.get("categories").get(0).get("id").asText());
+					if (category == null) {
+						category = new Category();
+						category.setName(v.get("categories").get(0).get("name").asText());
+					}
+					venue.setCategory(category);
 				}
-				venue.setCategory(category);
+				
+				if (v.get("location") != null && 
+						v.get("location").get("address") != null) {
+					venue.setAddress(v.get("location").get("address").asText());
+				}
+				
+				venue.setName(v.get("name").asText());
+			} else {
+//				System.out.println(venue.getCategory());
+				if (venue.getCategory() != null && venue.getCategory().getId() != null) {
+					venue.setCategory(Daos.get(CategoryDao.class).findById(venue.getCategory().getId()));
+				}
 			}
-			
-			if (v.get("location") != null && 
-					v.get("location").get("address") != null) {
-				venue.setAddress(v.get("location").get("address").asText());
-			}
-			
-			venue.setName(v.get("name").asText());
-			
 			venues.add(venue);
 		}
 		
