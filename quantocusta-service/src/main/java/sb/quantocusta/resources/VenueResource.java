@@ -36,8 +36,6 @@ import sb.quantocusta.dao.CityDao;
 import sb.quantocusta.dao.CommentDao;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
-import sb.quantocusta.dao.SessionDao;
-import sb.quantocusta.dao.UserDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
@@ -116,18 +114,16 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("{id}")
-	public Response findById(@PathParam("id") String id, @QueryParam("access_token") String token) {
-		UserDao uDao = Daos.get(UserDao.class);
-
+	public Response findById(@Auth(required=false) User user, @PathParam("id") String id) {
 		Venue venue = Daos.get(VenueDao.class).findById(id);
 		
 		if (venue == null) {
 			return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 		} else {
-			User user = null;
-			if (token != null) {
-				user = uDao.findById(Daos.get(SessionDao.class).find(token).getUserId());
-			}
+//			User user = null;
+//			if (token != null) {
+//				user = uDao.findById(Daos.get(SessionDao.class).find(token).getUserId());
+//			}
 			
 			if (venue.getCategory() != null) {
 				venue.setCategory(Daos.get(CategoryDao.class).findById(venue.getCategory().getId()));
@@ -147,32 +143,42 @@ public class VenueResource extends BaseResouce {
 				}
 			}
 			
-			// load comments
-			BasicDBObject query = new BasicDBObject("access_token", token);
-			DBCursor<Comment> commentsCursor = Daos.get(CommentDao.class).findAll(query);
-			List<Comment> comments = new ArrayList<Comment>();
-			while (commentsCursor.hasNext()) {
-				Comment comment = commentsCursor.next();
-				comment.setUserInstance(Daos.get(UserDao.class).findById(comment.getUser().getId()));
-				comment.setUser(null);
-				comments.add(comment);
-			}
-			venue.setComments(comments);
+//			 load comments
+//			BasicDBObject query = new BasicDBObject("access_token", token);
+//			DBCursor<Comment> commentsCursor = Daos.get(CommentDao.class).findAll(query);
+//			List<Comment> comments = new ArrayList<Comment>();
+//			while (commentsCursor.hasNext()) {
+//				Comment comment = commentsCursor.next();
+//				comment.setUserInstance(Daos.get(UserDao.class).findById(comment.getUser().getId()));
+//				comment.setUser(null);
+//				comments.add(comment);
+//			}
+//			venue.setComments(comments);
 	
 			return Response.ok(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
 		}
 		
 	}
 	
-//	@GET
-//	@Path("{id}/comments")
-//	public Response comments() {
-//		
-//	}
+	@GET
+	@Path("{id}/comments")
+	public Response comments(@Auth(required=false) User user, @PathParam("id") String id) {
+		BasicDBObject query = new BasicDBObject("venue", id);
+		DBCursor<Comment> commentsCursor = Daos.get(CommentDao.class).findAll(query);
+		List<Comment> comments = new ArrayList<Comment>();
+		while (commentsCursor.hasNext()) {
+			Comment comment = commentsCursor.next();
+//			comment.setUserInstance(Daos.get(UserDao.class).findById(comment.getUser().getId()));
+			comment.setUser(null);
+			comments.add(comment);
+		}
+		
+		return Response.ok(DataResponse.build(comments)).build();
+	}
 	
 	@GET
 	@Path("thrd/{id}")
-	public Response findBy3rdId(@PathParam("id") String id, @QueryParam("fat") Optional<String> fat, @QueryParam("access_token") String token) {
+	public Response findBy3rdId(@Auth(required=false) User user, @PathParam("id") String id, @QueryParam("fat") Optional<String> fat) {
 		Venue venue = Daos.get(VenueDao.class).findBy3rdId(id);
 		
 //		User user = null;
@@ -251,7 +257,7 @@ public class VenueResource extends BaseResouce {
 		}
 		
 		if (venue != null) {
-			return findById(venue.getId(), token);
+			return findById(user, venue.getId());
 		}
 		
 		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
@@ -259,7 +265,7 @@ public class VenueResource extends BaseResouce {
 	
 	@POST
 	@Path("create")
-	public Object create(@QueryParam("id") String id) {
+	public Response create(@QueryParam("id") String id) {
 //		Venue v = (Venue) get(id);
 //		
 ////		System.out.println(UUID.genRandom32Hex());
@@ -276,20 +282,20 @@ public class VenueResource extends BaseResouce {
 		
 		
 		
-		return null;
+		return Response.status(Status.SERVICE_UNAVAILABLE).build();
 	}
 	
 	@PUT
 	@Path("update")
 	@Consumes
-	public String update() {
-		return "update";
+	public Response update() {
+		return Response.status(Status.SERVICE_UNAVAILABLE).build();
 	}
 	
 	@DELETE
 	@Path("delete")
-	public Object delete() {
-		return "del";
+	public Response delete() {
+		return Response.status(Status.SERVICE_UNAVAILABLE).build();
 	}
 
 }
