@@ -57,9 +57,7 @@
 		<#include "/assets/tpl/components/scripts.ftl">
 		<script>
 			$(document).ready(function() {
-				//${request}
-				//${request.getAttribute['logout']}
-				<#if request.getAttribute['logout'] == true>
+				<#if params.logout?? && params.logout == 'true'>
 				localStorage.setItem('auth_connected', 'false');
 				</#if>
 				qc.loadCoordinates();
