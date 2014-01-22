@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import sb.quantocusta.api.DataResponse;
+import sb.quantocusta.api.Venue;
 import sb.quantocusta.client.QuantoCustaClientConfiguration;
 import sb.quantocusta.resources.BaseResouce;
 

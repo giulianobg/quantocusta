@@ -97,16 +97,7 @@ public class VenueResource extends BaseResouce {
 		
 		List<Venue> venues = new ArrayList<Venue>();
 		for (Venue v : sqVenues) {
-			if (v.getId() != null) {
-				venues.add(v);
-			} else {
-				Venue venue = dao.findBy3rdId(v.getIdFoursquare());
-				if (venue != null) {
-					venues.add(venue);
-				} else {
-					venues.add(v);
-				}
-			}
+			venues.add(v);
 		}
 		
 		return Response.ok(DataResponse.build(venues)).build();
