@@ -22,24 +22,18 @@
 			<div class="row">
 				<div class="col-xs-12">
 					 <div class="container-bg">
-						<img class="img" width="320" src="/assets/images/background.png">
-						
 						<div class="overlay">
-							<h1 style="text-indent: -9999px;">Quanto Custa?</h1>
-							<br><br><br><br><br><br><br><br><br>
-							<div class="loading">
-								<br>
-								<div id="circleG" title="Carregando conteúdo...">
-									<div id="circleG_1" class="circleG"></div>
-									<div id="circleG_2" class="circleG"></div>
-									<div id="circleG_3" class="circleG"></div>
-								</div>
-							</div>
+							<h1 class="text-hide">Quanto Custa?</h1>
+							<br><br><br><br><br><br><br><br>
+							<#include "/assets/tpl/components/loading.ftl">
 							<div class="hide">
 								<div class="row">
 									<div class="col-xs-12">
-										<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-lg btn-block facebook"><i class="icon icon-facebook"></i> Conecte-se com o Facebook</a><br>
+										<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://${params.callbackHost}.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-lg btn-block facebook"><i class="icon icon-facebook"></i> Conecte-se com o Facebook</a><br>
 									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12"><a href="/discovery" class="btn btn-link btn-block">Descubra os melhores lugares para comer</a></div>
 								</div>
 								<!-- 
 								<div class="row">

@@ -44,6 +44,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Optional;
 import com.mongodb.BasicDBObject;
 import com.yammer.dropwizard.auth.Auth;
+import com.yammer.metrics.annotation.Timed;
 
 /**
  * 
@@ -62,6 +63,7 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("search")
+	@Timed
 	public Response search(@QueryParam("q") String q, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		
@@ -86,9 +88,8 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("near")
+	@Timed
 	public Response near(@Auth User user, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
-		VenueDao dao = Daos.get(VenueDao.class);
-		
 		if (StringUtils.isEmpty(lat) || StringUtils.isEmpty(lng)) {
 			return Response.status(Status.BAD_REQUEST).entity(DataResponse.build(Status.BAD_REQUEST)).build();
 		}
@@ -105,6 +106,7 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("{id}")
+	@Timed
 	public Response findById(@Auth(required=false) User user, @PathParam("id") String id) {
 		Venue venue = Daos.get(VenueDao.class).findById(id);
 		

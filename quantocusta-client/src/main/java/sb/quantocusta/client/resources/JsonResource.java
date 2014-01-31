@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import sb.quantocusta.api.DataResponse;
@@ -105,6 +106,10 @@ public class JsonResource extends BaseResouce {
 	public Response vote(@FormParam("id") String id, @FormParam("kind") String kind, @FormParam("v") IntParam v) {
 		String token = (String) request.getSession().getAttribute("access_token");
 		
+		if (request.getSession().getAttribute("user") == null) {
+			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
+		}
+		
 		// cria sessao persistente
 		MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
 		formParamsSession.add("id", id);
@@ -129,7 +134,9 @@ public class JsonResource extends BaseResouce {
 	public Response submitPrice(@FormParam("id") String id, @FormParam("price") Double price) {
 		String token = (String) request.getSession().getAttribute("access_token");
 		
-		System.out.println(token);
+		if (request.getSession().getAttribute("user") == null) {
+			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
+		}
 		
 		// cria sessao persistente
 		MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
@@ -156,12 +163,13 @@ public class JsonResource extends BaseResouce {
 	public Response submitComment(@FormParam("id") String id, @FormParam("comment") String comment) {
 		String token = (String) request.getSession().getAttribute("access_token");
 		
+		if (request.getSession().getAttribute("user") == null) {
+			return Response.status(Status.FORBIDDEN).entity(DataResponse.build(Status.FORBIDDEN.getStatusCode())).build();
+		}
+		
 		MultivaluedMap<String, String> formParams = new MultivaluedMapImpl();
 		formParams.add("id", id);
 		formParams.add("comment", comment);
-		
-		System.out.println(id);
-		System.out.println(comment);
 		
 		URI uri0 = UriBuilder.fromUri(configuration.getApi()).
 				path("/api/comment").

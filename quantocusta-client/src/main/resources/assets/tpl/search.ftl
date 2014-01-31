@@ -29,15 +29,17 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-chevron-left-o"></i></a>
-							<form class="form-search pull-left" action="/buscar">
-								<div class="input-group">
-									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
-									<div class="input-group-btn">
-										<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+							<div class="navbar-text"><a href="/me" class="btn btn-link navbar-link"><i class="icon icon-chevron-left-o"></i></a></div>
+							<div class="navbar-center">
+								<form class="form-search" action="/buscar">
+									<div class="input-group">
+										<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+										</div>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</nav>
 					
