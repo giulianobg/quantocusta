@@ -29,9 +29,11 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-chevron-left-o"></i></a>
-							<div class="page-title">Sobre</div>
-							<a href="/buscar" id="btn-search" class="btn btn-link pull-right"><i class="icon icon-search"></i></a>
+							<div class="navbar-text"><a href="/me" class="btn btn-link navbar-link"><i class="icon icon-chevron-left-o"></i></a></div>
+							<div class="navbar-center">
+								<div class="page-title">Sobre</div>
+							</div>
+							<div class="navbar-text navbar-right"><a href="/buscar" id="btn-search" class="btn btn-link navbar-link"><i class="icon icon-search"></i></a></div>
 						</div>
 					</nav>
 					

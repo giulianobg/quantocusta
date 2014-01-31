@@ -36,8 +36,7 @@ var qc = {
 		});
 	},
 	submitPrice: function(where, price) {
-		$("input[name='price']").val("");
-		$("input[name='price']").prop('disabled', true);
+		//$("input[name='price']").val("");
 		var typedPrice = price;
 		$.ajax({
 			url: "/api/vote/price",
@@ -129,7 +128,7 @@ var qc = {
 							sessionStorage.setItem('lng', position.coords.longitude);
 							
 							console.log("Checking if he was connected before...");
-							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('quantocusta.cc') > -1) {
+							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('m.quantocusta.cc') > -1) {
 								console.log("Already authenticated!");
 								window.location.href = "https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code";
 							} else {

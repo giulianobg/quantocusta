@@ -62,7 +62,6 @@ public class AuthResource extends BaseResouce {
 	public Response facebookCallback(@QueryParam("code") String code, @QueryParam("error") String error) {
 		String host = "m";
 		if (configuration.getAuthCallback().contains("prev.quantocusta")) {
-			System.out.println("AuthResource.facebookCallback()");
 			host = "prev";	
 		}
 		

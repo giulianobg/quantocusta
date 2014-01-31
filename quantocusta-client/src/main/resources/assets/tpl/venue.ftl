@@ -29,25 +29,18 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="/me" data-transition="slide" data-rel="back" class="pull-left btn btn-link"><i class="icon icon-chevron-left-o"></i></a>
-							<div class="page-title">
-								${venue.name}
+							<div class="navbar-text"><a href="/me" class="btn btn-link navbar-link"><i class="icon icon-chevron-left-o"></i></a></div>
+							<div class="navbar-center">
+								<div class="page-title">${venue.name}</div>
 							</div>
-							<!-- 
-							<form class="form-search pull-left hide" action="/buscar" style="display: block !important;">
-								<input type="text" name="q" placeholder="Restaurantes, bares, caf&eacute;s..." required>
-								<button type="submit"><i class="icon icon-search"></i></button>
-								<div class="clearfix"></div>
-							</form>
-							-->
-							<a href="/buscar" id="btn-search" class="btn btn-link pull-right"><i class="icon icon-search"></i></a>
+							<div class="navbar-text navbar-right"><a href="/buscar" id="btn-search" class="btn btn-link navbar-link"><i class="icon icon-search"></i></a></div>
 						</div>
 					</nav>
 					
 					<div class="breathe"></div>
 					
 					<div class="section">
-						<img class="img" src="/assets/images/no-image.gif" width="330" >
+						<img class="img img-venue" src="/assets/images/no-image.gif" width="320" >
 					</div>
 					
 					<div class="row">
@@ -159,7 +152,7 @@
 						</div>
 					
 					</div>
-					
+					<!-- 
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="panel panel-primary">
@@ -189,7 +182,7 @@
 								</div>
 							</div>
 						</div>
-					
+						-->
 					</div>
 					
 					<div class="breathe breathe-big"></div>

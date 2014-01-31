@@ -12,7 +12,7 @@ public class HomeView extends SimplePageView {
 	public User user;
 	
 	public HomeView() {
-		super("/assets/tpl/index.ftl");
+		super("/assets/tpl/discovery.ftl");
 	}
 	
 	public HomeView(User user) {

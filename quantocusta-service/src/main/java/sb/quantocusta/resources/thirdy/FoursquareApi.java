@@ -139,9 +139,13 @@ public class FoursquareApi {
 					venue.setCategory(category);
 				}
 				
-				if (v.get("location") != null && 
-						v.get("location").get("address") != null) {
-					venue.setAddress(v.get("location").get("address").asText());
+				if (v.get("location") != null) {
+					venue.setLat(v.get("location").get("lat").asDouble());
+					venue.setLng(v.get("location").get("lng").asDouble());
+					
+					if (v.get("location").get("address") != null) {
+						venue.setAddress(v.get("location").get("address").asText());
+					}
 				}
 				
 				venue.setName(v.get("name").asText());

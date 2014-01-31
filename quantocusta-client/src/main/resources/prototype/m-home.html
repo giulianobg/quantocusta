@@ -17,6 +17,12 @@
 		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300' rel='stylesheet' type='text/css'>
 		
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
+		
+		<style type="text/css">
+			
+		
+		</style>
+		
 	</head>
 
 	<body>
@@ -37,15 +43,18 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="#menu" class="pull-left btn btn-link" data-toggle="offcanvas"><i class="icon-bar"></i></a>
-							<form class="form-search pull-left" action="/buscar">
-								<div class="input-group">
-									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
-									<div class="input-group-btn">
-										<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+							<div class="navbar-text"><a href="#menu" class="btn btn-link navbar-link" data-toggle="offcanvas"><i class="icon icon-bar"></i></a></div>
+							<div class="navbar-center">
+								<form class="form-search" action="/buscar">
+									<div class="input-group">
+										<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default"><i class="icon icon-search"></i></button>
+										</div>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
+							<div class="navbar-text navbar-right"><a href="#menu" class="btn btn-link navbar-link" data-toggle="offcanvas"><i class="icon icon-search"></i></a></div>
 						</div>
 					</nav>
 					

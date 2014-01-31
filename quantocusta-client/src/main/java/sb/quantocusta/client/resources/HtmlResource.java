@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,10 +25,12 @@ import sb.quantocusta.client.views.SearchView;
 import sb.quantocusta.client.views.SimplePageView;
 import sb.quantocusta.client.views.VenueView;
 import sb.quantocusta.resources.BaseResouce;
+import sb.quantocusta.util.TokenUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.yammer.dropwizard.views.View;
 
 @Path("/")
@@ -51,6 +54,35 @@ public class HtmlResource extends BaseResouce {
 		
 		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl", me);
 		page.addParam("logout", "false");
+		page.addParam("callbackHost", configuration.getAuthCallback().contains("prev.quantocusta") ? "prev" : "m");
+		
+		return page;
+	}
+	
+	@GET
+	@Path("discovery")
+	public View discovery() {
+		// cria sessao persistente
+		String id = "52eab2dbdde5c82a3acd8495"; // qc dummy user
+		
+		MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
+		formParamsSession.add("id", id);
+		formParamsSession.add("lat", (String) request.getSession().getAttribute("lat"));
+		formParamsSession.add("lng", (String) request.getSession().getAttribute("lng"));
+		
+		URI uri0 = UriBuilder.fromUri(configuration.getApi()).
+				path("/api/session/create").
+				build();
+		
+		client.resource(uri0).
+				type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+				accept(MediaType.APPLICATION_JSON_TYPE).
+				post(DataResponse.class, formParamsSession);
+
+		request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(id));
+		
+		HomeView page = new HomeView();
+		page.setRequest(request);
 		
 		return page;
 	}
@@ -222,6 +254,7 @@ public class HtmlResource extends BaseResouce {
 		
 		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl");
 		page.addParam("logout", "true");
+		page.addParam("callbackHost", configuration.getAuthCallback().contains("prev.quantocusta") ? "prev" : "m");
 		
 		return page;
 	}
