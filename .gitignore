@@ -18,4 +18,5 @@ pom.properties
 
 # Specific files
 *.yml
+quantocusta-client/configuration.yml
 quantocusta-service/configuration.yml
