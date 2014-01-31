@@ -21,8 +21,7 @@
 	font-weight: 700;
 	src: local('Asap Bold'), local('Asap-Bold'), url(http://themes.googleusercontent.com/static/fonts/asap/v1/QGN0GG0540fyG6NL_PpOpgLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
 }
-
-[class^="icon-"], [class*=" icon-"] {
+.icon {
 	font-family: 'qc';
 	speak: none;
 	font-style: normal;

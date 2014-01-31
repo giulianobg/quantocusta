@@ -34,9 +34,12 @@ public class FoursquareApi {
 	private static final String VERSION = "20130415";
 	
 	private static final String FOOD_CATEGORY = "4d4b7105d754a06374d81259";
+	private static final String NIGHTLIFE_CATEGORY = "4d4b7105d754a06376d81259";
 	
-	private static final String SEARCH_VENUE = HOST + "/venues/search?near=${near}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
-	private static final String SEARCH_VENUE_V2 = HOST + "/venues/search?ll=${lat},${lng}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "&oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
+//	private static final String RADIUS = "1000";
+	
+	private static final String SEARCH_VENUE = HOST + "/venues/search?near=${near}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "," + NIGHTLIFE_CATEGORY + "&oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
+	private static final String SEARCH_VENUE_V2 = HOST + "/venues/search?ll=${lat},${lng}&query=${q}&limit=30&categoryId=" + FOOD_CATEGORY + "," + NIGHTLIFE_CATEGORY + "&oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
 	private static final String GET_VENUE = HOST + "/venues/${id}?oauth_token=" + TOKEN + "&locale=pt&v=" + VERSION;
 	
 	public static JsonNode get(String id) throws Exception {
@@ -107,6 +110,9 @@ public class FoursquareApi {
 		queryString = StringUtils.replaceOnce(queryString, "${lng}", lng);
 		queryString = StringUtils.replaceOnce(queryString, "${q}", q);
 		
+		if (StringUtils.isEmpty(q)) {
+			queryString += "&radius=700";
+		}
 		List<Venue> venues = new ArrayList<Venue>();
 		
 		// 4sq JSON
@@ -118,17 +124,7 @@ public class FoursquareApi {
 			
 			String fSqId = v.get("id").asText();
 
-//			URI uri = UriBuilder.fromResource(VenueResource.class).path("findBy3rdId").build(fSqId);
-//			
-//			DataResponse response = Client.create().resource(uri).accept(
-//					MediaType.APPLICATION_JSON).
-//					get(DataResponse.class);
-//			Venue venue = new ObjectMapper().convertValue(response.getResult(), Venue.class);
 			Venue venue = Daos.get(VenueDao.class).findBy3rdId(fSqId);
-			
-//			System.out.println(venue + "/ " + venue.getCategory());
-			
-//			Venue venue = new VenueResource().findBy3rdId(null, fSqId, null);
 			if (venue == null) {
 				venue = new Venue();
 				
@@ -150,7 +146,6 @@ public class FoursquareApi {
 				
 				venue.setName(v.get("name").asText());
 			} else {
-//				System.out.println(venue.getCategory());
 				if (venue.getCategory() != null && venue.getCategory().getId() != null) {
 					venue.setCategory(Daos.get(CategoryDao.class).findById(venue.getCategory().getId()));
 				}

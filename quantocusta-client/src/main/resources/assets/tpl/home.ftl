@@ -32,7 +32,7 @@
 				
 					<nav class="navbar navbar-inverse navbar-fixed-top st-nav" role="navigation">
 						<div class="navbar-header">
-							<a href="#menu" class="pull-left btn btn-link" data-toggle="offcanvas"><i class="icon-bar"></i></a>
+							<a href="#menu" class="pull-left btn btn-link" data-toggle="offcanvas"><i class="icon icon-bar"></i></a>
 							<form class="form-search pull-left" action="/buscar">
 								<div class="input-group">
 									<input type="text" name="q" placeholder="Restaurantes, bares, cafés..." required class="form-control">

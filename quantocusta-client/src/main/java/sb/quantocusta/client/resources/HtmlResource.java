@@ -48,7 +48,11 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	public SimplePageView home() {
 		User me = (User) request.getSession().getAttribute("user");
-		return new SimplePageView("/assets/tpl/index.ftl", me);
+		
+		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl", me);
+		page.addParam("logout", "false");
+		
+		return page;
 	}
 	
 	@GET
@@ -216,9 +220,8 @@ public class HtmlResource extends BaseResouce {
 	public View logout() {
 		request.getSession().invalidate(); // limpa sessão
 		
-		SimplePageView page = new SimplePageView("/assets/tpl/index_logout.ftl");
-		request.setAttribute("logout", true);
-		page.setRequest(request);
+		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl");
+		page.addParam("logout", "true");
 		
 		return page;
 	}

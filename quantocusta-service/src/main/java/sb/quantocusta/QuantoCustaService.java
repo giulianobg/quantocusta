@@ -91,7 +91,6 @@ public class QuantoCustaService extends Service<QuantoCustaConfiguration> {
 		
 		/* Resources */
 		environment.addResource(new OAuthResource());
-//		environment.addResource(new AuthResource());
 		environment.addResource(new CommentResource());
 		environment.addResource(new SessionResource());
 		environment.addResource(new UserResource());

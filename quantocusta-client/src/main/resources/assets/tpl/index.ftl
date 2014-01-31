@@ -38,7 +38,7 @@
 							<div class="hide">
 								<div class="row">
 									<div class="col-xs-12">
-										<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-lg btn-block facebook"><i class="icon-facebook"></i> Conecte-se com o Facebook</a><br>
+										<a href="https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code" class="btn btn-default btn-lg btn-block facebook"><i class="icon icon-facebook"></i> Conecte-se com o Facebook</a><br>
 									</div>
 								</div>
 								<!-- 
@@ -57,6 +57,9 @@
 		<#include "/assets/tpl/components/scripts.ftl">
 		<script>
 			$(document).ready(function() {
+				<#if params.logout?? && params.logout == 'true'>
+				localStorage.setItem('auth_connected', 'false');
+				</#if>
 				qc.loadCoordinates();
 			});
 		</script>
