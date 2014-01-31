@@ -48,7 +48,11 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	public SimplePageView home() {
 		User me = (User) request.getSession().getAttribute("user");
-		return new SimplePageView("/assets/tpl/index.ftl", me);
+		
+		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl", me);
+		page.addParam("logout", "false");
+		
+		return page;
 	}
 	
 	@GET
@@ -56,11 +60,12 @@ public class HtmlResource extends BaseResouce {
 	public View me() {
 		User user = (User) request.getSession().getAttribute("user");
 		HomeView page = new HomeView(user);
+		page.setRequest(request);
 		
-		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
-		if (venues == null) {
-			// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
-			String token = (String) request.getSession().getAttribute("access_token");
+//		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
+//		if (venues == null) {
+//			// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
+//			String token = (String) request.getSession().getAttribute("access_token");
 			
 	//		URI uri = UriBuilder.fromUri(configuration.getApi()).
 	//				path("/api/user/me").
@@ -89,29 +94,29 @@ public class HtmlResource extends BaseResouce {
 	//		User user = mapper.convertValue(response.getResult(), User.class);
 			
 			// Load venues próximos
-			URI uri = UriBuilder.fromUri(configuration.getApi()).
-					path("/api/venue/near").
-					queryParam("lat", request.getSession().getAttribute("lat")).
-					queryParam("lng", request.getSession().getAttribute("lng")).
-					queryParam("access_token", token).
-					build();
-			
-			DataResponse response = client.resource(uri).accept(
-			        MediaType.APPLICATION_JSON).
-			        get(DataResponse.class);
-			
-			List list = mapper.convertValue(response.getResult(), List.class);
-			
-			venues = new ArrayList<Venue>();
-			for (int i = 0; i < list.size(); i++) {
-				venues.add(mapper.convertValue(list.get(i), Venue.class));
-			}
-			
-			// adiciona a cache (sessao do usuário)
-			request.getSession().setAttribute("list_me", venues);
-		}
-		
-		page.setVenues(venues);
+//			URI uri = UriBuilder.fromUri(configuration.getApi()).
+//					path("/api/venue/near").
+//					queryParam("lat", request.getSession().getAttribute("lat")).
+//					queryParam("lng", request.getSession().getAttribute("lng")).
+//					queryParam("access_token", token).
+//					build();
+//			
+//			DataResponse response = client.resource(uri).accept(
+//			        MediaType.APPLICATION_JSON).
+//			        get(DataResponse.class);
+//			
+//			List list = mapper.convertValue(response.getResult(), List.class);
+//			
+//			venues = new ArrayList<Venue>();
+//			for (int i = 0; i < list.size(); i++) {
+//				venues.add(mapper.convertValue(list.get(i), Venue.class));
+//			}
+//			
+//			// adiciona a cache (sessao do usuário)
+//			request.getSession().setAttribute("list_me", venues);
+//		}
+//		
+//		page.setVenues(venues);
 		
 		return page;
 	}
@@ -214,7 +219,11 @@ public class HtmlResource extends BaseResouce {
 	@Path("sair")
 	public View logout() {
 		request.getSession().invalidate(); // limpa sessão
-		return new SimplePageView("/assets/tpl/index_logout.ftl");
+		
+		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl");
+		page.addParam("logout", "true");
+		
+		return page;
 	}
 	
 }

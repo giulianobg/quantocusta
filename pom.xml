@@ -4,7 +4,7 @@
 
 	<groupId>sb</groupId>
 	<artifactId>quantocusta</artifactId>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 
 	<name>quantocusta</name>
 
@@ -36,6 +36,11 @@
 			<groupId>com.yammer.dropwizard</groupId>
 			<artifactId>dropwizard-views</artifactId>
 			<version>0.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.8</version>
 		</dependency>
 		
 		<!-- DB and Drivers -->
@@ -70,12 +75,12 @@
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client</artifactId>
 			<version>1.17.0-rc</version>
-		</dependency> -->
+		</dependency> 
 		<dependency>
 			<groupId>org.scribe</groupId>
 			<artifactId>scribe</artifactId>
 			<version>1.3.5</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client-appengine</artifactId>

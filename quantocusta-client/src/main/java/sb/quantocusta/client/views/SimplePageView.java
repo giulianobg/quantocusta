@@ -1,7 +1,9 @@
 package sb.quantocusta.client.views;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,7 @@ public class SimplePageView extends View {
 	private List<Venue> venues;
 	private Venue venue;
 	private HttpServletRequest request;
+	private Map<String, Object> params;
 	
 	public SimplePageView(String path) {
 		this(path, null);
@@ -29,6 +32,7 @@ public class SimplePageView extends View {
 	public SimplePageView(String path, User me) {
 		super(path, Charset.forName("UTF-8"));
 		this.me = me;
+		this.params = new HashMap<String, Object>();
 	}
 	
 	public User getMe() {
@@ -61,6 +65,18 @@ public class SimplePageView extends View {
 	
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
+	}
+	
+	public Map<String, Object> getParams() {
+		return params;
+	}
+	
+	public void setParams(Map<String, Object> params) {
+		this.params = params;
+	}
+	
+	public void addParam(String key, Object value) {
+		params.put(key, value);
 	}
 	
 }

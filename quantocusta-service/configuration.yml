@@ -1,9 +1,9 @@
 mongo:
-  host: <host>
-  port: <port>
-  db: <db>
-  user: <user>
-  pwd: <pwd>
+  host: 68.169.54.122
+  port: 27017
+  db: quantocusta-dsv
+  user: user
+  pwd: pwd
 
 
 # Logging settings.
@@ -18,8 +18,8 @@ logging:
 # HTTP-specific options.
 http:
 
-  port: <port>
-  adminPort: <port>
+  port: 8090
+  adminPort: 8090
   # adminUsername: ***********
   # adminPassword: ***************
   

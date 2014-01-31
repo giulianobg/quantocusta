@@ -6,6 +6,8 @@ import java.util.Date;
 import org.mongojack.MongoCollection;
 import org.mongojack.ObjectId;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -26,7 +28,10 @@ public class Category implements Serializable {
 	private String idFoursquare;
 
 	private String name;
+	
+	@JsonInclude(Include.NON_NULL)
 	private Category category;
+	
 	private Date createdAt;
 	private Date updatedAt;
 
@@ -88,5 +93,14 @@ public class Category implements Serializable {
 //	public void setCategories(List<Category> categories) {
 //		this.categories = categories;
 //	}
+	
+	@Override
+	public String toString() {
+		if (getId() != null) {
+			return "[" + getId() + ":" + getIdFoursquare() + "] " + getName();
+		}
+
+		return super.toString();
+	}
 
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.mongojack.DBRef;
 import org.mongojack.MongoCollection;
 import org.mongojack.ObjectId;
 
@@ -17,7 +16,7 @@ import com.mongodb.BasicDBObject;
  * @author Giuliano Griffante
  *
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown=true)
 @MongoCollection(name="venues")
 public class Venue implements Serializable {
 
@@ -61,8 +60,7 @@ public class Venue implements Serializable {
 	private Date updatedAt;
 	private VenueReviews reviews;
 
-	@ObjectId
-	private List<DBRef<Comment, String>> comments;
+	private List<Comment> comments;
 
 	public Venue() {
 		valuation = new BasicDBObject();
@@ -262,11 +260,11 @@ public class Venue implements Serializable {
 		this.reviews = reviews;
 	}
 
-	public List<DBRef<Comment, String>> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<DBRef<Comment, String>> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 

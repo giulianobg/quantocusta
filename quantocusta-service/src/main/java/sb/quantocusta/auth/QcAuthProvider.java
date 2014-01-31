@@ -36,73 +36,46 @@ public class QcAuthProvider<T> implements InjectableProvider<Auth, Parameter> {
 
 		private final Authenticator<String, T> authenticator;
 //		private final String realm;
-//		private final boolean required;
+		private final boolean required;
 
 		private QcAuthInjectable(Authenticator<String, T> authenticator, String realm, boolean required) {
 			this.authenticator = authenticator;
 //			this.realm = realm;
-//			this.required = required;
+			this.required = required;
 		}
 
 		@Override
 		public T getValue(HttpContext c) {
 			String accessToken = c.getRequest().getQueryParameters().getFirst("access_token");
 
-			if (accessToken == null) {
-				throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-						.entity("access_token is required to access this resource.")
-						.type(MediaType.TEXT_PLAIN_TYPE)
-						.build());
-			}
-
-			// Verifica se oauth token está ativo
-			// se sim, retorna
-			try {
-				Optional<T> result = authenticator.authenticate(accessToken);
-
-				if (result.isPresent()) {
-					return result.get();
-				} else {
-					throw new WebApplicationException(Response.status(Status.UNAUTHORIZED).
-							entity("You have no access to this resource or your access_token was expired.").
-							type(MediaType.TEXT_PLAIN).
-							build());
+			if (required || accessToken != null) {
+				if (accessToken == null) {
+					throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+							.entity("access_token is required to access this resource.")
+							.type(MediaType.TEXT_PLAIN_TYPE)
+							.build());
 				}
-			} catch (AuthenticationException e) {
-				LOG.warn(e.getMessage(), e);
-				throw new WebApplicationException(e);
+	
+				// Verifica se oauth token está ativo
+				// se sim, retorna
+				try {
+					Optional<T> result = authenticator.authenticate(accessToken);
+	
+					if (result.isPresent() || !required) {
+						return result.get();
+					} else {
+						throw new WebApplicationException(Response.status(Status.UNAUTHORIZED).
+								entity("You have no access to this resource or your access_token was expired.").
+								type(MediaType.TEXT_PLAIN).
+								build());
+					}
+				} catch (AuthenticationException e) {
+					LOG.warn(e.getMessage(), e);
+					throw new WebApplicationException(e);
+				}
 			}
-
-
-			//            try {
-			//                final String header = c.getRequest().getHeaderValue(HttpHeaders.AUTHORIZATION);
-			//                if (header != null) {
-			//                    final int space = header.indexOf(' ');
-			//                    if (space > 0) {
-			//                        final String method = header.substring(0, space);
-			//                        if (PREFIX.equalsIgnoreCase(method)) {
-			//                            final String credentials = header.substring(space + 1);
-			//                            final Optional<T> result = authenticator.authenticate(credentials);
-			//                            if (result.isPresent()) {
-			//                                return result.get();
-			//                            }
-			//                        }
-			//                    }
-			//                }
-			//            } catch (AuthenticationException e) {
-			//                LOGGER.warn("Error authenticating credentials", e);
-			//                throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
-			//            }
-
-			//            if (required) {
-			//                throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-			//                                                          .header(HEADER_NAME,
-			//                                                                  String.format(HEADER_VALUE,
-			//                                                                                realm))
-			//                                                          .entity("Credentials are required to access this resource.")
-			//                                                          .type(MediaType.TEXT_PLAIN_TYPE)
-			//                                                          .build());
-			//            }
+			
+			return null;
 		}
 	}
 

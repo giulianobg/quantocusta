@@ -51,7 +51,7 @@ public class SessionResource extends BaseResouce {
 			while (cursor.hasNext()) {
 				Session s = cursor.next();
 				s.setStatus(sb.quantocusta.api.temp.Status.EXPIRED);
-				dao.update(s);
+				dao.removeById(s.getId());
 			}
 		} finally {
 			cursor.close();

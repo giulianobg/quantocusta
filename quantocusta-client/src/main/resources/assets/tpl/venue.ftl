@@ -52,14 +52,14 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-body">
 									<h1>${venue.name}</h1>
 									<strong><#if venue.category??>${venue.category.name!""}</#if></strong>
 									<address>
-										<#if venue.address??><i class="icon-pin-marker"></i> ${venue.address!""}<br></#if>
-										<#if venue.site??><i class="icon-world"></i> ${venue.site!""}<br></#if>
-										<#if venue.phone??><i class="icon-phone"></i> ${venue.phone!""}</#if>
+										<#if venue.address??><i class="icon icon-pin-marker"></i> ${venue.address!""}<br></#if>
+										<#if venue.site??><i class="icon icon-world"></i> ${venue.site!""}<br></#if>
+										<#if venue.phone??><i class="icon icon-phone"></i> ${venue.phone!""}</#if>
 									</address>
 									
 									<div class="section-price">
@@ -73,17 +73,17 @@
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-green"></span>
 												Comida<br>
-												<i class="icon-soup fa-lg"></i> <span class="val food">${venue.valuation.food.average?string("")}%</span>
+												<i class="icon icon-soup fa-lg"></i> <span class="val food">${venue.valuation.food.average?string("")}%</span>
 											</div>
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-blue"></span>
 												Atendimento<br>
-												<i class="icon-foodtray fa-lg"></i> <span class="val treatment">${venue.valuation.treatment.average?string("")}%</span>
+												<i class="icon icon-foodtray fa-lg"></i> <span class="val treatment">${venue.valuation.treatment.average?string("")}%</span>
 											</div>
 											<div class="summary col-xs-4 text-center">
 												<span class="markup markup-yellow"></span>
 												Ambiente<br>
-												<i class="icon-store fa-lg"></i> <span class="val environment">${venue.valuation.environment.average?string("")}%</span> 
+												<i class="icon icon-store fa-lg"></i> <span class="val environment">${venue.valuation.environment.average?string("")}%</span> 
 											</div>
 										</div>
 									</div>
@@ -94,15 +94,16 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-heading">Quanto custa?</div>
 								<div class="panel-body">
 									<br>
 									<form id="submitPrice" class="form-horizontal" role="form" action="/api/vote/price" method="post">
 										<input type="hidden" name="where" value="${venue.id}">
+										<br>
 										<div class="form-group">
 											<div class="col-xs-8 col-xs-offset-2">
-												<div class="input-group">
+												<div class="input-group input-group-lg">
 													<span class="input-group-addon">R$</span>
 													<input type="text" name="price" class="form-control input-lg">
 												</div>
@@ -117,12 +118,8 @@
 										
 										<hr>
 										
-										<p>
-											Já foi? Quanto pagou?
-										</p>
-										<p>
-											Se não lembrar o valor exato, informe um valor aproximado. 
-										</p>
+										<p>Já foi? Quanto pagou?</p>
+										<p>Se não lembrar o valor exato, informe um valor aproximado.</p>
 									</form>
 								</div>
 							</div>
@@ -131,26 +128,26 @@
 					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-heading">Do que mais gostou?</div>
 								<div class="panel-body">
 									<div class="list-group">
 										<div class="list-group-item">
-											<i class="icon-soup fa-2x"></i> <span>Comida</span>
+											<i class="icon icon-soup fa-2x"></i> <span>Comida</span>
 											<div class="btn-group pull-right">
 												<button type="button" class="btn btn-default btn-food-s" onclick="qc.vote(this, '${venue.id}', 'food', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										<div class="list-group-item">
-											<i class="icon-foodtray fa-2x"></i> <span>Atendimento</span>
+											<i class="icon icon-foodtray fa-2x"></i> <span>Atendimento</span>
 											<div class="btn-group pull-right">
 												<button type="button" class="btn btn-default btn-treatment-s" onclick="qc.vote(this, '${venue.id}', 'treatment', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										<div class="list-group-item">
-											<i class="icon-store fa-2x"></i> <span>Ambiente</span>
+											<i class="icon icon-store fa-2x"></i> <span>Ambiente</span>
 											<div class="btn-group pull-right">
 												<button type="button" class="btn btn-default btn-environment-s" onclick="qc.vote(this, '${venue.id}', 'environment', 1);"><i class="icon icon-heart fa-lg"></i></button>
 											</div>
@@ -162,19 +159,38 @@
 						</div>
 					
 					</div>
-					<!-- 
+					
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="panel panel-default">
+							<div class="panel panel-primary">
 								<div class="panel-heading">Comentários <span class="badge">0</span></div>
 								<div class="panel-body">
+									<ul id="comments">
+									<#if venue.comments??>
+									<#list venue.comments as comment>
+										<li>
+											<img src="http://graph.facebook.com/${comment.userInstance.thirdyId}/picture"> ${comment.userInstance.name}<br>
+											<p>${comment.comment}</p>	
+										</li>
+									</#list>
+									</#if>
+									</ul>
 									
+									<hr>
+									
+									<form id="submitComment" class="form-horizontal" role="form" action="/api/comment" method="post">
+										<input type="hidden" name="where" value="${venue.id}">
+										<div class="form-group">
+											<div class="col-xs-12">
+												<textarea rows="4" name="comment" placeholder="Escreva um comentário sobre esse local..."></textarea>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
 					
 					</div>
-					-->
 					
 					<div class="breathe breathe-big"></div>
 					
@@ -204,12 +220,20 @@
 			 
 				// Send the data using post
 				qc.submitPrice(where, price);
+			});
+			
+			$("#submitComment").submit(function(event) {
+				// Stop form from submitting normally
+				event.preventDefault();
+				
+				// Get some values from elements on the page:
+				var $form = $(this),
+					where = $form.find("input[name='where']").val(),
+					comment = $form.find("textarea[name='comment']").val(),
+					url = $form.attr("action");
 			 
-				// Put the results in a div
-				//posting.done(function( data ) {
-				//	var content = $( data ).find( "#content" );
-				//	$( "#result" ).empty().append( content );
-				//});
+				// Send the data using post
+				qc.submitComment(where, comment);
 			});
 		</script>
 	</body>

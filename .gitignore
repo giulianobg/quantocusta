@@ -5,6 +5,7 @@
 
 # Binaries
 target
+target/*
 */target
 *.class
 
@@ -13,5 +14,8 @@ target
 *.war
 *.ear
 
+pom.properties
+
 # Specific files
-quantocusta-service/configuration-dev.yml
+*.yml
+quantocusta-service/configuration.yml
