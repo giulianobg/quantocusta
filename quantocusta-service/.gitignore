@@ -1,3 +1,4 @@
 /target
 configuration.yml
 configuration-dev.yml
+*.yml
