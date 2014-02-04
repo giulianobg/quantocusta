@@ -36,8 +36,7 @@ var qc = {
 		});
 	},
 	submitPrice: function(where, price) {
-		$("input[name='price']").val("");
-		$("input[name='price']").prop('disabled', true);
+		//$("input[name='price']").val("");
 		var typedPrice = price;
 		$.ajax({
 			url: "/api/vote/price",
@@ -47,20 +46,36 @@ var qc = {
 			},
 			success: function(data) {
 				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
-				$("input[name='price']").prop('disabled', false);
+				
+				var dResp = document.createElement("div");
+				dResp.className = "text-center";
+				
+				var pTitle = document.createElement("p");
+				var title = document.createElement("strong");
+				title.innerHTML = "<br>Obrigado pela contribuição <i class=\"icon icon-smile\"></i>";
+				pTitle.appendChild(title);
+				
+				var pBody = document.createElement("p");
+				pBody.innerHTML = "Continue colaborando e nos ajude a deixar<br> o Quanto Custa ainda mais completo.";
+				
+				dResp.appendChild(pTitle);
+				dResp.appendChild(pBody);
+				
+				$('#submitPrice').parent().append(dResp);
+				$('#submitPrice').remove();
 				
 			}
 		});
 	},
-	submitComment: function(where, who, comment) {
+	submitComment: function(where, comment) {
 		$.ajax({
 			url: "/api/comment",
 			data: {
 				'id': where,
-				'price': price.replace(/,/g, '.')
+				'comment': comment
 			},
 			success: function(data) {
-				$(".price").html(Math.round(data.result.reviews.averagePrice) + ',00');
+				alert("ok o/");
 			}
 		});
 	},
@@ -113,7 +128,7 @@ var qc = {
 							sessionStorage.setItem('lng', position.coords.longitude);
 							
 							console.log("Checking if he was connected before...");
-							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('quantocusta.cc') > -1) {
+							if (localStorage.getItem("auth_connected") == 'true' && window.location.href.indexOf('m.quantocusta.cc') > -1) {
 								console.log("Already authenticated!");
 								window.location.href = "https://www.facebook.com/dialog/oauth?client_id=479032988828474&redirect_uri=http://m.quantocusta.cc/auth/connect&scope=email,user_about_me,publish_actions&response_type=code";
 							} else {

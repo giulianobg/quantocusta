@@ -18,12 +18,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mongojack.DBCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sb.quantocusta.api.Category;
 import sb.quantocusta.api.CategoryRef;
 import sb.quantocusta.api.City;
+import sb.quantocusta.api.Comment;
 import sb.quantocusta.api.DataResponse;
 import sb.quantocusta.api.Review;
 import sb.quantocusta.api.User;
@@ -31,10 +33,9 @@ import sb.quantocusta.api.Venue;
 import sb.quantocusta.api.Vote;
 import sb.quantocusta.dao.CategoryDao;
 import sb.quantocusta.dao.CityDao;
+import sb.quantocusta.dao.CommentDao;
 import sb.quantocusta.dao.Daos;
 import sb.quantocusta.dao.ReviewDao;
-import sb.quantocusta.dao.SessionDao;
-import sb.quantocusta.dao.UserDao;
 import sb.quantocusta.dao.VenueDao;
 import sb.quantocusta.dao.VoteDao;
 import sb.quantocusta.resources.thirdy.FoursquareApi;
@@ -43,6 +44,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Optional;
 import com.mongodb.BasicDBObject;
 import com.yammer.dropwizard.auth.Auth;
+import com.yammer.metrics.annotation.Timed;
 
 /**
  * 
@@ -61,6 +63,7 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("search")
+	@Timed
 	public Response search(@QueryParam("q") String q, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
 		VenueDao dao = Daos.get(VenueDao.class);
 		
@@ -85,9 +88,8 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("near")
+	@Timed
 	public Response near(@Auth User user, @QueryParam("lat") String lat, @QueryParam("lng") String lng) {
-		VenueDao dao = Daos.get(VenueDao.class);
-		
 		if (StringUtils.isEmpty(lat) || StringUtils.isEmpty(lng)) {
 			return Response.status(Status.BAD_REQUEST).entity(DataResponse.build(Status.BAD_REQUEST)).build();
 		}
@@ -96,12 +98,7 @@ public class VenueResource extends BaseResouce {
 		
 		List<Venue> venues = new ArrayList<Venue>();
 		for (Venue v : sqVenues) {
-			Venue venue = dao.findBy3rdId(v.getIdFoursquare());
-			if (venue != null) {
-				venues.add(venue);
-			} else {
-				venues.add(v);
-			}
+			venues.add(v);
 		}
 		
 		return Response.ok(DataResponse.build(venues)).build();
@@ -109,18 +106,17 @@ public class VenueResource extends BaseResouce {
 	
 	@GET
 	@Path("{id}")
-	public Response findById(@PathParam("id") String id, @QueryParam("access_token") String token) {
-		UserDao uDao = Daos.get(UserDao.class);
-
+	@Timed
+	public Response findById(@Auth(required=false) User user, @PathParam("id") String id) {
 		Venue venue = Daos.get(VenueDao.class).findById(id);
 		
 		if (venue == null) {
 			return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
 		} else {
-			User user = null;
-			if (token != null) {
-				user = uDao.findById(Daos.get(SessionDao.class).find(token).getUserId());
-			}
+//			User user = null;
+//			if (token != null) {
+//				user = uDao.findById(Daos.get(SessionDao.class).find(token).getUserId());
+//			}
 			
 			if (venue.getCategory() != null) {
 				venue.setCategory(Daos.get(CategoryDao.class).findById(venue.getCategory().getId()));
@@ -138,18 +134,19 @@ public class VenueResource extends BaseResouce {
 					Vote vote = Daos.get(VoteDao.class).find(id, user.getId(), kind);
 					valuation.put("me", new BasicDBObject("val", vote == null ? 0 : vote.getVal()));
 				}
-				
-//				((Valuation) venue.getValuation().get(Venue.FOOD)).setMe(new BasicDBObject("val", Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD).getVal()));
-//				((Valuation) venue.getValuation().get(Venue.TREATMENT)).setMe(new BasicDBObject("val", Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT).getVal()));
-//				venue.getValuation().get(Venue.FOOD).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD));
-//				venue.getValuation().get(Venue.TREATMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT));
-//				venue.getValuation().get(Venue.ENVIRONMENT).setMe(Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT));
-//				BasicDBObject me = new BasicDBObject();
-//				me.put(Venue.FOOD, Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.FOOD).getVal());
-//				me.put(Venue.TREATMENT, Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.TREATMENT).getVal());
-//				me.put(Venue.ENVIRONMENT, Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT) == null ? 0 : Daos.get(VoteDao.class).find(id, user.getId(), Venue.ENVIRONMENT).getVal());
-//				venue.getValuation().setMe(me);
 			}
+			
+//			 load comments
+//			BasicDBObject query = new BasicDBObject("access_token", token);
+//			DBCursor<Comment> commentsCursor = Daos.get(CommentDao.class).findAll(query);
+//			List<Comment> comments = new ArrayList<Comment>();
+//			while (commentsCursor.hasNext()) {
+//				Comment comment = commentsCursor.next();
+//				comment.setUserInstance(Daos.get(UserDao.class).findById(comment.getUser().getId()));
+//				comment.setUser(null);
+//				comments.add(comment);
+//			}
+//			venue.setComments(comments);
 	
 			return Response.ok(DataResponse.build(Status.OK.getStatusCode(), venue)).build();
 		}
@@ -157,8 +154,24 @@ public class VenueResource extends BaseResouce {
 	}
 	
 	@GET
+	@Path("{id}/comments")
+	public Response comments(@Auth(required=false) User user, @PathParam("id") String id) {
+		BasicDBObject query = new BasicDBObject("venue", id);
+		DBCursor<Comment> commentsCursor = Daos.get(CommentDao.class).findAll(query);
+		List<Comment> comments = new ArrayList<Comment>();
+		while (commentsCursor.hasNext()) {
+			Comment comment = commentsCursor.next();
+//			comment.setUserInstance(Daos.get(UserDao.class).findById(comment.getUser().getId()));
+			comment.setUser(null);
+			comments.add(comment);
+		}
+		
+		return Response.ok(DataResponse.build(comments)).build();
+	}
+	
+	@GET
 	@Path("thrd/{id}")
-	public Response findBy3rdId(@PathParam("id") String id, @QueryParam("fat") Optional<String> fat, @QueryParam("access_token") String token) {
+	public Response findBy3rdId(@Auth(required=false) User user, @PathParam("id") String id, @QueryParam("fat") Optional<String> fat) {
 		Venue venue = Daos.get(VenueDao.class).findBy3rdId(id);
 		
 //		User user = null;
@@ -237,7 +250,7 @@ public class VenueResource extends BaseResouce {
 		}
 		
 		if (venue != null) {
-			return findById(venue.getId(), token);
+			return findById(user, venue.getId());
 		}
 		
 		return Response.status(Status.NOT_FOUND).entity(DataResponse.build(Status.NOT_FOUND)).build();
@@ -245,7 +258,7 @@ public class VenueResource extends BaseResouce {
 	
 	@POST
 	@Path("create")
-	public Object create(@QueryParam("id") String id) {
+	public Response create(@QueryParam("id") String id) {
 //		Venue v = (Venue) get(id);
 //		
 ////		System.out.println(UUID.genRandom32Hex());
@@ -262,20 +275,20 @@ public class VenueResource extends BaseResouce {
 		
 		
 		
-		return null;
+		return Response.status(Status.SERVICE_UNAVAILABLE).build();
 	}
 	
 	@PUT
 	@Path("update")
 	@Consumes
-	public String update() {
-		return "update";
+	public Response update() {
+		return Response.status(Status.SERVICE_UNAVAILABLE).build();
 	}
 	
 	@DELETE
 	@Path("delete")
-	public Object delete() {
-		return "del";
+	public Response delete() {
+		return Response.status(Status.SERVICE_UNAVAILABLE).build();
 	}
 
 }

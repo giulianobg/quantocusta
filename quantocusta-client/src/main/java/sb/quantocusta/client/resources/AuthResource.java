@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,6 @@ import ch.qos.logback.core.status.Status;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
@@ -62,11 +60,16 @@ public class AuthResource extends BaseResouce {
 	@GET
 	@Path("connect")
 	public Response facebookCallback(@QueryParam("code") String code, @QueryParam("error") String error) {
+		String host = "m";
+		if (configuration.getAuthCallback().contains("prev.quantocusta")) {
+			host = "prev";	
+		}
+		
 		if (code != null) {
 			try {
 				String r = "https://graph.facebook.com/oauth/access_token" + 
 						"?client_id=" + FB_APP_ID + 
-						"&redirect_uri=" + URLEncoder.encode("http://m.quantocusta.cc/auth/connect", "UTF-8") + 
+						"&redirect_uri=" + URLEncoder.encode(configuration.getAuthCallback(), "UTF-8") + 
 						"&client_secret=" + FB_APP_SECRET + 
 						"&code=" + code;
 
@@ -138,71 +141,71 @@ public class AuthResource extends BaseResouce {
 		} else if (error != null) {
 			if (StringUtils.equals(error, "access_denied")) { 
 				LOG.warn("User hasn't allowed access. Redirecting to home page...");
-				return Response.seeOther(UriBuilder.fromUri("http://m.quantocusta.cc/").build()).build();
+				return Response.seeOther(UriBuilder.fromUri("http://" + host + ".quantocusta.cc/").build()).build();
 			}
 		}
 
-		return Response.seeOther(UriBuilder.fromUri("http://m.quantocusta.cc/me").build()).build();
+		return Response.seeOther(UriBuilder.fromUri("http://" + host + ".quantocusta.cc/me").build()).build();
 	}
 	
-	@GET
-	@Path("stub_create")
-	public Response stubCreate(@QueryParam("id") String id) {
-		// Busca usuário
-		URI uri = UriBuilder.fromUri(configuration.getApi()).
-				path("/api/user/thrd/{id}").
-//				queryParam("access_token", TokenUtils.tokenFromId(id)).
-				build(id);
-		
-		try {
-			DataResponse responseUser = client.resource(uri).get(DataResponse.class);
-			User user = mapper.convertValue(responseUser.getResult(), User.class);
-		} catch (Exception e) {
-			// Primeiro acesso - salva usuário
-			MultivaluedMap<String, String> formParams2 = new MultivaluedMapImpl();
-			formParams2.add("email", RandomStringUtils.random(10) + "@" + RandomStringUtils.random(8) + ".com.br");
-			formParams2.add("name", RandomStringUtils.random(8) + " " + RandomStringUtils.random(10));
-			formParams2.add("thirdyId", id);
-			
-			URI uriUser = UriBuilder.fromUri(configuration.getApi()).
-					path("/api/user/create").
-					queryParam("access_token", TokenUtils.tokenFromId(id)).
-					build();
-			
-			client.resource(uriUser).
-					type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
-					accept(MediaType.APPLICATION_JSON_TYPE).
-					post(DataResponse.class, formParams2);
-		}
-		
-		return Response.noContent().build();
-	}
+//	@GET
+//	@Path("stub_create")
+//	public Response stubCreate(@QueryParam("id") String id) {
+//		// Busca usuário
+//		URI uri = UriBuilder.fromUri(configuration.getApi()).
+//				path("/api/user/thrd/{id}").
+////				queryParam("access_token", TokenUtils.tokenFromId(id)).
+//				build(id);
+//		
+//		try {
+//			DataResponse responseUser = client.resource(uri).get(DataResponse.class);
+//			User user = mapper.convertValue(responseUser.getResult(), User.class);
+//		} catch (Exception e) {
+//			// Primeiro acesso - salva usuário
+//			MultivaluedMap<String, String> formParams2 = new MultivaluedMapImpl();
+//			formParams2.add("email", RandomStringUtils.random(10) + "@" + RandomStringUtils.random(8) + ".com.br");
+//			formParams2.add("name", RandomStringUtils.random(8) + " " + RandomStringUtils.random(10));
+//			formParams2.add("thirdyId", id);
+//			
+//			URI uriUser = UriBuilder.fromUri(configuration.getApi()).
+//					path("/api/user/create").
+//					queryParam("access_token", TokenUtils.tokenFromId(id)).
+//					build();
+//			
+//			client.resource(uriUser).
+//					type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+//					accept(MediaType.APPLICATION_JSON_TYPE).
+//					post(DataResponse.class, formParams2);
+//		}
+//		
+//		return Response.noContent().build();
+//	}
 	
-	@GET
-	@Path("test_post")
-	public Response test() {
-		// Primeiro acesso - salva usuário
-		MultivaluedMap<String, String> formParams = new MultivaluedMapImpl();
-		formParams.add("email", "giuliano@griffante.com");
-		formParams.add("name", "Joleano");
-		formParams.add("thirdyId", "000");
-		
-		URI uri = UriBuilder.fromUri(configuration.getApi()).
-				path("/api/user/create").
-				queryParam("access_token", TokenUtils.tokenFromId("000")).
-				build();
-		
-		WebResource target = client.resource(uri);
-		
-		DataResponse response = target.
-				type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
-				accept(MediaType.APPLICATION_JSON_TYPE).
-				post(DataResponse.class, formParams);
-		
-		User user = mapper.convertValue(response.getResult(), User.class);
-		
-		return Response.ok(DataResponse.build(user)).build();
-	}
+//	@GET
+//	@Path("test_post")
+//	public Response test() {
+//		// Primeiro acesso - salva usuário
+//		MultivaluedMap<String, String> formParams = new MultivaluedMapImpl();
+//		formParams.add("email", "giuliano@griffante.com");
+//		formParams.add("name", "Joleano");
+//		formParams.add("thirdyId", "000");
+//		
+//		URI uri = UriBuilder.fromUri(configuration.getApi()).
+//				path("/api/user/create").
+//				queryParam("access_token", TokenUtils.tokenFromId("000")).
+//				build();
+//		
+//		WebResource target = client.resource(uri);
+//		
+//		DataResponse response = target.
+//				type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+//				accept(MediaType.APPLICATION_JSON_TYPE).
+//				post(DataResponse.class, formParams);
+//		
+//		User user = mapper.convertValue(response.getResult(), User.class);
+//		
+//		return Response.ok(DataResponse.build(user)).build();
+//	}
 	
 	@GET
 	@Path("stub")
@@ -234,7 +237,7 @@ public class AuthResource extends BaseResouce {
 			
 			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(user.getId()));
-			request.getSession().setMaxInactiveInterval(7200); // 2 hora
+			request.getSession().setMaxInactiveInterval(7200); // 2 horas
 		} else {
 			return Response.status(Status.ERROR).build();
 		}

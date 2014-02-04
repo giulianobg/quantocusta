@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,10 +25,12 @@ import sb.quantocusta.client.views.SearchView;
 import sb.quantocusta.client.views.SimplePageView;
 import sb.quantocusta.client.views.VenueView;
 import sb.quantocusta.resources.BaseResouce;
+import sb.quantocusta.util.TokenUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.yammer.dropwizard.views.View;
 
 @Path("/")
@@ -48,7 +51,40 @@ public class HtmlResource extends BaseResouce {
 	@GET
 	public SimplePageView home() {
 		User me = (User) request.getSession().getAttribute("user");
-		return new SimplePageView("/assets/tpl/index.ftl", me);
+		
+		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl", me);
+		page.addParam("logout", "false");
+		page.addParam("callbackHost", configuration.getAuthCallback().contains("prev.quantocusta") ? "prev" : "m");
+		
+		return page;
+	}
+	
+	@GET
+	@Path("discovery")
+	public View discovery() {
+		// cria sessao persistente
+		String id = "52eab2dbdde5c82a3acd8495"; // qc dummy user
+		
+		MultivaluedMap<String, String> formParamsSession = new MultivaluedMapImpl();
+		formParamsSession.add("id", id);
+		formParamsSession.add("lat", (String) request.getSession().getAttribute("lat"));
+		formParamsSession.add("lng", (String) request.getSession().getAttribute("lng"));
+		
+		URI uri0 = UriBuilder.fromUri(configuration.getApi()).
+				path("/api/session/create").
+				build();
+		
+		client.resource(uri0).
+				type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).
+				accept(MediaType.APPLICATION_JSON_TYPE).
+				post(DataResponse.class, formParamsSession);
+
+		request.getSession().setAttribute("access_token", TokenUtils.tokenFromId(id));
+		
+		HomeView page = new HomeView();
+		page.setRequest(request);
+		
+		return page;
 	}
 	
 	@GET
@@ -56,11 +92,12 @@ public class HtmlResource extends BaseResouce {
 	public View me() {
 		User user = (User) request.getSession().getAttribute("user");
 		HomeView page = new HomeView(user);
+		page.setRequest(request);
 		
-		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
-		if (venues == null) {
-			// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
-			String token = (String) request.getSession().getAttribute("access_token");
+//		List<Venue> venues = (List<Venue>) request.getSession().getAttribute("list_me");
+//		if (venues == null) {
+//			// Tudo isso funciona, se quiser usar o access_token para buscar direto da api
+//			String token = (String) request.getSession().getAttribute("access_token");
 			
 	//		URI uri = UriBuilder.fromUri(configuration.getApi()).
 	//				path("/api/user/me").
@@ -89,29 +126,29 @@ public class HtmlResource extends BaseResouce {
 	//		User user = mapper.convertValue(response.getResult(), User.class);
 			
 			// Load venues próximos
-			URI uri = UriBuilder.fromUri(configuration.getApi()).
-					path("/api/venue/near").
-					queryParam("lat", request.getSession().getAttribute("lat")).
-					queryParam("lng", request.getSession().getAttribute("lng")).
-					queryParam("access_token", token).
-					build();
-			
-			DataResponse response = client.resource(uri).accept(
-			        MediaType.APPLICATION_JSON).
-			        get(DataResponse.class);
-			
-			List list = mapper.convertValue(response.getResult(), List.class);
-			
-			venues = new ArrayList<Venue>();
-			for (int i = 0; i < list.size(); i++) {
-				venues.add(mapper.convertValue(list.get(i), Venue.class));
-			}
-			
-			// adiciona a cache (sessao do usuário)
-			request.getSession().setAttribute("list_me", venues);
-		}
-		
-		page.setVenues(venues);
+//			URI uri = UriBuilder.fromUri(configuration.getApi()).
+//					path("/api/venue/near").
+//					queryParam("lat", request.getSession().getAttribute("lat")).
+//					queryParam("lng", request.getSession().getAttribute("lng")).
+//					queryParam("access_token", token).
+//					build();
+//			
+//			DataResponse response = client.resource(uri).accept(
+//			        MediaType.APPLICATION_JSON).
+//			        get(DataResponse.class);
+//			
+//			List list = mapper.convertValue(response.getResult(), List.class);
+//			
+//			venues = new ArrayList<Venue>();
+//			for (int i = 0; i < list.size(); i++) {
+//				venues.add(mapper.convertValue(list.get(i), Venue.class));
+//			}
+//			
+//			// adiciona a cache (sessao do usuário)
+//			request.getSession().setAttribute("list_me", venues);
+//		}
+//		
+//		page.setVenues(venues);
 		
 		return page;
 	}
@@ -214,7 +251,12 @@ public class HtmlResource extends BaseResouce {
 	@Path("sair")
 	public View logout() {
 		request.getSession().invalidate(); // limpa sessão
-		return new SimplePageView("/assets/tpl/index_logout.ftl");
+		
+		SimplePageView page = new SimplePageView("/assets/tpl/index.ftl");
+		page.addParam("logout", "true");
+		page.addParam("callbackHost", configuration.getAuthCallback().contains("prev.quantocusta") ? "prev" : "m");
+		
+		return page;
 	}
 	
 }
